@@ -1,5 +1,6 @@
 package Server;
 import java.util.ArrayList;
+import Server.Event;
 
 public class Match {
 	private ArrayList<Event> eventList = new ArrayList<Event>();
