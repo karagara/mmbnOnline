@@ -9,15 +9,20 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
 
-import Server.AccountManagement;
+import Server.AccountManager;
 
 public class ServerEntry {
 
     public static void main(String[] args) {
+        //setup objects
+        AccountManager acctMgmt = new AccountManager();
+
+        //link to static docs
         externalStaticFileLocation("static");
 
+        //route requests
         get("/account", (request, response) -> {
-            return AccountManagement.getResponse();
+            return acctMgmt.getResponse();
         });
     }
 }
