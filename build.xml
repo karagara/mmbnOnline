@@ -47,7 +47,7 @@
     </target>
 
     <target name="start" depends="compile">
-        <java classname="ServerEntry" fork="true">
+        <java classname="Server.ServerEntry" fork="true">
             <classpath>
                 <pathelement path="${dest.dir}"/>
                 <path refid="lib-jars"/>
