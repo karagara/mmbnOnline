@@ -18,6 +18,7 @@ public class AccountManager{
 	private String acctName = "karagararadio"; 
 	private String name = "Colten Normore";
 	private String email = "test@example.com";
+	private String password = "abccba";
 
 	private static String STATIC_SECTION =
         "<html>\n" + 
