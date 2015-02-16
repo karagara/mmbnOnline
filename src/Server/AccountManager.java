@@ -7,10 +7,18 @@
  
 package Server;
 
+import spark.Request;
+import spark.Response;
+import spark.Session;
+
+import java.lang.System;
+
 public class AccountManager{
+	//TODO: replace these with a database connection
 	private String acctName = "karagararadio"; 
 	private String name = "Colten Normore";
 	private String email = "test@example.com";
+
 	private static String STATIC_SECTION =
         "<html>\n" + 
         "<body>\n" +
@@ -29,7 +37,7 @@ public class AccountManager{
         "</body>\n" + 
         "</html>\n";
 
-    public String getResponse(){
+    public String getResponse(Request request, Response response){
     	//get account name
     	String acctName = this.acctName;
     	//get real name (if any)
@@ -37,6 +45,18 @@ public class AccountManager{
     	//get email
     	String email = this.email;
     	return String.format(STATIC_SECTION,acctName,name,email);
+    }
+
+    public String postResponse(Request request, Response response){
+
+    	if (request.queryParams("name") != "")
+    		this.name = request.queryParams("name");
+
+    	if (request.queryParams("email") != "")
+    		this.email = request.queryParams("email");
+
+        response.redirect("/account");
+        return null;
     }
 }
 
