@@ -5,10 +5,6 @@ import static spark.Spark.post;
 import static spark.Spark.externalStaticFileLocation;
 import spark.Session;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.text.SimpleDateFormat;
-
 import Server.AccountManager;
 
 public class ServerEntry {
@@ -22,7 +18,11 @@ public class ServerEntry {
 
         //route requests
         get("/account", (request, response) -> {
-            return acctMgmt.getResponse();
+            return acctMgmt.getResponse(request, response);
+        });
+
+        post("/account", (request, response) -> {
+            return acctMgmt.postResponse(request, response);
         });
     }
 }
