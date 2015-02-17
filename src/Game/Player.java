@@ -2,16 +2,19 @@ package Game;
 enum playerStatus{ALIVE, STUNNED, DEAD};
 
 public class Player {
+	Connection connection;
+	
 	private double health;
 	private playerStatus status;
 	//tile position;
 	private int x;
 	private int y;
 	
-	public Player(int x, int y)
+	public Player(Connection connection, int x, int y)
 	{
 		health = 10;
 		status = playerStatus.ALIVE;
+		this.connection = connection;
 		this.x = x;
 		this.y = y;
 	}
