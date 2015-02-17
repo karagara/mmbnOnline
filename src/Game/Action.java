@@ -1,7 +1,7 @@
 package Game;
 import java.lang.Boolean;
 
-public interface Event {
+public interface Action {
 	public void update();
 	public Boolean isEventComplete();
 }
