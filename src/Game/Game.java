@@ -10,16 +10,19 @@ public class Game implements Runnable{
 	private Player p1;
 	private Player p2;
 	private Arena arena;
-	private ArrayList<Event> events = new ArrayList<Event>();
+	private ArrayList<Action> actions = new ArrayList<Action>();
+	private ArrayList<String> newActions = new ArrayList<String>();
+	private int gameId;
 	
 	private gameStatus status;
 	
-	public Game(Connection c1, Connection c2, int width, int height)
+	public Game(Connection c1, Connection c2, int gameId)
 	{
-		p1 = new Player(c1, 0, height/2); //starts on left
-		p2 = new Player(c2, width, height/2); //starts on right
+		p1 = new Player(c1, 0, 1); //starts on left
+		p2 = new Player(c2, 5, 1); //starts on right
 		//TODO: redirect players to Game Page
 		status = gameStatus.PAUSED;
+		this.gameId = gameId;
 	}
 	
 	public void run()
@@ -27,13 +30,16 @@ public class Game implements Runnable{
 		status = gameStatus.ONGOING;
 		while(!p1.isDead() && !p2.isDead())
 		{
-			//check for messages from players
-			//create new events
-			for(Event e : events)
+			for(String s : newActions)
 			{
-				e.update();
-				if(e.isEventComplete())
-					events.remove(e);
+				actions.add(ActionFactory.createAction(s));
+			}
+			newActions.clear();
+			for(Action a : actions)
+			{
+				a.update();
+				if(a.isEventComplete())
+					actions.remove(a);
 			}
 			updatePlayer(p1);
 			updatePlayer(p2);
@@ -57,5 +63,10 @@ public class Game implements Runnable{
 		{
 			//Continue Fighting
 		}
+	}
+	
+	public void handleEvent(String s)
+	{
+		newActions.add(s);
 	}
 }

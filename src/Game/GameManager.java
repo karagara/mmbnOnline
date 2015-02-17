@@ -1,33 +1,45 @@
 package Game;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
-import Game.Connection;
+import java.util.ArrayList;
 
 public class GameManager{
 	
-	Queue<com.sun.corba.se.pept.transport.Connection> waitingPlayers = new LinkedList<Connection>();
+	Connection waitingPlayer;
+	ArrayList<Game> games = new ArrayList<Game>();
+	int gameCount;
+	
 	public GameManager()
 	{
-		
+		gameCount = 0;
 	}
 	
 	//Need to : handle case when player decides to leave the queue
 	
-	public void requestGame(Connection c)
+	public void newGame(Connection c)
 	{
-		if(waitingPlayers.size() == 1)
+		if(waitingPlayer)
 		{
-			Thread t = new Thread(new Game(waitingPlayer, c, 6, 3));
+			//maybe add check if id already exists?
+			Game g = new Game(waitingPlayer, c, gameCount++);
+			games.add(g);
+			Thread t = new Thread(g);
 			t.start();
-			waitingPlayers.clear();
+			waitingPlayer = null
 		}
 		else
 		{
-			//wait your turn in queue
-			waitingPlayers.add(c);
+			waitingPlayer = c;
 			//redirect c to queue page;
+		}
+	}
+	
+	public void updateGame(Connection s)
+	{
+		for(Game g : games)
+		{
+			//if g.getId() matches
+			//g.handleEvent();
+			//break;
 		}
 	}
 }
