@@ -1,16 +1,23 @@
 package Game;
 
+import java.util.ArrayList;
+
+import javafx.event.Event;
+
  	enum gameStatus{ONGOING, PAUSED, OVER}
 
 public class Game {
 	private Player p1;
 	private Player p2;
+	private Arena arena;
+	private ArrayList<Event> events = new ArrayList<Event>();
+	
 	private gameStatus status;
 	
-	public Game(int width, int height)//change later to include addresses?
+	public Game(Connection c1, Connection c2, int width, int height)//TODO: change later to include Connection
 	{
-		p1 = new Player(0, height/2); //starts on left
-		p2 = new Player(width, height/2); //starts on right
+		p1 = new Player(c1, 0, height/2); //starts on left
+		p2 = new Player(c2, width, height/2); //starts on right
 		status = gameStatus.PAUSED;
 	}
 	
@@ -20,10 +27,20 @@ public class Game {
 		while(!p1.isDead() && !p2.isDead())
 		{
 			//check for messages from players
-			//perform action
+			//create new events
+			for(Event e : events)
+			{
+				e.update();
+				if(e.isEventComplete())
+					events.remove(e);
+			}
 			updatePlayer(p1);
 			updatePlayer(p2);
 		}
+		status = gameStatus.OVER;
+		updatePlayer(p1);
+		updatePlayer(p2);
+		//wait for signal of both players left?
 	}
 	
 	private void updatePlayer(Player p)
@@ -35,6 +52,9 @@ public class Game {
 		else if(status == gameStatus.OVER){
 			//WINNER WINNER CHICKEN DINNER
 		}
-		
+		else
+		{
+			//Continue Fighting
+		}
 	}
 }
