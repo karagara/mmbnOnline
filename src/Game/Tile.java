@@ -4,7 +4,7 @@ import Game.GameEntity;
 
 public class Tile {
 
-	terrain state;
+	int terrain;
 	int xPos;
 	int yPos;
 	GameEntity object;
@@ -19,8 +19,8 @@ public class Tile {
 	public void setYPos(int newX){
 		this.yPos = newX;
 	}
-	public void setTerrain(terrain x){
-		this.terrain = x;
+	public void setTerrain(int newTerrainState){
+		this.terrain= newTerrainState;
 	}
 	public int getXPos(){
 		return this.xPos;
