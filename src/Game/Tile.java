@@ -1,9 +1,13 @@
-Public class tile {
+package Game;
+
+import Game.GameEntity;
+
+public class Tile {
 
 	terrain state;
 	int xPos;
 	int yPos;
-	entity object;
+	GameEntity object;
 	int ownership;
 
 	public void setOwnership(int newOwnership){

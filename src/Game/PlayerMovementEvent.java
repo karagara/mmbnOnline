@@ -1,9 +1,9 @@
-package Server;
+package Game;
 
-import Server.Event;
-import Server.Player;
-import Server.Tile;
-import Server.Arena;
+import Game.Event;
+import Game.Player;
+import Game.Tile;
+import Game.Arena;
 
 public class PlayerMovementEvent implements Event {
 

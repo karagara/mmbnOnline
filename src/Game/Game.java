@@ -1,4 +1,4 @@
-package game;
+package Game;
 
  	enum gameStatus{ONGOING, PAUSED, OVER}
 

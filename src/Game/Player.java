@@ -1,4 +1,4 @@
-package game;
+package Game;
 enum playerStatus{ALIVE, STUNNED, DEAD};
 
 public class Player {

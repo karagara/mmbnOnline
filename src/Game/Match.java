@@ -1,6 +1,6 @@
-package Server;
+package Game;
 import java.util.ArrayList;
-import Server.Event;
+import Game.Event;
 
 public class Match {
 	private ArrayList<Event> eventList = new ArrayList<Event>();
