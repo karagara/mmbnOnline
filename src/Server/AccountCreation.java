@@ -7,9 +7,9 @@ import spark.Session;
 
 public class AccountCreation {
 
-    public static void main(String[] args) {
-        externalStaticFileLocation("static");
+    // public static void main(String[] args) {
+    //     externalStaticFileLocation("static");
 
-        get("/accountCreation", (request, response) ->"/accrPage.html";
-    }
+    //     get("/accountCreation", (request, response) ->"/accrPage.html";
+    // }
 }

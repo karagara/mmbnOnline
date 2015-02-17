@@ -1,7 +1,11 @@
+package Server;
+
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.externalStaticFileLocation;
-import spark.
+import spark.Session;
+
+import Server.DatabaseConnection;
 
 public class ServerEntry {
 	private static final String ACCRPAGE = 
@@ -21,7 +25,7 @@ public class ServerEntry {
 	 public static void main(String[] args) {
 		externalStaticFileLocation("static");
 		
-		get("/accrPage", (request, response) -> /accrPage.html);
+        DatabaseConnection.databaseMapping();
 	}
 }
 
