@@ -6,7 +6,7 @@ import javafx.event.Event;
 
  	enum gameStatus{ONGOING, PAUSED, OVER}
 
-public class Game {
+public class Game implements Runnable{
 	private Player p1;
 	private Player p2;
 	private Arena arena;
@@ -14,14 +14,15 @@ public class Game {
 	
 	private gameStatus status;
 	
-	public Game(Connection c1, Connection c2, int width, int height)//TODO: change later to include Connection
+	public Game(Connection c1, Connection c2, int width, int height)
 	{
 		p1 = new Player(c1, 0, height/2); //starts on left
 		p2 = new Player(c2, width, height/2); //starts on right
+		//TODO: redirect players to Game Page
 		status = gameStatus.PAUSED;
 	}
 	
-	public void playGame()
+	public void run()
 	{
 		status = gameStatus.ONGOING;
 		while(!p1.isDead() && !p2.isDead())
