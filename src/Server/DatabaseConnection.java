@@ -12,10 +12,10 @@ public class DatabaseConnection{
 
 			stmt = c.createStatement();
 			String sql = "CREATE TABLE ACCOUNT " +
-				"(ID 				INT PRIMARY KEY     NOT NULL," +
-				" USERNAME          TEXT    			NOT NULL, " + 
-				" PASSWOD           TEXT     			NOT NULL, " + 
-				" EMAIL        		TEXT				NOT NULL, " +
+				"(ID 				INTEGER PRIMARY KEY     NOT NULL," +
+				" USERNAME          TEXT    				NOT NULL, " + 
+				" PASSWORD          TEXT     				NOT NULL, " + 
+				" EMAIL        		TEXT, " +
 				" NAME        		TEXT)"; 
 			stmt.executeUpdate(sql);
 			stmt.close();
