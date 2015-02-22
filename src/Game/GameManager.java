@@ -17,14 +17,14 @@ public class GameManager{
 	
 	public void newGame(Connection c)
 	{
-		if(waitingPlayer)
+		if(waitingPlayer != null)
 		{
 			//maybe add check if id already exists?
 			Game g = new Game(waitingPlayer, c, gameCount++);
 			games.add(g);
 			Thread t = new Thread(g);
 			t.start();
-			waitingPlayer = null
+			waitingPlayer = null;
 		}
 		else
 		{

@@ -28,7 +28,7 @@ public class Tile {
 	public int getYPos(){
 		return this.yPos;
 	}
-	public int getEntity(){
+	public GameEntity getEntity(){
 		return this.object;
 	}
 	public int getTerrain(){
