@@ -1,10 +1,10 @@
 package Game;
 
 
-public static class ActionFactory {
+public class ActionFactory {
 	
-	public Action createAction(String s)
+	public static Action createAction(String s)
 	{
-		return new Action();
+		return null;
 	}
 }
