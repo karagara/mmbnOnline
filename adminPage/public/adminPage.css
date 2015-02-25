@@ -1,0 +1,70 @@
+
+#tableArea{
+	width:100%;
+	height: 30em;
+	overflow:auto;
+	border: 2px solid black
+}
+
+table{
+	width:100%;
+	position:relative;
+}
+
+#userTable{
+	background-color: rgba(0,0,0,0.8);
+}
+
+#scrollTable, #scrollTable tr, td.col1{
+	border: 1px solid lightblue;
+	border-collapse: collapse;
+	background-color: black;
+}
+
+th{
+	color:red;
+	font-size: 25;
+}
+
+
+
+.col1{
+	width:5%;
+}
+
+.col2, .col3{
+	width:30%;
+}
+
+
+input[type='text']{
+	width: 100%;
+	height:100%;
+	text-align: center;
+	border:0;
+	font-size: 15px;
+	color:red;
+	background-color: transparent;
+}
+
+input[type='text']:focus{
+	text-align:right;
+	color:black;
+	background-color: white;
+}
+
+form{
+	width:100%;
+}
+
+#delete{
+	display:inline-block;
+	position:relative;
+	left:3px;
+}
+
+#save{
+	position:relative;
+	float:right;
+	top:20px;
+}
