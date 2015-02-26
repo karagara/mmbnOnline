@@ -38,7 +38,7 @@ public class GameManager{
 		for(Game g : games)
 		{
 			//if g.getId() matches
-			//g.handleEvent();
+			//g.handleEvent(s);
 			//break;
 		}
 	}

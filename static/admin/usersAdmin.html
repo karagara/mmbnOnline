@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel='stylesheet' type='text/css' href='adminPage.css'>
+	<script src='../jquery-2.1.3.js'></script>
+	<script src='../adminPage.js'></script>
+</head>
+<body background ='Chip_icons_exe1.gif' onload=insertUsers() >
+	<table id='userTable' title='Users'>
+		<thead>
+			<tr><th class='col1'></th><th class='col2'>UserName</th><th class='col3' >Password</th><th class='col4'>Role</th></tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan='4'>
+					<div id='tableArea'>
+						<table id='scrollTable'></table>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<form id='adminForm' method='delete'>
+		<input type='button' id='delete' value='Delete Selected' onClick=deleteSelected() >
+		<input type='hidden' id='deletedUsers' name='deletedUsers' value=''>
+		<input type='submit' id='save' value='Save Changes' onClick=saveUsers() >
+		<input type='hidden' id='saveList' name='saveList' value=''>
+	</form>
+</body>
+</html>
