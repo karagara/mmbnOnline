@@ -13,8 +13,8 @@ public class AccountCreation {
 		//on any failure, reroute back to account creation page
 		//check if username and pass aren't empty
 		String username = request.queryParams("username");
-        String password = request.queryParams("password");
-        String passwordCheck = request.queryParams("passwordCheck");
+		String password = request.queryParams("password");
+		String passwordCheck = request.queryParams("passwordCheck");
 
         if ( username == null || password == null || passwordCheck == null) {
         	System.out.println("Null field(s)");

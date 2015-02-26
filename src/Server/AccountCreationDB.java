@@ -19,11 +19,6 @@ public class AccountCreationDB {
 			stmt = conn.createStatement();
             rs = stmt.executeQuery( queryString );
 
-            // if (rs == null){
-            // 	isFree = true;
-            // }
-
-            //this check is uneeded, could just see if result set != null
             if ( !rs.next() ) {
             	isFree = true;
             }

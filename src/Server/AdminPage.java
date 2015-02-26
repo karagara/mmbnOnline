@@ -14,23 +14,8 @@ import spark.Session;
 import Server.AdminPageDB;
 
 public class AdminPage {
-	
-	public static void main(String[] args) {	
-		staticFileLocation("static");
-		
-		before("/admin/*", (request, response) -> {
-			//method subject to change
-			Session sess = request.session(true);
-			if ( sess == null ) {
-                response.redirect("/login.html");
-			}
-			else {
-				String role = sess.attribute("role");
-				if(role == null || role.compareTo("admin") != 0)
-					response.redirect("/test");
-			}
-		} );
-		
+	public static void rigRoutes() {	
+
 		get("/admin/users", (request, response) -> {
 			response.redirect("/admin/usersAdmin.html");
 			return null;

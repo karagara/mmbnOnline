@@ -10,9 +10,7 @@ import spark.Session;
 
 public class ServerEntry {
 
-	 public static void main(String[] args) {
-		
-		
+	 public static void main(String[] args) {	
         File dbFile = new File("mmbn.db");
         if (!dbFile.exists())
             DatabaseConnection.databaseMapping();
@@ -27,8 +25,23 @@ public class ServerEntry {
             }
         } );
 
+        before("/admin/*", (request, response) -> {
+            //method subject to change
+            Session sess = request.session(true);
+            if ( sess == null ) {
+                response.redirect("/login.html");
+            }
+            else {
+                String role = sess.attribute("role");
+                if(role == null || role.compareTo("admin") != 0)
+                    response.redirect("/test");
+            }
+        } );
+        
+
         AccountLogin.rigRoutes();
         AccountCreation.rigRoutes();
-        AccountManager.rigRoutes();
+        // AccountManager.rigRoutes();
+        AdminPage.rigRoutes();
 	}
 }
