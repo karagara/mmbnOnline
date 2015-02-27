@@ -15,6 +15,7 @@ public class DatabaseConnection{
 				"(ID 				INTEGER PRIMARY KEY     NOT NULL," +
 				" USERNAME          TEXT    				NOT NULL, " + 
 				" PASSWORD          TEXT     				NOT NULL, " + 
+				" ROLE				TEXT					NOT NULL, " +
 				" EMAIL        		TEXT, " +
 				" NAME        		TEXT)"; 
 			stmt.executeUpdate(sql);

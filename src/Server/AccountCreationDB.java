@@ -40,8 +40,8 @@ public class AccountCreationDB {
 		Statement stmt = null;
 		ResultSet rs = null;
 
-		String queryString = 	"INSERT INTO account (username,password)" + 
-								"values('"+username+"', '"+password+"');";
+		String queryString = 	"INSERT INTO account (username,password,role)" + 
+								"values('"+username+"', '"+password+"', 'admin');";
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:mmbn.db");
