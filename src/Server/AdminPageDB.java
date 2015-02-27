@@ -9,7 +9,7 @@ public class AdminPageDB {
 		ResultSet rs = null;
 		String info = "";
 
-		String queryString = "SELECT username, password, role FROM account;";
+		String queryString = "SELECT * FROM account;";
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:mmbn.db");
@@ -19,7 +19,12 @@ public class AdminPageDB {
             rs = stmt.executeQuery( queryString );
 
             while(rs.next()) {
-            	info += rs.getString("username") + " " + rs.getString("password") + " " + rs.getString("role") + "\n";
+            	info += rs.getString("ID") + "\t" +
+            			rs.getString("USERNAME") + "\t" + 
+            			rs.getString("PASSWORD") + "\t" + 
+            			rs.getString("ROLE") + "\t" +
+            			rs.getString("EMAIL") + "\t" +
+            			rs.getString("NAME") + "\n";
             }
 
 		} catch ( Exception e ) {
@@ -33,6 +38,53 @@ public class AdminPageDB {
 	
 		return info;
 	}
+	
+	public static void removeUser(String id){
+		Connection conn = null;
+		Statement stmt = null;
+
+		String queryString = "DELETE FROM account WHERE id="+id+";";
+		try {
+			Class.forName("org.sqlite.JDBC");
+			conn = DriverManager.getConnection("jdbc:sqlite:mmbn.db");
+			System.out.println("Opened database successfully");
+
+			stmt = conn.createStatement();
+            stmt.executeUpdate( queryString );
+            //Log rs?
+
+		} catch ( Exception e ) {
+			printErrMsg(e);
+		} finally {
+			System.out.println("Closing DB resources");
+		}
+	}
+	
+	public static void editUser(String id, String userName, String password, String role, String email, String name){
+		Connection conn = null;
+		Statement stmt = null;
+
+		System.out.println("Updated user with id=" + userName);
+		String queryString = "UPDATE account " +
+							"SET USERNAME='"+userName+"', PASSWORD='"+password+"', ROLE='"+role+"', EMAIL='"+email+"', NAME='"+name+"' "+
+							+ "WHERE ID='"+id+"';";
+		try {
+			Class.forName("org.sqlite.JDBC");
+			conn = DriverManager.getConnection("jdbc:sqlite:mmbn.db");
+			System.out.println("Opened database successfully");
+
+			stmt = conn.createStatement();
+            stmt.executeUpdate( queryString );
+
+		} catch ( Exception e ) {
+			printErrMsg(e);
+		} finally {
+			System.out.println("Closing DB resources");
+		}
+	}
+	
+	
+	
 	
 	public static void printErrMsg(Exception e){
 		System.err.println( e.getClass().getName() + ": " + e.getMessage() );
