@@ -2,17 +2,96 @@
 <html>
 <head>
 	<link rel='stylesheet' type='text/css' href='adminPage.css'>
-	<script src='../jquery-2.1.3.js'></script>
-	<script src='../adminPage.js'></script>
+	<script src='jquery-2.1.3.js'></script>
+	<script >
+		function deleteSelected() {
+			var check = $('.deleteCheck');
+			var dNames = $('#deletedUsers');
+			var names = '';
+			
+			if(check.length > 0) {
+				for(i = 0; i < check.length; i++){
+					if(check[i].checked)
+						names += check[i].id.split('_')[0] + " ";
+				}
+				dNames.attr('value', names);
+				var f = $('#adminForm');
+				f.attr('method', 'post');
+				f.attr('action', '/deleteUsers');
+				f.submit();
+			}
+		}
+
+		var saveList = [];
+		function saveUsers(){		
+			var message = "";
+			for(i = 0; i < saveList.length; i++){
+				var id = saveList[i];
+				var user = { userId: id, userName: $("#"+id+"_userName").attr("value"),
+							 password: $("#"+id+"_password").attr("value"),
+							 role: $("#"+id+"_role").attr("value"),
+							 email: $("#"+id+"_email").attr("value"),
+							 name: $("#"+id+"_name").attr("value")
+				}
+				message += JSON.stringify(user) + "\n";		
+			}
+			
+			var sl = $('#saveList');
+			sl.attr('value', message);
+			var f = $('#adminForm');
+			f.attr('method', 'post');
+			f.attr('action', '/saveUsers');
+			f.submit()
+		}
+
+		function updateSave(name){
+			var found = false;
+			for(i = 0; i < saveList.length; i++){
+				if(saveList[i] === name)
+				{
+					found = true;
+					break;
+				}
+			}			
+			if(!found)
+				saveList.push(name);
+		}
+
+		function insertUsers()
+		{
+			var t = document.getElementById('scrollTable');
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( "POST", "/allUsers", true );
+			xmlHttp.onreadystatechange = function() {
+				if ( xmlHttp.readyState != 4) return;
+				if ( xmlHttp.status == 200 || xmlHttp.status == 400) {
+					t.innerHTML = xmlHttp.responseText
+				}
+				else {
+					t.innerHTML = "Unknown ERROR";
+				}
+			}
+			xmlHttp.send( null );
+		}
+
+	</script>
 </head>
-<body background ='Chip_icons_exe1.gif' onload=insertUsers() >
-	<table id='userTable' title='Users'>
+<body background ='adminBackground.png' onload=insertUsers() >
+	<table id='userTable'>
 		<thead>
-			<tr><th class='col1'></th><th class='col2'>UserName</th><th class='col3' >Password</th><th class='col4'>Role</th></tr>
+			<tr>
+				<th class='col1'></th>
+				<th class='col2'>id</th>
+				<th class='col3'>UserName</th>
+				<th class='col4' >Password</th>
+				<th class='col5'>Role</th>
+				<th class='col6'>Email</th>
+				<th class='col7'>Name</th>
+			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td colspan='4'>
+				<td colspan='7'>
 					<div id='tableArea'>
 						<table id='scrollTable'></table>
 					</div>
