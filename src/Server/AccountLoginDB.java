@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class AccountLoginDB {
 	public static boolean isLoginValid(String username, String password){
-		boolean isValid = false;
+        boolean isValid = false;
 
 		Connection conn = null;
 		Statement stmt = null;
@@ -18,11 +18,12 @@ public class AccountLoginDB {
 
 			stmt = conn.createStatement();
             rs = stmt.executeQuery( queryString );
-
             if ( rs.next() ) {
+                System.out.println("test");
                 String dbPassword  = rs.getString("password");
 
             	if ( dbPassword.equals(password) ){
+                    System.out.println("The user pass is verified");
             		isValid = true;            	
             	}
             }

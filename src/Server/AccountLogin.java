@@ -8,7 +8,7 @@ import spark.Response;
 import spark.Session;
 
 public class AccountLogin {
-
+    
 	public static void postResponse(Request request, Response response){
         String username = request.queryParams("user");
         String password = request.queryParams("password");
@@ -17,15 +17,24 @@ public class AccountLogin {
             response.redirect("/login.html");
         }
         if ( AccountLoginDB.isLoginValid(username, password) ) {
+            System.out.println("test in accountLogin.java");
             Session sess = request.session(true);
             if ( sess == null ) {
                 response.redirect("/login.html");
+            }
+            else{
+                response.redirect("/auth/main.html");
             }
             sess.attribute("user", username);
         }
 	}
 
 	public static void rigRoutes(){
+        get("/index", (request, response) ->{
+            response.redirect("/index.html");
+            return null;
+        });
+        
 		get("/login", (request, response) -> {
 			response.redirect("/login.html");
 			return null;
@@ -34,8 +43,6 @@ public class AccountLogin {
         post("/login", (request, response) -> {
         	//Post response checks if login is valid
         	AccountLogin.postResponse(request, response);
-        	//If it is, then redirect to main landing page
-            response.redirect("/auth/main.html");
             return null;
         });
 	}

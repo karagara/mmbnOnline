@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Login Page</title>
-</head>
-<body>
 
-<p>
-Please login:
-</p>
-<form action="/login" method="post">
-<label>user:
-<input type="text" name="user" >
-</label>
-<label>password:
-<input type="password" name="password">
-</label>
-<input type="submit" value="login">
-<p>
-<a href="/create-account.html">Create a new account</a>
-</p>
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body>
+    <div class="login">
+        <h1>Login</h1>
+        <form action="/login" method="post">
+            <p>
+                <input type="text" name="login" value="" placeholder="Username" autofocus required>
+            </p>
+            <p>
+                <input type="password" name="password" value="" placeholder="Password" required>
+            </p>
+            <p class="remember_me">
+                <label>
+                    <input type="checkbox" name="rem" id="rem"><span>    Remember me</span>
+                </label>
+            </p>
+            <p class="submit">
+                <input type="submit" name="commit" value="Login">
+            </p>
+        </form>
+    </div>
+    <div class="help">
+        <form action="post"></form>
+        <p>Forgot Password? <a href="">Reset Password</a>
+        </p>
+    </div>
 </body>
+
 </html>
