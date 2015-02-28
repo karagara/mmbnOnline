@@ -51,7 +51,7 @@ public class AdminPageDB {
 
 			stmt = conn.createStatement();
             stmt.executeUpdate( queryString );
-            //Log rs?
+			System.out.println("Deleted user with user id=" + id);
 
 		} catch ( Exception e ) {
 			printErrMsg(e);
@@ -63,11 +63,9 @@ public class AdminPageDB {
 	public static void editUser(String id, String userName, String password, String role, String email, String name){
 		Connection conn = null;
 		Statement stmt = null;
-
-		System.out.println("Updated user with id=" + userName);
 		String queryString = "UPDATE account " +
 							"SET USERNAME='"+userName+"', PASSWORD='"+password+"', ROLE='"+role+"', EMAIL='"+email+"', NAME='"+name+"' "+
-							+ "WHERE ID='"+id+"';";
+							"WHERE ID='"+id+"';";
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:mmbn.db");
@@ -75,6 +73,7 @@ public class AdminPageDB {
 
 			stmt = conn.createStatement();
             stmt.executeUpdate( queryString );
+            System.out.println("Updated user with id=" + id);
 
 		} catch ( Exception e ) {
 			printErrMsg(e);

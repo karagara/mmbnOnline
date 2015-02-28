@@ -4,13 +4,10 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.before;
 import static spark.Spark.staticFileLocation;
-
-
+import static spark.Spark.halt;
+import spark.Session;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-
-import spark.Session;
-
 import Server.AdminPageDB;
 
 public class AdminPage {
@@ -22,21 +19,15 @@ public class AdminPage {
         });
 		
 		post("/deleteUsers", (request, response) -> {
-			String ids = request.queryParams("deletedUsers");
-			for(String id : ids.split(" ")){
+			String ids = request.body();
+			for(String id : ids.split(" "))
 				AdminPageDB.removeUser(id);
-				System.out.println("Deleted user with user id=" + id);
-			}
-			
-			response.redirect("/admin/users");
-			return null;
+			return "";
 		} );
 		
 		post("/saveUsers", (request, response) -> {
-			String users = request.queryParams("saveList");
-			saveUsers(users);
-			response.redirect("/admin/users");
-			return null;
+			saveUsers(request.body());
+			return "";
 		} );
 		
 		post("/allUsers", (request, response) -> {
@@ -68,9 +59,13 @@ public class AdminPage {
 		
 		
 	}
-	
+
 	static String getUsers(){
-		String usersList[] = AdminPageDB.getUsersInfo().split("\n");
+		String users = AdminPageDB.getUsersInfo();
+		if(users == null || users.length() == 0)
+			return "";
+		
+		String usersList[] = users.split("\n");
 		String s = "";
 		for(int i = 0; i < usersList.length; i++) {
 			String userInfo[] = usersList[i].split("\t");
@@ -98,37 +93,28 @@ public class AdminPage {
 	}
 
 	//format {"userId":"7","userName":"user1","password":"passwd","role":"admin","email":"null","name":"null"} 
-	static void saveUsers(String userList){
-		String users[] = userList.split("\n");
-		for(String u : users)
-		{
-			String userId = "";
-			String userName = "";
-			String password = "";
-			String role = "";
-			String email = "";
-			String name = "";
-			
-			String userInfo[] = u.split(",");
-			for(String info : userInfo) // cycle through variables;
-			{
-				String val = info.split(":\"")[1];
-				val = val.substring(0, val.length() - 1);
-				if(info.contains("userId"))
-					userId = val;
-				else if(info.contains("userName"))
-					userName = val;
-				else if(info.contains("password"))
-					password = val;
-				else if(info.contains("role"))
-					role = val;
-				else if(info.contains("email"))
-					email = val;
-				else if(info.contains("name"))
-					name = val;
-			}
-			AdminPageDB.editUser(userId, userName, password, role, email, name);
-		}
+	static void saveUsers(String userList){		
+		 try {
+             Gson gson = new Gson();
+             String users[] = userList.split("\n");
+             // attempt to convert JSON to UserObject
+             for(String user : users) {
+             	UserObject obj = gson.fromJson(user, UserObject.class);
+             	AdminPageDB.editUser(obj.id, obj.userName, obj.password, obj.role, obj.email, obj.name);
+             }
+         }
+         catch ( JsonParseException ex ) {
+             System.out.println("/saveUsers: malformed values");
+             halt(400, "malformed values");
+         }
 	}
 }
 
+class UserObject{
+	public String id;
+	public String userName;
+	public String password;
+	public String role;
+	public String email;
+	public String name;
+}

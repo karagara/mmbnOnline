@@ -2,46 +2,59 @@
 <html>
 <head>
 	<link rel='stylesheet' type='text/css' href='adminPage.css'>
-	<script src='jquery-2.1.3.js'></script>
+	<script src='../jquery-2.1.3.js'></script>
 	<script >
 		function deleteSelected() {
-			var check = $('.deleteCheck');
-			var dNames = $('#deletedUsers');
-			var names = '';
-			
+			var check = $('.deleteCheck');			
 			if(check.length > 0) {
-				for(i = 0; i < check.length; i++){
-					if(check[i].checked)
-						names += check[i].id.split('_')[0] + " ";
+				if(confirm("Are you sure you want to delete these users?")){
+					var names = '';
+					for(i = 0; i < check.length; i++)
+						if(check[i].checked)
+							names += check[i].id.split('_')[0] + " ";
+					
+					var xmlHttp = new XMLHttpRequest();
+					xmlHttp.open( "POST", "/deleteUsers", true );
+					xmlHttp.onreadystatechange = function() {
+						if ( xmlHttp.readyState != 4) return;
+						if ( xmlHttp.status == 200 || xmlHttp.status == 400)
+							insertUsers();
+						else 
+							alert("Unknown ERROR when saving.");
+					}
+					xmlHttp.send( names );
 				}
-				dNames.attr('value', names);
-				var f = $('#adminForm');
-				f.attr('method', 'post');
-				f.attr('action', '/deleteUsers');
-				f.submit();
 			}
 		}
 
+		window.onbeforeunload = function(){
+			if(saveList.length > 0)
+				return 'Are you sure you want to leave?';
+		};
+		
 		var saveList = [];
 		function saveUsers(){		
 			var message = "";
 			for(i = 0; i < saveList.length; i++){
-				var id = saveList[i];
-				var user = { userId: id, userName: $("#"+id+"_userName").attr("value"),
-							 password: $("#"+id+"_password").attr("value"),
-							 role: $("#"+id+"_role").attr("value"),
-							 email: $("#"+id+"_email").attr("value"),
-							 name: $("#"+id+"_name").attr("value")
+				var userId = saveList[i];
+				var user = { id: userId, userName: $("#"+userId+"_userName").val(),
+							 password: $("#"+userId+"_password").val(),
+							 role: $("#"+userId+"_role").val(),
+							 email: $("#"+userId+"_email").val(),
+							 name: $("#"+userId+"_name").val()
 				}
 				message += JSON.stringify(user) + "\n";		
 			}
-			
-			var sl = $('#saveList');
-			sl.attr('value', message);
-			var f = $('#adminForm');
-			f.attr('method', 'post');
-			f.attr('action', '/saveUsers');
-			f.submit()
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( "POST", "/saveUsers", true );
+			xmlHttp.onreadystatechange = function() {
+				if ( xmlHttp.readyState != 4) return;
+				if ( xmlHttp.status == 200 || xmlHttp.status == 400)
+					saveList = [];
+				else 
+					alert("Unknown ERROR when saving.");
+			}
+			xmlHttp.send( message );
 		}
 
 		function updateSave(name){
@@ -57,8 +70,7 @@
 				saveList.push(name);
 		}
 
-		function insertUsers()
-		{
+		function insertUsers() {
 			var t = document.getElementById('scrollTable');
 			var xmlHttp = new XMLHttpRequest();
 			xmlHttp.open( "POST", "/allUsers", true );
@@ -99,11 +111,9 @@
 			</tr>
 		</tbody>
 	</table>
-	<form id='adminForm' method='delete'>
+	<div id='buttonDiv' >
 		<input type='button' id='delete' value='Delete Selected' onClick=deleteSelected() >
-		<input type='hidden' id='deletedUsers' name='deletedUsers' value=''>
-		<input type='submit' id='save' value='Save Changes' onClick=saveUsers() >
-		<input type='hidden' id='saveList' name='saveList' value=''>
-	</form>
+		<input type='button' id='save' value='Save Changes' onClick=saveUsers() >
+	</div>
 </body>
 </html>

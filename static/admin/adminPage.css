@@ -2,7 +2,6 @@
 @font-face {
     font-family: mmbnFont;
     src: url(../Mega-Man-Battle-Network.ttf);
-	font-weight:bold;
 }
 
 *{
@@ -67,18 +66,20 @@ input[type='text']:focus{
 	font-size:12px;
 }
 
-input[type='button'], input[type='submit'] {
+input[type='button'] {
   font-size: 12px;
   background: rgb(27,73,138);
   padding: 5px 10px 5px 10px;
   border: solid black 2px;
 }
 
-input[type='button']:hover, input[type='submit']:hover {
+input[type='button']:hover {
   background: rgb(64, 150, 121);
 }
 
-form{
+#buttonDiv{
+	position:relative;
+	top:5px;
 	width:100%;
 }
 
