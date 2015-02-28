@@ -61,7 +61,11 @@ public class AdminPage {
 	}
 
 	static String getUsers(){
-		String usersList[] = AdminPageDB.getUsersInfo().split("\n");
+		String users = AdminPageDB.getUsersInfo();
+		if(users == null || users.length() == 0)
+			return "";
+		
+		String usersList[] = users.split("\n");
 		String s = "";
 		for(int i = 0; i < usersList.length; i++) {
 			String userInfo[] = usersList[i].split("\t");

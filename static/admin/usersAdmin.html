@@ -2,7 +2,7 @@
 <html>
 <head>
 	<link rel='stylesheet' type='text/css' href='adminPage.css'>
-	<script src='jquery-2.1.3.js'></script>
+	<script src='../jquery-2.1.3.js'></script>
 	<script >
 		function deleteSelected() {
 			var check = $('.deleteCheck');			
@@ -71,6 +71,7 @@
 		}
 
 		function insertUsers() {
+			var t = document.getElementById('scrollTable');
 			var xmlHttp = new XMLHttpRequest();
 			xmlHttp.open( "POST", "/allUsers", true );
 			xmlHttp.onreadystatechange = function() {
