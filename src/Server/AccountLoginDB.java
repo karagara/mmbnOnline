@@ -19,11 +19,9 @@ public class AccountLoginDB {
 			stmt = conn.createStatement();
             rs = stmt.executeQuery( queryString );
             if ( rs.next() ) {
-                System.out.println("test");
                 String dbPassword  = rs.getString("password");
 
             	if ( dbPassword.equals(password) ){
-                    System.out.println("The user pass is verified");
             		isValid = true;            	
             	}
             }
