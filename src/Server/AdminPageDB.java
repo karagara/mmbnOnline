@@ -52,7 +52,6 @@ public class AdminPageDB {
 			stmt = conn.createStatement();
             stmt.executeUpdate( queryString );
 			System.out.println("Deleted user with user id=" + id);
-            //Log rs?
 
 		} catch ( Exception e ) {
 			printErrMsg(e);

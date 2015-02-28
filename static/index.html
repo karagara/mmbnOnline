@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <title>Welcome to Meganman Battle Network</title>
+    <link rel="stylesheet" type="text/css" href="main.css"></style>
+    <script type="application/javascript">
+        function redirectLogin() {
+            window.location.href = "login.html";
+        }
+
+        function redirectNewAcct() {
+            window.location.href = "create-account.html";
+        }
+        function redirectAbout(){
+            window.location.href="about.html"
+        }
+    </script>
+</head>
+
+<body>
+    <div id="funcBtn">
+        <input type="button" id="login" value="Log in" onClick="redirectLogin()"></input>
+        <input type="button" id="newaccount" value="Sign Up" onClick="redirectNewAcct()"></input>
+        <input type="button" id="about" value="About" onClick="redirectAbout()"></input>
+    </div>
+</body>
+
+</html>

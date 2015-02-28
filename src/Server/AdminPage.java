@@ -89,8 +89,7 @@ public class AdminPage {
 	}
 
 	//format {"userId":"7","userName":"user1","password":"passwd","role":"admin","email":"null","name":"null"} 
-	static void saveUsers(String userList){
-		
+	static void saveUsers(String userList){		
 		 try {
              Gson gson = new Gson();
              String users[] = userList.split("\n");
@@ -115,4 +114,3 @@ class UserObject{
 	public String email;
 	public String name;
 }
-
