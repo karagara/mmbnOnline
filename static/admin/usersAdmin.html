@@ -2,17 +2,108 @@
 <html>
 <head>
 	<link rel='stylesheet' type='text/css' href='adminPage.css'>
-	<script src='../jquery-2.1.3.js'></script>
-	<script src='../adminPage.js'></script>
+	<script src='jquery-2.1.3.js'></script>
+	<script >
+		function deleteSelected() {
+			var check = $('.deleteCheck');			
+			if(check.length > 0) {
+				if(confirm("Are you sure you want to delete these users?")){
+					var names = '';
+					for(i = 0; i < check.length; i++)
+						if(check[i].checked)
+							names += check[i].id.split('_')[0] + " ";
+					
+					var xmlHttp = new XMLHttpRequest();
+					xmlHttp.open( "POST", "/deleteUsers", true );
+					xmlHttp.onreadystatechange = function() {
+						if ( xmlHttp.readyState != 4) return;
+						if ( xmlHttp.status == 200 || xmlHttp.status == 400)
+							insertUsers();
+						else 
+							alert("Unknown ERROR when saving.");
+					}
+					xmlHttp.send( names );
+				}
+			}
+		}
+
+		window.onbeforeunload = function(){
+			if(saveList.length > 0)
+				return 'Are you sure you want to leave?';
+		};
+		
+		var saveList = [];
+		function saveUsers(){		
+			var message = "";
+			for(i = 0; i < saveList.length; i++){
+				var userId = saveList[i];
+				var user = { id: userId, userName: $("#"+userId+"_userName").val(),
+							 password: $("#"+userId+"_password").val(),
+							 role: $("#"+userId+"_role").val(),
+							 email: $("#"+userId+"_email").val(),
+							 name: $("#"+userId+"_name").val()
+				}
+				message += JSON.stringify(user) + "\n";		
+			}
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( "POST", "/saveUsers", true );
+			xmlHttp.onreadystatechange = function() {
+				if ( xmlHttp.readyState != 4) return;
+				if ( xmlHttp.status == 200 || xmlHttp.status == 400)
+					saveList = [];
+				else 
+					alert("Unknown ERROR when saving.");
+			}
+			xmlHttp.send( message );
+		}
+
+		function updateSave(name){
+			var found = false;
+			for(i = 0; i < saveList.length; i++){
+				if(saveList[i] === name)
+				{
+					found = true;
+					break;
+				}
+			}			
+			if(!found)
+				saveList.push(name);
+		}
+
+		function insertUsers() {
+			var t = document.getElementById('scrollTable');
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( "POST", "/allUsers", true );
+			xmlHttp.onreadystatechange = function() {
+				if ( xmlHttp.readyState != 4) return;
+				if ( xmlHttp.status == 200 || xmlHttp.status == 400) {
+					t.innerHTML = xmlHttp.responseText
+				}
+				else {
+					t.innerHTML = "Unknown ERROR";
+				}
+			}
+			xmlHttp.send( null );
+		}
+
+	</script>
 </head>
-<body background ='Chip_icons_exe1.gif' onload=insertUsers() >
-	<table id='userTable' title='Users'>
+<body background ='adminBackground.png' onload=insertUsers() >
+	<table id='userTable'>
 		<thead>
-			<tr><th class='col1'></th><th class='col2'>UserName</th><th class='col3' >Password</th><th class='col4'>Role</th></tr>
+			<tr>
+				<th class='col1'></th>
+				<th class='col2'>id</th>
+				<th class='col3'>UserName</th>
+				<th class='col4' >Password</th>
+				<th class='col5'>Role</th>
+				<th class='col6'>Email</th>
+				<th class='col7'>Name</th>
+			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td colspan='4'>
+				<td colspan='7'>
 					<div id='tableArea'>
 						<table id='scrollTable'></table>
 					</div>
@@ -20,11 +111,9 @@
 			</tr>
 		</tbody>
 	</table>
-	<form id='adminForm' method='delete'>
+	<div id='buttonDiv' >
 		<input type='button' id='delete' value='Delete Selected' onClick=deleteSelected() >
-		<input type='hidden' id='deletedUsers' name='deletedUsers' value=''>
-		<input type='submit' id='save' value='Save Changes' onClick=saveUsers() >
-		<input type='hidden' id='saveList' name='saveList' value=''>
-	</form>
+		<input type='button' id='save' value='Save Changes' onClick=saveUsers() >
+	</div>
 </body>
 </html>
