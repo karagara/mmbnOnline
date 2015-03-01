@@ -26,7 +26,11 @@ public class AccountLogin {
             }
             sess.attribute("user", username);
         }
+        else{
+            response.redirect("/loginfail.html");
+        }
 	}
+    
 
 	public static void rigRoutes(){
         get("/index", (request, response) ->{
@@ -43,6 +47,20 @@ public class AccountLogin {
         	//Post response checks if login is valid
         	AccountLogin.postResponse(request, response);
             return null;
+        });
+        
+        post("/reset", (request, response) -> {
+            //check if the user want to change the password is existed
+            String username = request.queryParams("username");
+            String msg = AccountLoginDB.checkUser(username);
+            return msg;
+        });
+        
+        post("/newpass", (request, response) -> {
+            //change the password
+            String pass = request.queryParams("newpassword");
+            String msg = AccountLoginDB.resetPass(pass);
+            return msg;
         });
 	}
 }

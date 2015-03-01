@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <title>Enter New Password</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body>
+    <img id="main" src="main1.jpg" width="600" style="position:absolute;left:560px;">
+    <div class="reset">
+        <h1>Enter New Password</h1>
+        <form action="/newpass" method="post">
+            <p>
+                Please enter your new password:
+                <input type="password" name="newpassword" value="" placeholder="Password" autofocus required>
+            </p>
+            <p class="submit1">
+                <input type="submit" name="commit" value="Confirm Password">
+            </p>
+        </form>
+        <p class="submit2">
+            <a href="login.html" target="_parent">
+                <button class="btn">Go back</button>
+            </a>
+        </p>
+    </div>
+</body>
+
+</html>
