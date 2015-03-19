@@ -56,7 +56,13 @@ public class GameManager{
 		if(g == null){
 			return "ERROR";
 		}
-		return g.getState();
+		return g.getState(userName);
+	}
+	
+	public void playerLeftGame(String userName){
+		Game g = userMap.get(userName);
+		if(g != null)
+			g.playerLeft(userName);
 	}
 	
 }

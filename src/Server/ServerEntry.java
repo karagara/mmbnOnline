@@ -49,16 +49,16 @@ public class ServerEntry {
 	 
 	 public static void rigRoutes(GameManager gm){
 		 
-		post("/auth/requestGame", (request, response) -> {
+		post("/game/requestGame", (request, response) -> {
 			//response.redirect(gm.newGame(request.session().attribute("user")));
 			return gm.newGame(request.session().attribute("user"));
 		} );
 		
-		post("/auth/sendAction", (request, response) -> {
+		post("/game/sendAction", (request, response) -> {
 			return gm.updateGame(request.session().attribute("user"), request.body());
 		} );
 		
-		post("/auth/gameUpdate", (request, response) -> {
+		post("/game/gameUpdate", (request, response) -> {
 			return gm.getGameState(request.session().attribute("user"));
 		} );
 		
@@ -66,5 +66,11 @@ public class ServerEntry {
 			response.redirect("/test.html");
 			return "";
 		});
+		
+		post("/game/playerLeft", (request, response) -> {
+			gm.playerLeftGame(request.session().attribute("user"));
+			return "";
+		} );
+		
 	}
 }
