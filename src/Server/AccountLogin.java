@@ -10,7 +10,7 @@ import spark.Session;
 public class AccountLogin {
     
 	public static void postResponse(Request request, Response response){
-        String username = request.queryParams("login");
+        String username = request.queryParams("user");
         String password = request.queryParams("password");
 
         if ( username != null && password != null){
