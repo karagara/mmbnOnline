@@ -4,7 +4,6 @@ lib/*
 classes/*
 out/*
 *.db
-.idea/
 *.iml
 
 .idea/workspace.xml
