@@ -32,32 +32,7 @@ public class AdminPage {
 		
 		post("/allUsers", (request, response) -> {
 			return getUsers();
-		} );
-		
-		get("/test", (request, response) -> {
-			String form = "<html>\n" + 
-						  "<head>\n" +
-						  "</head>\n" +
-						  "<body>\n" + 
-						  "<form method='get' action='/admin/users'>\n"+
-						  "Role: <input type='text' name ='userRole' >" + 
-						  "<br><input type='submit'>\n" + 
-						  "</form> \n" + 
-						  "</body>\n" + 
-						  "</html>";
-						  
-			
-			Session sess = request.session(true);
-			if ( sess == null ) {
-                response.redirect("/login.html");
-			}
-			else {
-				sess.attribute("role", "admin");
-			}
-			return form;
-		} );
-		
-		
+		} );		
 	}
 
 	static String getUsers(){

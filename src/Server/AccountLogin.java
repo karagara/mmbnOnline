@@ -13,20 +13,19 @@ public class AccountLogin {
         String username = request.queryParams("user");
         String password = request.queryParams("password");
 
-        if ( username == null || password == null ) {
-            response.redirect("/login.html");
-        }
-        if ( AccountLoginDB.isLoginValid(username, password) ) {
-            System.out.println("test in accountLogin.java");
-            Session sess = request.session(true);
-            if ( sess == null ) {
-                response.redirect("/login.html");
-            }
-            else{
-                response.redirect("/auth/main.html");
-            }
-            sess.attribute("user", username);
-        }
+        if ( username != null && password != null){
+	        if ( AccountLoginDB.isLoginValid(username, password) ) {
+	            System.out.println("test in accountLogin.java");
+	            Session sess = request.session(true);
+	            if ( sess != null ) {
+	            	sess.attribute("user", username);
+	            	response.redirect("/auth/main.html");
+	            	return;
+	            }
+	        }
+	            
+		}
+        response.redirect("/login.html");
 	}
 
 	public static void rigRoutes(){

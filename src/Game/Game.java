@@ -12,17 +12,15 @@ public class Game implements Runnable{
 	private Arena arena;
 	private ArrayList<Action> actions = new ArrayList<Action>();
 	private ArrayList<String> newActions = new ArrayList<String>();
-	private int gameId;
 	
 	private gameStatus status;
 	
-	public Game(Connection c1, Connection c2, int gameId)
+	public Game(Connection c1, Connection c2)
 	{
 		p1 = new Player(c1, 0, 1); //starts on left
 		p2 = new Player(c2, 5, 1); //starts on right
 		//TODO: redirect players to Game Page
 		status = gameStatus.PAUSED;
-		this.gameId = gameId;
 	}
 	
 	public void run()
@@ -65,8 +63,12 @@ public class Game implements Runnable{
 		}
 	}
 	
-	public void handleEvent(String s)
+	public void handleEvent(String name, String message)
 	{
-		newActions.add(s);
+		newActions.add(message);
+	}
+	
+	public String getState(){
+		return "WEE";
 	}
 }
