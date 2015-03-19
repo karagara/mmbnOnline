@@ -1,8 +1,14 @@
 package Game;
 
 public class Connection{
-	public Connection()
+	String userName;
+	public Connection(String userName)
 	{
-		
+		this.userName = userName;
+	}
+	
+	public String getUserName()
+	{
+		return userName;
 	}
 }

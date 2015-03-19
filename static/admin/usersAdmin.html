@@ -88,32 +88,34 @@
 
 	</script>
 </head>
-<body background ='adminBackground.png' onload=insertUsers() >
-	<table id='userTable'>
-		<thead>
-			<tr>
-				<th class='col1'></th>
-				<th class='col2'>id</th>
-				<th class='col3'>UserName</th>
-				<th class='col4' >Password</th>
-				<th class='col5'>Role</th>
-				<th class='col6'>Email</th>
-				<th class='col7'>Name</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td colspan='7'>
-					<div id='tableArea'>
-						<table id='scrollTable'></table>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<div id='buttonDiv' >
-		<input type='button' id='delete' value='Delete Selected' onClick=deleteSelected() >
-		<input type='button' id='save' value='Save Changes' onClick=saveUsers() >
+<body background ='adminBackground.png' onload=insertUsers()>
+	<div style="width:100%; min-width:1200px;">
+		<table id='userTable'>
+			<thead>
+				<tr>
+					<th class='col1'></th>
+					<th class='col2'>id</th>
+					<th class='col3'>UserName</th>
+					<th class='col4' >Password</th>
+					<th class='col5'>Role</th>
+					<th class='col6'>Email</th>
+					<th class='col7'>Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan='7'>
+						<div id='tableArea'>
+							<table id='scrollTable'></table>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div id='buttonDiv' >
+			<input type='button' id='delete' value='Delete Selected' onClick=deleteSelected() >
+			<input type='button' id='save' value='Save Changes' onClick=saveUsers() >
+		</div>
 	</div>
 </body>
 </html>
