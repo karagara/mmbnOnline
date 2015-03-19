@@ -6,3 +6,7 @@ out/*
 *.db
 .idea/
 *.iml
+
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
