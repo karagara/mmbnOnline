@@ -1,0 +1,53 @@
+body {
+	margin: 0px;
+	padding: 0px
+}
+
+.banner {
+	position: relative;
+	text-align: center;
+	background-color: DarkSlateGray;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	z-index: 100;
+}
+
+.banner img{
+	height: 273px;
+	width: 480px;
+	vertical-align: middle;
+}
+
+.nav {
+	background-color: MidnightBlue;
+	height: 40px;
+	font-family: 'Armata', sans-serif;
+	text-align:center;
+	color:White;
+}
+
+.inner-nav{
+	margin: 0px;
+	padding: 0px;
+}
+
+.content {
+	width: 70%;
+	background-color: DarkGray;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	height: 500px;
+	font-family: 'Armata', sans-serif;
+	padding-right: 1em;
+	padding-left: 1em;
+}
+
+.content h1 {
+	margin-top: 0px;
+	padding: 0.5em;
+	font-family: 'Armata', sans-serif;
+	text-align:center;
+}

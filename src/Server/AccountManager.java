@@ -8,13 +8,22 @@
 package Server;
 
 import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.put;
+import static spark.Spark.halt;
 
 import spark.Request;
 import spark.Response;
 import spark.Session;
 
 import java.lang.System;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+
 
 public class AccountManager{
 	//TODO: replace these with a database connection
@@ -42,29 +51,141 @@ public class AccountManager{
         "</html>\n";
 
     public static void rigRoutes(){
-        get("/test", (request,response) -> {
-            return AccountManager.getResponse(request,response);
+        get("/api/user", (request, response) -> {
+            CurrentUser user = new CurrentUser();
+            user.username = request.session().attribute("user");
+
+            Gson gson = new Gson();
+            String json = gson.toJson(user);
+            System.out.println(json);
+
+            response.type("application/json");
+            return json;
+        });
+
+        get("/api/account/:user", (request,response) -> {
+            GetUser user = getUser(request.params(":user"));
+
+            Gson gson = new Gson();
+            String json = gson.toJson(user);
+
+            response.type("application/json");
+            return json;
+        });
+
+        put("/api/account/:user", (request,response) -> {
+            try {
+                Gson gson = new Gson();
+
+                String body = request.body();
+                System.out.println(body);
+                // attempt to convert JSON to DayNote
+                PutUser user = gson.fromJson(body, PutUser.class);
+                System.out.println(user.name);
+
+                //ToDo: check old password first
+
+                //insert note into database
+                putUser(user);
+                return "Success!";
+            }
+            catch ( JsonParseException ex ) {
+                System.out.println("post /calendar/:year/:month/:day : malformed values");
+                halt(400, "malformed values");
+            }
+
+            return null;
         });
     }
 
-    public static String getResponse(Request request, Response response){
-    	//get account name
-        String acctName = "karagararadio"; 
-        String name = "Colten Normore";
-        String email = "test@example.com";    	
-        return String.format(STATIC_SECTION,acctName,name,email);
+    public static void putUser(PutUser user){
+        String queryString = "UPDATE account SET name='"+user.name+"',email='"+user.email+"',password='"+user.newPassword+"' " +
+                "WHERE username='"+user.username+"';";
+        System.out.println(queryString);
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            conn = DriverManager.getConnection("jdbc:sqlite:mmbn.db");
+            System.out.println("Opened database successfully");
+
+            stmt = conn.createStatement();
+            stmt.executeUpdate( queryString );
+
+            stmt.close();
+            conn.close();
+        } catch ( Exception e ) {
+            printErrMsg(e);
+        } finally {
+            System.out.println("Closing DB resources");
+            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn == null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
+        }
     }
 
-    public static String postResponse(Request request, Response response){
+    public static GetUser getUser(String username){
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        GetUser user = new GetUser();
 
-    	// if (request.queryParams("name") != "")
-    	// 	this.name = request.queryParams("name");
+        String queryString = "SELECT * FROM account WHERE username='"+username+"';";
+        try {
+            Class.forName("org.sqlite.JDBC");
+            conn = DriverManager.getConnection("jdbc:sqlite:mmbn.db");
+            System.out.println("Opened database successfully");
 
-    	// if (request.queryParams("email") != "")
-    	// 	this.email = request.queryParams("email");
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery( queryString );
 
-        response.redirect("/account");
-        return null;
+            if(rs.next()) {
+                user.username = username;
+                user.email = rs.getString("email");
+                user.name = rs.getString("name");
+            }
+
+        } catch ( Exception e ) {
+            printErrMsg(e);
+        } finally {
+            System.out.println("Closing DB resources");
+            try{ if (rs == null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn == null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
+        }
+
+        return user;
+    }
+
+    public static void printErrMsg(Exception e){
+        System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        System.exit(0);
+    }
+}
+
+class CurrentUser {
+    public String username;
+    CurrentUser(){
+
+    }
+}
+
+class GetUser {
+    public String username;
+    public String name;
+    public String email;
+    public GetUser(){
+
+    }
+}
+
+class PutUser {
+    public String username;
+    public String name;
+    public String email;
+    public String oldPassword;
+    public String newPassword;
+    public PutUser(){
+
     }
 }
 

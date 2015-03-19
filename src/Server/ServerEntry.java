@@ -41,7 +41,7 @@ public class ServerEntry {
          
         AccountLogin.rigRoutes();
         AccountCreation.rigRoutes();
-        // AccountManager.rigRoutes();
+        AccountManager.rigRoutes();
         AdminPage.rigRoutes();
 	}
 }
