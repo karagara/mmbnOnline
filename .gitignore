@@ -5,3 +5,4 @@ classes/*
 out/*
 *.db
 .idea/*
+.idea/workspace.xml
