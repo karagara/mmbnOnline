@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TEST Page</title>
+    <script>
+	function playGame(){
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( "POST", "/game/requestGame", true );
+		xmlHttp.send(null);
+	}
+	
+	</script>
+</head>
+
+<body>
+    <form action="/game/requestGame" method="post">        
+		<p>
+			<input type="submit" value="play">
+		</p>
+		<p id="testBox">gogogo</p>
+    </form>
+</body>
+
+</html>

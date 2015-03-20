@@ -30,13 +30,17 @@ public class GameManager{
 			Thread t = new Thread(g);
 			t.start();
 			waitingPlayer = null;
-			return "/game";
+			return "/auth/canvas.html";
 		}
 		else
 		{
 			waitingPlayer = new Connection(userName);
-			return "/Gamequeue";
+			return "/auth/gameQueue.html";
 		}
+	}
+	
+	public boolean isInGame(String userName){
+		return userMap.get(userName) != null;
 	}
 	
 	public String updateGame(String userName, String httpMessage)

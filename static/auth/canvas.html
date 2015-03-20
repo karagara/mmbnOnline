@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+canvas {
+	border: thin solid black;
+}
+</style>
+<script type="text/javascript">
+var gameCfg;
+var gameCfgLoaded = false;
+
+var canvas;
+var cntxt;
+
+var mapImg;
+var mapTiles = [[null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null]];
+
+function gameSetup() {
+	canvas = document.getElementById("gameCanvas");
+	cntxt = canvas.getContext("2d");
+	
+	var xmlHttp = new XMLHttpRequest();
+	var url = "gameSetup.txt";
+	
+	xmlHttp.onreadystatechange = function() {
+		if(xmlHttp.readyState = 4 && xmlHttp.status == 200) {
+			gameCfg = JSON.parse(xmlHttp.responseText);
+			gameCfgLoaded = true;
+			xmlCfgLoadTest();
+			window.setTimeout(drawMap(), 1000);
+		}
+	}
+	
+	xmlHttp.open("GET", url, true);
+	xmlHttp.send();
+}
+
+function xmlCfgLoadTest() {
+	//alert("load the map tile sprites from: " + gameCfg.mapModel.mapSpriteSrc);
+	mapImg = loadImage(gameCfg.mapModel.mapSpriteSrc);
+	for(var i = 0; i < 6; i=i+1) {
+		for(var j = 0; j < 3; j=j+1) {
+			mapTiles[i][j] = new Tile( (i < 3) );
+		}
+	}
+}
+
+function loadImage(url) {
+	image = new Image();
+	image.onload = function(){
+		console.log("Loaded an image from ", image.src);
+	}
+	image.src = url;
+	return image;
+}
+
+function drawMap() {
+	var mapOffsetX = (canvas.width - (6 * 40) ) / 2;
+	var mapOffsetY = 5 * ((canvas.height - (24 + 24 + 33) ) / 6);
+	
+	for(var i = 0; i < 6; i=i+1) {
+		for(var j = 0; j < 3; j=j+1) {
+			var xLoc = mapOffsetX + (i * 40);
+			var yLoc = mapOffsetY + (j * 24);
+			if(mapTiles[i][j].playerOwned){
+				cntxt.drawImage(mapImg, gameCfg.mapModel.tiles[j].spriteX, gameCfg.mapModel.tiles[j].spriteY, gameCfg.mapModel.tiles[j].spriteWidth, gameCfg.mapModel.tiles[j].spriteHeight, xLoc, yLoc, gameCfg.mapModel.tiles[j].spriteWidth, gameCfg.mapModel.tiles[j].spriteHeight);
+			}
+			else{
+				cntxt.drawImage(mapImg, gameCfg.mapModel.tiles[j+3].spriteX, gameCfg.mapModel.tiles[j+3].spriteY, gameCfg.mapModel.tiles[j+3].spriteWidth, gameCfg.mapModel.tiles[j+3].spriteHeight, xLoc, yLoc, gameCfg.mapModel.tiles[j+3].spriteWidth, gameCfg.mapModel.tiles[j+3].spriteHeight);
+			}
+		}
+	}
+}
+
+//INTERACT WITH SERVER*****************************************
+function sendAction(){
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open( "POST", "/game/sendAction", true );
+	xmlHttp.onreadystatechange = function() {
+		if ( xmlHttp.readyState != 4) return;
+		if ( xmlHttp.status == 200 || xmlHttp.status == 400)
+		{
+			var response = xmlHttp.responseText;
+		}
+		else 
+			alert("Unknown ERROR when saving.");
+	}
+	xmlHttp.send("");
+}
+window.setInterval(function (){
+	update();
+	}, 1000/60);
+	
+function update(){
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open( "POST", "/game/gameUpdate", true );
+	xmlHttp.onreadystatechange = function() {
+		if ( xmlHttp.readyState != 4) return;
+		if ( xmlHttp.status == 200 || xmlHttp.status == 400)
+		{
+			var state = JSON.parse(xmlHttp.responseText);
+		}
+		else 
+			alert("Unknown ERROR when saving.");
+	}
+	xmlHttp.send("");
+}
+
+//objects
+function Tile(isPlayerTile) {
+	this.state;
+	this.playerOwned = isPlayerTile;
+}
+</script>
+</head>
+<body onload="gameSetup()">
+
+<canvas id="gameCanvas" width="300" height="200">
+Your browser does not support HTML5!
+</canvas>
+
+</body>
+</html>

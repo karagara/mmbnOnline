@@ -1,0 +1,32 @@
+<html>
+<head>
+<script>
+window.onbeforeunload = function (e) {
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open( "POST", "/game/playerLeft", true );
+	xmlHttp.send("");
+};
+
+window.setInterval(function (){
+	checkForGame();
+	}, 100);
+function checkForGame(){
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() {
+		if(xmlHttp.readyState = 4 && xmlHttp.status == 200) {
+			var message = xmlHttp.responseText;
+			if(message != "")
+				window.location.replace(message);
+			
+		}
+	}
+	
+	xmlHttp.open( "POST", "/game/checkForGame", true );
+	xmlHttp.send("");
+}
+</script>
+</head>
+<body>
+<h1>You've hit the queue page</h1>
+</body>
+</html>

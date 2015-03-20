@@ -50,17 +50,25 @@ public class ServerEntry {
 	 public static void rigRoutes(GameManager gm){
 		 
 		post("/game/requestGame", (request, response) -> {
-			//response.redirect(gm.newGame(request.session().attribute("user")));
-			return gm.newGame(request.session().attribute("user"));
-		} );
+			response.redirect(gm.newGame(request.session().attribute("user")));
+			//return gm.newGame(request.session().attribute("user"));
+			return "";
+		});
+		
+		//used by players waiting in queue
+		post("/game/checkForGame", (request, response) -> {
+			if(gm.isInGame(request.session().attribute("user")))
+				return "/auth/canvas.html";
+			return "";
+		});
 		
 		post("/game/sendAction", (request, response) -> {
 			return gm.updateGame(request.session().attribute("user"), request.body());
-		} );
+		});
 		
 		post("/game/gameUpdate", (request, response) -> {
 			return gm.getGameState(request.session().attribute("user"));
-		} );
+		});
 		
 		get("/auth/test", (request, response) -> {
 			response.redirect("/test.html");
