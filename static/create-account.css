@@ -1,0 +1,38 @@
+body{
+    background-color: black;
+}
+.btn {
+    position: relative;
+    top:-44px;
+    lelf:90px;
+    padding: 0 18px;
+    height: 29px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #527881;
+    text-shadow: 0 1px #e3f1f1;
+    background: #cde5ef;
+    border: 1px solid;
+    border-color: #b4ccce #b3c0c8 #9eb9c2;
+    border-radius: 16px;
+}
+h1 {
+    margin: -20px -20px 21px;
+    line-height: 40px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #2CD4D1;
+    text-align: center;
+    background: #6666CC;
+    border-bottom: 1px solid #cfcfcf;
+    border-radius: 3px 3px 0 0; 
+}
+.login {
+    top:350px;
+    position: absolute;
+    left:460px;
+    padding: 20px 20px 20px;
+    width: 350px;
+    background: #6666CC;
+    border-radius: 3px;
+}
