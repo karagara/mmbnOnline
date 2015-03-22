@@ -1,15 +1,32 @@
-<html>
-<body>
-<form action ='/account' method='POST'>
-Username <input type='text' name='username'><br>
-Password <input type='password' name='password'><br>
-Confirm Password <input type='password' name='passwordCheck'><br>
-You have read and agree with terms of use
-<div>
-Yes <input type='radio' name='terms' value='yes'>
-No <input type='radio' name='terms' value='no'>
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>MMBNOnline</title>
+    <link href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="styles/loaders.css">
+    <link rel="stylesheet" href="styles/coltenstyle.css">
+    <script src="../scripts/acctMgmt.js"></script>
+</head>
+
+<body onload="setupPage()">
+<div class="banner">
+    <img src="assets/main1.png" id="logo"/>
 </div>
-<input type="submit" value="Create Account">
-</form>
+<div class="content">
+    <h1>Create Account</h1>
+    <form action ='/account' method='POST'>
+        Username <input type='text' name='username'><br>
+        Password <input type='password' name='password'><br>
+        Confirm Password <input type='password' name='passwordCheck'><br>
+        You have read and agree with terms of use
+        <div>
+            Yes <input type='radio' name='terms' value='yes'>
+            No <input type='radio' name='terms' value='no'>
+        </div>
+        <input type="submit" value="Create Account">
+    </form>
+</div>
 </body>
-<html>
+</html>
