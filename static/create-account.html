@@ -1,15 +1,34 @@
 <html>
-<body>
-<form action ='/account' method='POST'>
-Username <input type='text' name='username'><br>
-Password <input type='password' name='password'><br>
-Confirm Password <input type='password' name='passwordCheck'><br>
-You have read and agree with terms of use
-<div>
-Yes <input type='radio' name='terms' value='yes'>
-No <input type='radio' name='terms' value='no'>
-</div>
-<input type="submit" value="Create Account">
-</form>
-</body>
+<head>
+<link rel="stylesheet" type="text/css" href="create-account.css">
+</head>
+	<body>
+	    <img id = "main" src="main1.jpg" width="600" style="position:absolute;left:360px;">
+		<form action ='/account' method='POST'>
+			<div class="login">
+			    <h1>
+			    	Account Creation
+			    </h1>
+				<p>
+					Account Username<input type='text' name='username'>
+				</p>
+				<p>
+					Account Password<input type='password' name='password'>
+				</p>
+				<p>
+					Confirm Password<input type='password' name='passwordCheck'>
+				</p>
+				<p>
+					You have read and agree with terms of use
+					<div>
+						Yes <input type='radio' name='terms' value='yes'>
+						No <input type='radio' name='terms' value='no'>
+					</div>	
+				</p>
+					<input type="submit" value="Create Account">
+
+			</div>
+
+		</form>
+	</body>
 <html>

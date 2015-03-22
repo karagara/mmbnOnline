@@ -16,6 +16,33 @@ var cntxt;
 var mapImg;
 var mapTiles = [[null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null]];
 
+function action (e){
+    e= e || event;
+    switch(e.keycode){
+        case 87: //moveup
+                var input = JSON.stringify({event:"movement",value:"up"});
+            return false;
+        case 65://moveleft
+                var input = JSON.stringify({event:"movement",value:"left"});
+            return false;
+        case 68://moveright
+                var input = JSON.stringify({event:"movement",value:"right"});
+            return false;
+        case 83://movedown
+                var input = JSON.stringify({event:"movement",value:"down"});
+            return false;
+        case 190://bustershot
+                var input = JSON.stringify({event:"attack",value:""});
+            return false;
+        case 188://chip
+                var input = JSON.stringify({event:"chip",value:""});
+            return false;
+        case 32://endphase
+                var input = JSON.stringify({event:"menu",value:""});
+            return false;
+    }
+}
+
 function gameSetup() {
 	canvas = document.getElementById("gameCanvas");
 	cntxt = canvas.getContext("2d");
@@ -74,7 +101,7 @@ function drawMap() {
 }
 
 //INTERACT WITH SERVER*****************************************
-function sendAction(){
+function sendAction(input){
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.open( "POST", "/game/sendAction", true );
 	xmlHttp.onreadystatechange = function() {
@@ -86,7 +113,7 @@ function sendAction(){
 		else 
 			alert("Unknown ERROR when saving.");
 	}
-	xmlHttp.send("");
+	xmlHttp.send(input);
 }
 window.setInterval(function (){
 	update();
@@ -109,8 +136,8 @@ function update(){
 
 //objects
 function Tile(isPlayerTile) {
-	this.state;
-	this.playerOwned = isPlayerTile;
+    this.state;
+    this.playerOwned = isPlayerTile;
 }
 </script>
 </head>
