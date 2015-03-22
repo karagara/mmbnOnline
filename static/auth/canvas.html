@@ -16,29 +16,38 @@ var cntxt;
 var mapImg;
 var mapTiles = [[null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null]];
 
-function action (e){
+document.onkeydown = action;
+
+function action(e){
     e= e || event;
-    switch(e.keycode){
+    switch(e.keyCode){
         case 87: //moveup
-                var input = JSON.stringify({event:"movement",value:"up"});
+            var input = JSON.stringify({event:"movement",value:"up"});
+            sendAction(input);
             return false;
         case 65://moveleft
-                var input = JSON.stringify({event:"movement",value:"left"});
+            var input = JSON.stringify({event:"movement",value:"left"});
+            sendAction(input);
             return false;
         case 68://moveright
-                var input = JSON.stringify({event:"movement",value:"right"});
+            var input = JSON.stringify({event:"movement",value:"right"});
+            sendAction(input);
             return false;
         case 83://movedown
-                var input = JSON.stringify({event:"movement",value:"down"});
+            var input = JSON.stringify({event:"movement",value:"down"});
+            sendAction(input);
             return false;
         case 190://bustershot
-                var input = JSON.stringify({event:"attack",value:""});
+            var input = JSON.stringify({event:"attack",value:""});
+            sendAction(input);
             return false;
         case 188://chip
-                var input = JSON.stringify({event:"chip",value:""});
+            var input = JSON.stringify({event:"chip",value:""});
+            sendAction(input);
             return false;
         case 32://endphase
-                var input = JSON.stringify({event:"menu",value:""});
+            var input = JSON.stringify({event:"menu",value:""});
+            sendAction(input);
             return false;
     }
 }
