@@ -3,18 +3,11 @@ package Game;
 /**
  * Created by karagara on 21/03/15.
  */
-public class CannonChipAction implements Action {
-    private Player player;
-    private Tile origin;
-    private Arena arena;
-    private String spritePath = "playerBuster.png";;
-    private Integer index = 0;
-    private Boolean isComplete = false;
+public class CannonChipAction extends Action {
 
     CannonChipAction(Player player, Tile tile, Arena arena) {
-        this.player = player;
-        this.origin = tile;
-        this.arena = arena;
+        super(player, arena, tile);
+        spritePath = "playerBuster.png";
 
         //If this action is created, consume chip
         //player.removeChip();
@@ -29,10 +22,5 @@ public class CannonChipAction implements Action {
             isComplete = true;
         }
         index++;
-    }
-
-    @Override
-    public Boolean isEventComplete() {
-        return isComplete;
     }
 }
