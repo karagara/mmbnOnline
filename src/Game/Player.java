@@ -4,14 +4,12 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-enum playerStatus{ALIVE, DEAD};
-enum playerCondition{CLEAR, HIT, RECOVERING, INACTION, STUNNED}
+enum playerCondition{CLEAR, HIT, RECOVERING, INACTION, STUNNED, DEAD}
 
 public class Player implements GameEntity {
     public Connection connection;
 
 	private double health;
-	private playerStatus status;
     private playerCondition condition;
 	Tile position;
     Arena arena;
@@ -22,7 +20,7 @@ public class Player implements GameEntity {
 
 	public Player(Connection connection, Arena arena, int x, int y) {
 		health = 10;
-		status = playerStatus.ALIVE;
+		condition = playerCondition.CLEAR;
 		this.connection = connection;
         this.arena = arena;
 		this.x = x;
@@ -37,8 +35,8 @@ public class Player implements GameEntity {
 		return health;
 	}
 
-	public playerStatus getStatus(){
-		return status;
+	public playerCondition getCondition(){
+		return condition;
 	}
 
 	public int getXPos(){
@@ -51,19 +49,19 @@ public class Player implements GameEntity {
 
 	public boolean isDead()
 	{
-		return status == playerStatus.DEAD;
+		return condition == playerCondition.DEAD;
 	}
 
 	public void changeHealth(double val)
 	{
 		health += val;
 		if(health <= 0)
-			status = playerStatus.DEAD;
+			condition = playerCondition.DEAD;
 	}
 
 	public boolean canAttack()
 	{
-		return status == playerStatus.ALIVE;
+		return condition == playerCondition.CLEAR;
 	}
 
 	public void move(int deltaX, int deltaY)

@@ -84,15 +84,20 @@ public class Game implements Runnable, ActionListener {
                 //Create Actions based upon inputs and current game state
                 //Hand the object an input, and get an action back
                 //Add Actions to queue
-                Action a1 = p1.handleInput(i1);
-                if (a1 != null)
-                    actions.add(a1);
-                Action a2 = p2.handleInput(i2);
-                if (a2 != null)
-                    actions.add(a2);
-
+            	if(i1 != null){
+	                Action a1 = p1.handleInput(i1);
+	                if (a1 != null)
+	                    actions.add(a1);
+            	}
+            	if(i2 != null){
+	                Action a2 = p2.handleInput(i2);
+	                if (a2 != null)
+	                    actions.add(a2);
+            	}
+                System.out.println(actions.size());
                 //Update all valid actions
                 for(Action a : actions) {
+                	
                     a.update();
                     //Remove actions that have expired
                     if(a.isEventComplete())
@@ -112,7 +117,7 @@ public class Game implements Runnable, ActionListener {
 	
 	public void handleEvent(String playerName, String message)
 	{
-        System.out.println(message);
+        //System.out.println(message);
 		if(p1.isPlayer(playerName))
 			p1.addAction(message);
 		else if(p2.isPlayer(playerName))
@@ -123,23 +128,23 @@ public class Game implements Runnable, ActionListener {
 		GameState gs = new GameState();
 		gs.state = status;
 		if(p1.isPlayer(playerName)){
-			gs.enemyPlayerStatus = p2.getStatus();
+			gs.enemyPlayerCondition = p2.getCondition();
 			gs.enemyPlayerPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
-			gs.myStatus = p1.getStatus();
+			gs.myCondition = p1.getCondition();
 			gs.myPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
 		}
 		else if(p2.isPlayer(playerName))
 		{
-			gs.myStatus = p2.getStatus();
+			gs.myCondition = p2.getCondition();
 			gs.myPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
-			gs.enemyPlayerStatus = p1.getStatus();
+			gs.enemyPlayerCondition = p1.getCondition();
 			gs.enemyPlayerPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
 		}
 		
 		gs.actions = formatActions();
 		Gson gson = new Gson();
 		String message = gson.toJson(gs);
-		System.out.println(message);
+		//System.out.println(message);
 		return message;
 	}
 	
@@ -168,9 +173,9 @@ public class Game implements Runnable, ActionListener {
 
     public class GameState{
 		public gameStatus state;
-		public playerStatus enemyPlayerStatus;
+		public playerCondition enemyPlayerCondition;
 		public String enemyPlayerPosition;
-		public playerStatus myStatus;
+		public playerCondition myCondition;
 		public String myPosition;
 		public String actions;
 	}
