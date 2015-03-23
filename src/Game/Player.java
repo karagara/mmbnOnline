@@ -27,6 +27,8 @@ public class Player implements GameEntity {
         this.arena = arena;
 		this.x = x;
 		this.y = y;
+        this.status = playerStatus.ALIVE;
+        this.condition = playerCondition.CLEAR;
 	}
 
 	public boolean isPlayer(String playerName){
@@ -89,43 +91,54 @@ public class Player implements GameEntity {
              inString = newActions.get(0);
         newActions.clear();
 
+//        System.out.println(inString);
         //If we got a string, try to parse it
         Input input = new Input();
         if (inString != null) {
             Gson json = new Gson();
             try {
-                json.fromJson(inString, Input.class);
+                input = json.fromJson(inString, Input.class);
             } catch (Exception e) {
                 System.out.println(e);
             }
         }
+        if (input != null && input.value != null)
+            System.out.println(input.value);
 
         return input;
     }
 
     public Action handleInput(Input input) {
+        if (input==null)
+            return null;
+        if (input.value == null)
+            System.out.println(input.value);
+
         if (this.condition == playerCondition.CLEAR || this.condition == playerCondition.RECOVERING){
-            if (input.event == "move"){
+            System.out.println("We Clear!");
+            System.out.println(input.event);
+            if (input.event.contentEquals("movement")){
+                System.out.println("Movement Action");
                 //For each direction
                 //Check to see if the tile is available to be moved on
                 //If yes, create a movement action and return it
-                if (input.value == "up" && arena.isValidMove(x, y+1)){
+                if (input.value.contentEquals("up") && arena.isValidMove(x, y+1)){
                     System.out.println("Creating up action!");
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.UP );
-                } else if (input.value == "down" && arena.isValidMove(x, y-1)) {
+                } else if (input.value.contentEquals("down") && arena.isValidMove(x, y-1)) {
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.DOWN );
-                } else if (input.value == "left" && arena.isValidMove(x-1, y)) {
+                } else if (input.value.contentEquals("left") && arena.isValidMove(x-1, y)) {
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.LEFT );
-                } else if (input.value == "right" && arena.isValidMove(x+1, y)) {
+                } else if (input.value.contentEquals("right") && arena.isValidMove(x+1, y)) {
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.RIGHT );
                 }
             }
 
-            if (input.event == "buster") {
+            if (input.event.contentEquals("buster")) {
                 this.condition = playerCondition.INACTION;
                 return new PlayerBusterAction(this, this.position, this.arena);
             }

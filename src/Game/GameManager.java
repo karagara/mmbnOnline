@@ -55,7 +55,7 @@ public class GameManager{
 	}
 	
 	public String getGameState(String userName){
-		System.out.println(userName + " requested a game state");
+//		System.out.println(userName + " requested a game state");
 		Game g = userMap.get(userName);
 		if(g == null){
 			return "ERROR";
