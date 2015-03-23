@@ -8,7 +8,7 @@ enum playerStatus{ALIVE, DEAD};
 enum playerCondition{CLEAR, HIT, RECOVERING, INACTION, STUNNED}
 
 public class Player implements GameEntity {
-    Connection connection;
+    public Connection connection;
 
 	private double health;
 	private playerStatus status;
@@ -68,8 +68,12 @@ public class Player implements GameEntity {
 
 	public void move(int deltaX, int deltaY)
 	{
-		x += deltaX;
-		y += deltaY;
+		if(arena.isValidMove(x + deltaX, y + deltaY)){
+			x += deltaX;
+			y += deltaY;
+			position = arena.getTile(x, y);
+			System.out.println(x + ", " + y);
+		}
 	}
 
 	public void addAction(String action){

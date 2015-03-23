@@ -66,6 +66,7 @@ public class PlayerMovementAction extends Action {
 
     @Override
 	public void update(){
+    	System.out.println("Updating movement for " + player.connection.getUserName());
         //move on the correct frame
         if (index == 0) {
             //Check for valid state here?

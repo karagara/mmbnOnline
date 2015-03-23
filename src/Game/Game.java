@@ -71,7 +71,7 @@ public class Game implements Runnable, ActionListener {
                 break;
             case CHIPMENU:
                 //if time has hit limit, or both players have locked in
-//                status = gameStatus.ONGOING;
+               status = gameStatus.ONGOING;
                 break;
         }
 
@@ -84,7 +84,6 @@ public class Game implements Runnable, ActionListener {
                 //Add Actions to queue
                 actions.add(p1.handleInput(i1));
                 actions.add(p2.handleInput(i2));
-
                 //Update all valid actions
                 for(Action a : actions) {
                     a.update();
@@ -154,7 +153,8 @@ public class Game implements Runnable, ActionListener {
 	}
 	
 	public void playerLeft(String playerName){
-		status = gameStatus.OVER;
+//		System.out.println(playerName + "Has left the game!");
+//		status = gameStatus.OVER;
 	}
 
     public class GameState{
