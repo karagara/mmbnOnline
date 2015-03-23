@@ -28,4 +28,8 @@ public class Arena {
     public Tile getTile(int x, int y) {
         return board[6*y + x];
     }
+
+    public boolean isTileOccupied(int xPos, int yPos) {
+        return false;
+    }
 }

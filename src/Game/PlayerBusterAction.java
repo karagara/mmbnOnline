@@ -5,18 +5,43 @@ package Game;
  */
 public class PlayerBusterAction extends Action{
 
-    PlayerBusterAction(Player player, Tile tile, Arena arena) {
+    private boolean isCharged;
+
+    PlayerBusterAction(Player player, Tile tile, Arena arena, boolean isCharged) {
     	super(player, arena, tile);
     	spritePath =  "playerBuster.png";
+        this.isCharged = isCharged;
     }
 
     @Override
     public void update() {
         //on Attack frame, check for targets
-        if (index == 6){
+        if (index == 4){
             //apply damage to first in row
             //arena.damageFirstInRow(player.getYPos(), 10);
+            boolean hasHitTarget = false;
+            if (player.getSide() == PlayerSide.RED){
+                for(int i=player.getXPos(); i < 6 && !hasHitTarget; i++){
+                    if(arena.isTileOccupied(i,player.getYPos())){
+                        GameEntity entity = arena.getEntity(i, player.getYPos());
+                        entity.damageEntity((isCharged) ? 10 : 1);
+                        hasHitTarget = true;
+                    }
+                }
+            }
+
+            if (player.getSide() == PlayerSide.BLUE){
+                for(int i=player.getXPos(); i >= 0 && !hasHitTarget; i--){
+                    if(arena.isTileOccupied(i,player.getYPos())){
+                        GameEntity entity = arena.getEntity(i, player.getYPos());
+                        arena.damageEntity(i,player.getYPos(),(isCharged)? 10 : 1);
+                        hasHitTarget = true;
+                    }
+                }
+            }
+
             isComplete = true;
+            player.setCondition(playerCondition.CLEAR);
         }
         index++;
     }

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-enum playerCondition{CLEAR, HIT, RECOVERING, INACTION, STUNNED, DEAD}
+enum playerCondition{CLEAR, CHARGING, CHARGED, HIT, RECOVERING, INACTION, STUNNED, DEAD}
 enum PlayerSide{RED, BLUE}
 
 public class Player implements GameEntity {
@@ -17,6 +17,7 @@ public class Player implements GameEntity {
 	private int x;
 	private int y;
     private PlayerSide side;
+    private int chargeCount = 0;
 
 	private ArrayList<String> newActions = new ArrayList<String>();
 
@@ -53,6 +54,10 @@ public class Player implements GameEntity {
 	public int getYPos(){
 		return y;
 	}
+
+    public PlayerSide getSide() {
+        return this.side;
+    }
 
 	public boolean isDead()
 	{
@@ -115,6 +120,15 @@ public class Player implements GameEntity {
             return null;
 //        if (input.value == null)
 
+        if(this.condition == playerCondition.CHARGING){
+            chargeCount++;
+            if (chargeCount > 20){
+                condition = playerCondition.CHARGED;
+                chargeCount = 0;
+            }
+        }
+
+
         if (this.condition == playerCondition.CLEAR || this.condition == playerCondition.RECOVERING){
             if (input.event.contentEquals("movement")){
                 System.out.println(input.value);
@@ -138,8 +152,17 @@ public class Player implements GameEntity {
             }
 
             if (input.event.contentEquals("buster")) {
-                this.condition = playerCondition.INACTION;
-                return new PlayerBusterAction(this, this.position, this.arena);
+                if (input.value.contentEquals("down")){
+                    this.condition = playerCondition.CHARGING;
+                }
+                if (input.value.contentEquals("up")) {
+                    boolean fullyCharged = false;
+                    if(this.condition == playerCondition.CHARGED)
+                        fullyCharged = true;
+                    this.condition = playerCondition.INACTION;
+                    return new PlayerBusterAction(this, this.position, this.arena, fullyCharged);
+                }
+
             }
         }
 
