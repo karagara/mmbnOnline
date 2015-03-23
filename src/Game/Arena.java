@@ -2,8 +2,14 @@ package Game;
 import Game.Tile;
 
 public class Arena {
-	private Tile[] board;
+	private Tile board[];
 
+    public Arena(){
+        board = new Tile[18];
+        for (int i=0; i<18; i++){
+            board[i] = new Tile();
+        }
+    }
 
     public boolean isValidMove(int x, int y) {
         //check to see if x or y are oob
@@ -11,9 +17,9 @@ public class Arena {
             return false;
 
         //check specific tile
-        if (board[6*y + x].isOccupied())
-            return false;
-        else
+//        if (board[6*y + x].isOccupied())
+//            return false;
+//        else
             return true;
     }
 

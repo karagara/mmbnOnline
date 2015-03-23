@@ -85,8 +85,9 @@ public class PlayerMovementAction extends Action {
                     break;
             }
         }
-        if (index == 3)
+        if (index == 3){
             isComplete = true;
+        }
 
         index++;
 

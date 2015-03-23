@@ -17,24 +17,24 @@ public class Game implements Runnable, ActionListener {
 
 	private Player p1;
 	private Player p2;
-	private Arena arena;
+	private Arena arena = new Arena();
 	private ArrayList<Action> actions = new ArrayList<Action>();
 	
 	private gameStatus status;
     private int menuTimer;
 
     public Game(Connection c1, Connection c2)
-	{
+    {
 		p1 = new Player(c1, arena, 0, 1); //starts on left
 		p2 = new Player(c2, arena, 5, 1); //starts on right
-		status = gameStatus.CHIPMENU;
+		status = gameStatus.ONGOING;
         menuTimer = 900;
 	}
 	
 	public void run() {
         //setup thread timer
         System.out.println("Setting up Timer");
-        timer = new Timer(1000, this);
+        timer = new Timer(3000, this);
         timer.start();
 //        while (this.status != gameStatus.OVER){
 //            //do nothing, keep the thread busy
@@ -62,11 +62,11 @@ public class Game implements Runnable, ActionListener {
         //Change state based inputs/state
         switch (status){
             case ONGOING:
-                if (i1.event == "menu" || i2.event == "menu")
-                    menuTimer = 900; //30 ticks/second * 30 seconds
-                    status = gameStatus.CHIPMENU;
-                if (p1.isDead() || p2.isDead())
-                    status = gameStatus.OVER;
+//                if (i1.event == "menu" || i2.event == "menu")
+//                    menuTimer = 900; //30 ticks/second * 30 seconds
+//                    status = gameStatus.CHIPMENU;
+//                if (p1.isDead() || p2.isDead())
+//                    status = gameStatus.OVER;
                 break;
             case OVER:
                 //Nothing to see here :P
@@ -118,6 +118,7 @@ public class Game implements Runnable, ActionListener {
 	public void handleEvent(String playerName, String message)
 	{
         //System.out.println(message);
+
 		if(p1.isPlayer(playerName))
 			p1.addAction(message);
 		else if(p2.isPlayer(playerName))
@@ -145,6 +146,7 @@ public class Game implements Runnable, ActionListener {
 		Gson gson = new Gson();
 		String message = gson.toJson(gs);
 		//System.out.println(message);
+
 		return message;
 	}
 	
@@ -178,6 +180,7 @@ public class Game implements Runnable, ActionListener {
 		public playerCondition myCondition;
 		public String myPosition;
 		public String actions;
+		public String tileStates;
 	}
     
     public class ActionState{
