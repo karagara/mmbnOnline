@@ -3,18 +3,11 @@ package Game;
 /**
  * Created by karagara on 21/03/15.
  */
-public class PlayerBusterAction implements Action{
-    private Player player;
-    private Tile origin;
-    private Arena arena;
-    private String spritePath = "playerBuster.png";;
-    private Integer index = 0;
-    private Boolean isComplete = false;
+public class PlayerBusterAction extends Action{
 
     PlayerBusterAction(Player player, Tile tile, Arena arena) {
-        this.player = player;
-        this.origin = tile;
-        this.arena = arena;
+    	super(player, arena, tile);
+    	spritePath =  "playerBuster.png";
     }
 
     @Override
@@ -26,11 +19,6 @@ public class PlayerBusterAction implements Action{
             isComplete = true;
         }
         index++;
-    }
-
-    @Override
-    public Boolean isEventComplete() {
-        return null;
     }
 
     @Override

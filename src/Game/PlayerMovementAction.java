@@ -9,23 +9,15 @@ import java.util.ArrayList;
 
 enum MovementDirection{UP, DOWN, LEFT, RIGHT};
 
-public class PlayerMovementAction implements Action {
-	private Player player;
-	private Tile currentTile;
-	private Arena arena;
+public class PlayerMovementAction extends Action {
 	private MovementDirection direction;
-    private String spritePath = "playerMovement.png";;
-    private Integer index = 0;
-	private Boolean isComplete = false;
     private ArrayList<FrameEvent> frameEventSequence = new ArrayList<FrameEvent>();
 
 	public PlayerMovementAction(Player player, Tile currentTile, Arena arena, MovementDirection direction){
-		this.player = player;
-		this.currentTile = currentTile;
-		this.arena = arena;
+		super(player, arena, currentTile);
 		this.direction = direction;
-
         this.setupFrameEvents();
+		spritePath = "playerMovement.png";
 
         //ToDo: Evaluate putting the direction and status check in here
 	}
@@ -97,11 +89,6 @@ public class PlayerMovementAction implements Action {
 
         index++;
 
-	}
-
-	@Override
-	public Boolean isEventComplete(){
-		return isComplete;
 	}
 
     @Override

@@ -44,15 +44,11 @@ public class Game implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Check to see if the game is still active
-        System.out.println("Timer tick");
-        if(!p1.isDead() && !p2.isDead()) {
+        if(status != gameStatus.OVER)
             this.update();
-        } else {
-            status = gameStatus.OVER;
-            updatePlayer(p1);
-            updatePlayer(p2);
-        }
-        //wait for signal of both players left?
+//        else
+//        	if both players have left then delete self
+
     }
 
     private void update(){
@@ -71,7 +67,7 @@ public class Game implements Runnable, ActionListener {
                     status = gameStatus.OVER;
                 break;
             case OVER:
-                //Nothing to see here :B
+                //Nothing to see here :P
                 break;
             case CHIPMENU:
                 //if time has hit limit, or both players have locked in
@@ -108,21 +104,6 @@ public class Game implements Runnable, ActionListener {
 
     }
 	
-	private void updatePlayer(Player p)
-	{
-		if(p.isDead())
-		{
-			//LOSER
-		}
-		else if(status == gameStatus.OVER){
-			//WINNER WINNER CHICKEN DINNER
-		}
-		else
-		{
-			//Continue Fighting
-		}
-	}
-	
 	public void handleEvent(String playerName, String message)
 	{
         System.out.println();
@@ -149,16 +130,31 @@ public class Game implements Runnable, ActionListener {
 			gs.enemyPlayerPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
 		}
 		
-		//gs.actions = {""};
+		gs.actions = formatActions();
 		Gson gson = new Gson();
 		String message = gson.toJson(gs);
 //		System.out.println(message);
 		return message;
 	}
 	
+	private String formatActions(){
+		String actionsJSON = "";
+		Gson gson = new Gson();
+		for(Action a : actions){
+			ActionState aState = new ActionState();
+			aState.xPos = a.getTile().getXPos();
+			aState.yPos = a.getTile().getYPos();
+			aState.spriteMap = a.getSpritePath();
+			aState.isComplete = a.isEventComplete();
+			aState.index = a.getIndex();
+			actionsJSON += gson.toJson(aState) + "\n";
+		}
+		
+		return actionsJSON;
+	}
+	
 	public void playerLeft(String playerName){
 		status = gameStatus.OVER;
-		
 	}
 
     public class GameState{
@@ -167,6 +163,14 @@ public class Game implements Runnable, ActionListener {
 		public String enemyPlayerPosition;
 		public playerStatus myStatus;
 		public String myPosition;
-		public String actions[];
+		public String actions;
 	}
+    
+    public class ActionState{
+    	public int xPos;
+    	public int yPos;
+    	public String spriteMap;
+    	public boolean isComplete;
+    	public int index;
+    }
 }
