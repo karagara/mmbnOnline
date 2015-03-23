@@ -3,6 +3,7 @@ package Game;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javafx.event.Event;
 import com.google.gson.Gson;
@@ -25,8 +26,8 @@ public class Game implements Runnable, ActionListener {
 
     public Game(Connection c1, Connection c2)
     {
-		p1 = new Player(c1, arena, 0, 1); //starts on left
-		p2 = new Player(c2, arena, 5, 1); //starts on right
+		p1 = new Player(c1, arena, 0, 1, PlayerSide.RED); //starts on left
+		p2 = new Player(c2, arena, 5, 1, PlayerSide.BLUE); //starts on right
 		status = gameStatus.ONGOING;
         menuTimer = 900;
 	}
@@ -34,7 +35,7 @@ public class Game implements Runnable, ActionListener {
 	public void run() {
         //setup thread timer
         System.out.println("Setting up Timer");
-        timer = new Timer(3000, this);
+        timer = new Timer(1000, this);
         timer.start();
 //        while (this.status != gameStatus.OVER){
 //            //do nothing, keep the thread busy
@@ -43,10 +44,8 @@ public class Game implements Runnable, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Ticking!");
-        System.out.println(status);
         // Check to see if the game is still active
-//        if(status != gameStatus.OVER)
+        if(status != gameStatus.OVER)
             this.update();
 //        else
 //        	if both players have left then delete self
@@ -84,20 +83,31 @@ public class Game implements Runnable, ActionListener {
                 //Create Actions based upon inputs and current game state
                 //Hand the object an input, and get an action back
                 //Add Actions to queue
+
                 Action a1 = p1.handleInput(i1);
                 if (a1 != null)
-                    actions.add(a1);
+                    synchronized (actions) {
+                        actions.add(a1);
+                    }
                 Action a2 = p2.handleInput(i2);
                 if (a2 != null)
-                    actions.add(a2);
+                    synchronized (actions) {
+                        actions.add(a2);
+                    }
 
 
                 //Update all valid actions
-                for(Action a : actions) {
-                    a.update();
-                    //Remove actions that have expired
-                    if(a.isEventComplete())
-                        actions.remove(a);
+                synchronized (actions) {
+                    for (Iterator<Action> it=actions.iterator(); it.hasNext();) {
+                        Action a = it.next();
+                        a.update();
+                        //Remove actions that have expired
+                        if (a.isEventComplete()) {
+                            System.out.println("Removing Action");
+                            it.remove();
+                        }
+
+                    }
                 }
                 //Package up world info
 
@@ -124,20 +134,20 @@ public class Game implements Runnable, ActionListener {
 		GameState gs = new GameState();
 		gs.state = status;
 		if(p1.isPlayer(playerName)){
-			gs.enemyPlayerStatus = p2.getStatus();
+			gs.enemyPlayerStatus = p2.getCondition();
 			gs.enemyPlayerPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
-			gs.myStatus = p1.getStatus();
+			gs.myStatus = p1.getCondition();
 			gs.myPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
 		}
 		else if(p2.isPlayer(playerName))
 		{
-			gs.myStatus = p2.getStatus();
+			gs.myStatus = p2.getCondition();
 			gs.myPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
-			gs.enemyPlayerStatus = p1.getStatus();
+			gs.enemyPlayerStatus = p1.getCondition();
 			gs.enemyPlayerPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
 		}
-		
-		gs.actions = formatActions();
+
+//		gs.actions = formatActions();
 		Gson gson = new Gson();
 		String message = gson.toJson(gs);
 //		System.out.println(message);
@@ -147,16 +157,18 @@ public class Game implements Runnable, ActionListener {
 	private String formatActions(){
 		String actionsJSON = "";
 		Gson gson = new Gson();
-		for(Action a : actions){
-			ActionState aState = new ActionState();
-			aState.xPos = a.getTile().getXPos();
-			aState.yPos = a.getTile().getYPos();
-			aState.spriteMap = a.getSpritePath();
-			aState.isComplete = a.isEventComplete();
-			aState.index = a.getIndex();
-			actionsJSON += gson.toJson(aState) + "\n";
-		}
-		
+        synchronized (actions) {
+            for (Action a : actions) {
+                ActionState aState = new ActionState();
+                aState.xPos = a.getTile().getXPos();
+                aState.yPos = a.getTile().getYPos();
+                aState.spriteMap = a.getSpritePath();
+                aState.isComplete = a.isEventComplete();
+                aState.index = a.getIndex();
+                actionsJSON += gson.toJson(aState) + "\n";
+            }
+        }
+
 		return actionsJSON;
 	}
 	
@@ -166,11 +178,11 @@ public class Game implements Runnable, ActionListener {
 
     public class GameState{
 		public gameStatus state;
-		public playerStatus enemyPlayerStatus;
+		public playerCondition enemyPlayerStatus;
 		public String enemyPlayerPosition;
-		public playerStatus myStatus;
+		public playerCondition myStatus;
 		public String myPosition;
-		public String actions;
+//		public String actions;
 	}
     
     public class ActionState{

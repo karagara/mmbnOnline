@@ -67,6 +67,8 @@ public class PlayerMovementAction extends Action {
     @Override
 	public void update(){
         //move on the correct frame
+//        System.out.println(index);
+//        System.out.println(isComplete);
         if (index == 0) {
             //Check for valid state here?
             switch (direction){
@@ -84,9 +86,11 @@ public class PlayerMovementAction extends Action {
                     break;
             }
         }
-        if (index == 3)
+        if (index == 3) {
+            System.out.println("Clearing Action");
             isComplete = true;
-
+            this.player.setCondition(playerCondition.CLEAR);
+        }
         index++;
 
 	}
