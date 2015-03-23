@@ -17,14 +17,14 @@ public class Game implements Runnable, ActionListener {
 
 	private Player p1;
 	private Player p2;
-	private Arena arena;
+	private Arena arena = new Arena();
 	private ArrayList<Action> actions = new ArrayList<Action>();
 	
 	private gameStatus status;
     private int menuTimer;
 
     public Game(Connection c1, Connection c2)
-	{
+    {
 		p1 = new Player(c1, arena, 0, 1); //starts on left
 		p2 = new Player(c2, arena, 5, 1); //starts on right
 		status = gameStatus.ONGOING;

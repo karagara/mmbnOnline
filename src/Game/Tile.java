@@ -10,7 +10,9 @@ public class Tile {
 	GameEntity object;
 	int ownership;
 
+    public Tile(){
 
+    }
 
 	public void setOwnership(int newOwnership){
 		this.ownership=newOwnership;

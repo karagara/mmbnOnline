@@ -102,8 +102,8 @@ public class Player implements GameEntity {
                 System.out.println(e);
             }
         }
-        if (input != null && input.value != null)
-            System.out.println(input.value);
+//        if (input != null && input.value != null)
+//            System.out.println(input.value);
 
         return input;
     }
@@ -111,14 +111,14 @@ public class Player implements GameEntity {
     public Action handleInput(Input input) {
         if (input==null)
             return null;
-        if (input.value == null)
-            System.out.println(input.value);
+//        if (input.value == null)
 
         if (this.condition == playerCondition.CLEAR || this.condition == playerCondition.RECOVERING){
             System.out.println("We Clear!");
-            System.out.println(input.event);
+            System.out.println(input.value);
             if (input.event.contentEquals("movement")){
                 System.out.println("Movement Action");
+                System.out.println(input.value);
                 //For each direction
                 //Check to see if the tile is available to be moved on
                 //If yes, create a movement action and return it
