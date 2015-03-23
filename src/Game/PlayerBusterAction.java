@@ -32,4 +32,9 @@ public class PlayerBusterAction implements Action{
     public Boolean isEventComplete() {
         return null;
     }
+
+    @Override
+    public String getChipSequence() {
+        return null;
+    }
 }

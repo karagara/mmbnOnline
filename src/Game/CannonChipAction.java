@@ -35,4 +35,9 @@ public class CannonChipAction implements Action {
     public Boolean isEventComplete() {
         return isComplete;
     }
+
+    @Override
+    public String getChipSequence() {
+        return null;
+    }
 }

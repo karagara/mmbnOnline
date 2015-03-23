@@ -36,6 +36,12 @@ public class Tile {
 	public int getTerrain(){
 		return this.terrain;
 	}
+    public boolean isOccupied(){
+        if (this.object == null)
+            return false;
+        else
+            return true;
+    }
 
 	
 }

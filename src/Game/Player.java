@@ -7,8 +7,8 @@ import java.util.ArrayList;
 enum playerStatus{ALIVE, DEAD};
 enum playerCondition{CLEAR, HIT, RECOVERING, INACTION, STUNNED}
 
-public class Player {
-	Connection connection;
+public class Player implements GameEntity {
+    Connection connection;
 
 	private double health;
 	private playerStatus status;
@@ -33,8 +33,7 @@ public class Player {
 		return connection.getUserName().compareTo(playerName) == 0;
 	}
 
-	public double getHealth()
-	{
+	public double getHealth() {
 		return health;
 	}
 
@@ -85,7 +84,9 @@ public class Player {
 
     public Input getPendingInput() {
         //Grab first input, clear the rest
-        String inString = newActions.get(0);
+        String inString = "";
+        if (!newActions.isEmpty())
+             inString = newActions.get(0);
         newActions.clear();
 
         //If we got a string, try to parse it
@@ -108,20 +109,18 @@ public class Player {
                 //For each direction
                 //Check to see if the tile is available to be moved on
                 //If yes, create a movement action and return it
-                boolean isVaildMovement = false;
-
-                if (input.value == "up"){
-
-                } else if (input.value == "down") {
-
-                } else if (input.value == "left") {
-
-                } else if (input.value == "right") {
-
-                }
-
-                if (isVaildMovement){
+                if (input.value == "up" && arena.isValidMove(x, y+1)){
                     this.condition = playerCondition.INACTION;
+                    return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.UP );
+                } else if (input.value == "down" && arena.isValidMove(x, y-1)) {
+                    this.condition = playerCondition.INACTION;
+                    return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.DOWN );
+                } else if (input.value == "left" && arena.isValidMove(x-1, y)) {
+                    this.condition = playerCondition.INACTION;
+                    return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.LEFT );
+                } else if (input.value == "right" && arena.isValidMove(x+1, y)) {
+                    this.condition = playerCondition.INACTION;
+                    return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.RIGHT );
                 }
             }
 
@@ -131,6 +130,11 @@ public class Player {
             }
         }
 
+        return null;
+    }
+
+    @Override
+    public String getState() {
         return null;
     }
 }

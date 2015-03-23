@@ -1,6 +1,13 @@
 body{
     background-color: black;
 }
+
+div#content{
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
 h1 {
     margin: -20px -20px 21px;
     line-height: 40px;
@@ -14,9 +21,6 @@ h1 {
 }
 
 .login {
-    top:350px;
-    position: absolute;
-    left:700px;
     padding: 20px 20px 20px;
     width: 310px;
     background: #6666CC;
@@ -25,9 +29,6 @@ h1 {
 
 
 .reset {
-    top:350px;
-    position: absolute;
-    left:700px;
     padding: 20px 20px 20px;
     width: 310px;
     background: #6666CC;
@@ -94,8 +95,6 @@ input[type=submit] {
 }
 .btn {
     position: relative;
-    top:-44px;
-    lelf:90px;
     padding: 0 18px;
     height: 29px;
     font-size: 12px;
@@ -126,13 +125,10 @@ input {
     font-size: 14px;
 }
 
-div#funcBtn input#login {
-    position: absolute;
-    top: 410px;
-    left: 700px;
+div#funcBtn input {
     width: 450px;
     height: 80px;
-    padding: 40px 0 0 0;
+    padding: 0 0 0 0;
     margin: 0 auto;
     background: #398525;
     background: -moz-linear-gradient(top, #8DD297 0%, #398525 100%);   
@@ -152,77 +148,7 @@ div#funcBtn input#login {
     transition: color 0.25s ease-in-out;
 }
 
-div#funcBtn input#login:hover {
-    color: #145675;
-    -moz-transition: color 0.25s ease-in-out;
-    -webkit-transition: color 0.25s ease-in-out;
-    transition: color 0.25s ease-in-out;
-}
-
-div#funcBtn input#newaccount {
-    position: absolute;
-    top: 540px;
-    left: 700px;
-    width: 450px;
-    height: 80px;
-    padding: 40px 0 0 0;
-    background: #398525;   
-    background: -moz-linear-gradient(top, #8DD297 0%, #398525 100%);  
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #8DD297), color-stop(100%, #398525));  
-    box-shadow: inset 0px 0px 6px #fff;
-    -webkit-box-shadow: inset 0px 0px 6px #fff;
-    border: 1px solid #5ea617;
-    border-radius: 10px;
-    font: bold 35px/25px Helvetica, Sans-Serif;
-    text-align: center;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: #147032;
-    text-shadow: 0px 1px 2px #b4d1ad;
-    -moz-transition: color 0.25s ease-in-out;
-    -webkit-transition: color 0.25s ease-in-out;
-    transition: color 0.25s ease-in-out;
-}
-
-div#funcBtn input#newaccount:hover {
-    color: #145675;
-    -moz-transition: color 0.25s ease-in-out;
-    -webkit-transition: color 0.25s ease-in-out;
-    transition: color 0.25s ease-in-out;
-}
-
-div#funcBtn input#about {
-    position: absolute;
-    top: 670px;
-    left: 700px;
-    width: 450px;
-    height: 80px;
-    padding: 40px 0 0 0;
-    background: #398525;
-    /* old browsers */
-    
-    background: -moz-linear-gradient(top, #8DD297 0%, #398525 100%);
-    /* firefox */
-    
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #8DD297), color-stop(100%, #398525));
-    /* webkit */
-    
-    box-shadow: inset 0px 0px 6px #fff;
-    -webkit-box-shadow: inset 0px 0px 6px #fff;
-    border: 1px solid #5ea617;
-    border-radius: 10px;
-    font: bold 35px/25px Helvetica, Sans-Serif;
-    text-align: center;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: #147032;
-    text-shadow: 0px 1px 2px #b4d1ad;
-    -moz-transition: color 0.25s ease-in-out;
-    -webkit-transition: color 0.25s ease-in-out;
-    transition: color 0.25s ease-in-out;
-}
-
-div#funcBtn input#about:hover {
+div#funcBtn input:hover {
     color: #145675;
     -moz-transition: color 0.25s ease-in-out;
     -webkit-transition: color 0.25s ease-in-out;
