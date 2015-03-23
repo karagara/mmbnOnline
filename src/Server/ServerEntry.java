@@ -36,7 +36,7 @@ public class ServerEntry {
             else {
                 String role = sess.attribute("role");
                 if(role == null || role.compareTo("admin") != 0)
-                    response.redirect("/test");
+                    response.redirect("/auth/main");
             }
         } );
       
@@ -49,9 +49,8 @@ public class ServerEntry {
 	 
 	 public static void rigRoutes(GameManager gm){
 		 
-		post("/game/requestGame", (request, response) -> {
+		get("/auth/requestGame", (request, response) -> {
 			response.redirect(gm.newGame(request.session().attribute("user")));
-			//return gm.newGame(request.session().attribute("user"));
 			return "";
 		});
 		
@@ -68,11 +67,6 @@ public class ServerEntry {
 		
 		post("/game/gameUpdate", (request, response) -> {
 			return gm.getGameState(request.session().attribute("user"));
-		});
-		
-		get("/auth/test", (request, response) -> {
-			response.redirect("/test.html");
-			return "";
 		});
 		
 		post("/game/playerLeft", (request, response) -> {
