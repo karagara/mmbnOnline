@@ -15,18 +15,18 @@ public class Player implements GameEntity {
     Arena arena;
 	private int x;
 	private int y;
+    private PlayerSide side;
 
 	private ArrayList<String> newActions = new ArrayList<String>();
 
-	public Player(Connection connection, Arena arena, int x, int y) {
+	public Player(Connection connection, Arena arena, int x, int y, PlayerSide side) {
 		health = 10;
-		condition = playerCondition.CLEAR;
 		this.connection = connection;
         this.arena = arena;
 		this.x = x;
 		this.y = y;
-        this.status = playerStatus.ALIVE;
         this.condition = playerCondition.CLEAR;
+        this.side = side;
 	}
 
 	public boolean isPlayer(String playerName){
@@ -37,9 +37,13 @@ public class Player implements GameEntity {
 		return health;
 	}
 
-	public playerCondition getCondition(){
-		return condition;
-	}
+    public playerCondition getCondition(){
+        return condition;
+    }
+
+    public void setCondition(playerCondition con){
+        this.condition = con;
+    }
 
 	public int getXPos(){
 		return x;
@@ -77,21 +81,20 @@ public class Player implements GameEntity {
 	}
 
 	public void addAction(String action){
-		newActions.add(action);
-	}
-
-	public ArrayList<String> getPendingActions(){
-		ArrayList<String> a = newActions;
-		newActions.clear();
-		return a;
+		synchronized (newActions){
+            newActions.add(action);
+        }
 	}
 
     public Input getPendingInput() {
         //Grab first input, clear the rest
         String inString = "";
-        if (!newActions.isEmpty())
-             inString = newActions.get(0);
-        newActions.clear();
+        synchronized (newActions) {
+            System.out.println(newActions.size());
+            if (!newActions.isEmpty())
+                inString = newActions.get(0);
+            newActions.clear();
+        }
 
 //        System.out.println(inString);
         //If we got a string, try to parse it
@@ -116,10 +119,7 @@ public class Player implements GameEntity {
 //        if (input.value == null)
 
         if (this.condition == playerCondition.CLEAR || this.condition == playerCondition.RECOVERING){
-            System.out.println("We Clear!");
-            System.out.println(input.value);
             if (input.event.contentEquals("movement")){
-                System.out.println("Movement Action");
                 System.out.println(input.value);
                 //For each direction
                 //Check to see if the tile is available to be moved on
