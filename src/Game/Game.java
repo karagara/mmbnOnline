@@ -36,15 +36,17 @@ public class Game implements Runnable, ActionListener {
         System.out.println("Setting up Timer");
         timer = new Timer(1000, this);
         timer.start();
-        while (this.status != gameStatus.OVER){
-            //do nothing, keep the thread busy
-        }
+//        while (this.status != gameStatus.OVER){
+//            //do nothing, keep the thread busy
+//        }
 	}
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("Ticking!");
+        System.out.println(status);
         // Check to see if the game is still active
-        if(status != gameStatus.OVER)
+//        if(status != gameStatus.OVER)
             this.update();
 //        else
 //        	if both players have left then delete self
@@ -71,7 +73,7 @@ public class Game implements Runnable, ActionListener {
                 break;
             case CHIPMENU:
                 //if time has hit limit, or both players have locked in
-//                status = gameStatus.ONGOING;
+                status = gameStatus.ONGOING;
                 break;
         }
 
@@ -82,8 +84,13 @@ public class Game implements Runnable, ActionListener {
                 //Create Actions based upon inputs and current game state
                 //Hand the object an input, and get an action back
                 //Add Actions to queue
-                actions.add(p1.handleInput(i1));
-                actions.add(p2.handleInput(i2));
+                Action a1 = p1.handleInput(i1);
+                if (a1 != null)
+                    actions.add(a1);
+                Action a2 = p2.handleInput(i2);
+                if (a2 != null)
+                    actions.add(a2);
+
 
                 //Update all valid actions
                 for(Action a : actions) {
@@ -106,7 +113,7 @@ public class Game implements Runnable, ActionListener {
 	
 	public void handleEvent(String playerName, String message)
 	{
-        System.out.println();
+        System.out.println(message);
 		if(p1.isPlayer(playerName))
 			p1.addAction(message);
 		else if(p2.isPlayer(playerName))
@@ -133,7 +140,7 @@ public class Game implements Runnable, ActionListener {
 		gs.actions = formatActions();
 		Gson gson = new Gson();
 		String message = gson.toJson(gs);
-//		System.out.println(message);
+		System.out.println(message);
 		return message;
 	}
 	
@@ -154,8 +161,8 @@ public class Game implements Runnable, ActionListener {
 	}
 	
 	public void playerLeft(String playerName){
-		status = gameStatus.OVER;
-	}
+//		status = gameStatus.OVER;
+    }
 
     public class GameState{
 		public gameStatus state;

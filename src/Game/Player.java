@@ -110,6 +110,7 @@ public class Player implements GameEntity {
                 //Check to see if the tile is available to be moved on
                 //If yes, create a movement action and return it
                 if (input.value == "up" && arena.isValidMove(x, y+1)){
+                    System.out.println("Creating up action!");
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.UP );
                 } else if (input.value == "down" && arena.isValidMove(x, y-1)) {
