@@ -78,12 +78,11 @@ public class Player implements GameEntity {
 
 	public void move(int deltaX, int deltaY)
 	{
-		if(arena.isValidMove(x + deltaX, y + deltaY)){
-			x += deltaX;
-			y += deltaY;
-			position = arena.getTile(x, y);
-			System.out.println(x + ", " + y);
-		}
+        x += deltaX;
+        y += deltaY;
+        position = arena.getTile(x, y);
+
+        System.out.println(x + ", " + y);
 	}
 
 	public void addAction(String action){
@@ -96,7 +95,7 @@ public class Player implements GameEntity {
         //Grab first input, clear the rest
         String inString = "";
         synchronized (newActions) {
-            System.out.println(newActions.size());
+//            System.out.println(newActions.size());
             if (!newActions.isEmpty())
                 inString = newActions.get(0);
             newActions.clear();
@@ -124,46 +123,43 @@ public class Player implements GameEntity {
             return null;
 //        if (input.value == null)
 
-        if(this.condition == playerCondition.CHARGING){
-            chargeCount++;
-            if (chargeCount > 20){
-                condition = playerCondition.CHARGED;
-                chargeCount = 0;
-            }
-        }
 
-
-        if (this.condition == playerCondition.CLEAR || this.condition == playerCondition.RECOVERING){
+        if (this.condition == playerCondition.CLEAR || this.condition == playerCondition.RECOVERING
+                || this.condition == playerCondition.CHARGING || this.condition == playerCondition.CHARGED){
             if (input.event.contentEquals("movement")){
                 System.out.println(input.value);
                 //For each direction
                 //Check to see if the tile is available to be moved on
                 //If yes, create a movement action and return it
-                if (input.value.contentEquals("up") && arena.isValidMove(x, y+1)){
+                if (input.value.contentEquals("up") && arena.isValidMove(x, y+1, this.side)){
                     System.out.println("Creating up action!");
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.UP );
-                } else if (input.value.contentEquals("down") && arena.isValidMove(x, y-1)) {
+                } else if (input.value.contentEquals("down") && arena.isValidMove(x, y-1, this.side)) {
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.DOWN );
-                } else if (input.value.contentEquals("left") && arena.isValidMove(x-1, y)) {
+                } else if (input.value.contentEquals("left") && arena.isValidMove(x-1, y, this.side)) {
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.LEFT );
-                } else if (input.value.contentEquals("right") && arena.isValidMove(x+1, y)) {
+                } else if (input.value.contentEquals("right") && arena.isValidMove(x+1, y, this.side)) {
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.RIGHT );
                 }
             }
 
             if (input.event.contentEquals("buster")) {
+                System.out.println(input.value);
                 if (input.value.contentEquals("down")){
-                    this.condition = playerCondition.CHARGING;
+                    if(! (this.condition == playerCondition.CHARGED))
+                        this.condition = playerCondition.CHARGING;
                 }
                 if (input.value.contentEquals("up")) {
+                    System.out.println("Buster Away!");
                     boolean fullyCharged = false;
                     if(this.condition == playerCondition.CHARGED)
                         fullyCharged = true;
                     this.condition = playerCondition.INACTION;
+                    this.chargeCount = 0;
                     return new PlayerBusterAction(this, this.position, this.arena, fullyCharged);
                 }
 
@@ -171,6 +167,22 @@ public class Player implements GameEntity {
         }
 
         return null;
+    }
+
+    public void update(){
+        if(this.condition == playerCondition.CHARGING){
+            System.out.println("Charging buster, count: "+chargeCount);
+            chargeCount++;
+            if (chargeCount > 20){
+                condition = playerCondition.CHARGED;
+                chargeCount = 0;
+            }
+        }
+    }
+
+    @Override
+    public void damageEntity(int damage) {
+        this.changeHealth(damage);
     }
 
     @Override

@@ -72,17 +72,23 @@ public class PlayerMovementAction extends Action {
 //        System.out.println(isComplete);
         if (index == 0) {
             //Check for valid state here?
+            int x = player.getXPos();
+            int y = player.getYPos();
             switch (direction){
                 case UP:
+                    arena.moveEntity(x, y, x, y+1, player);
                     player.move(0,1);
                     break;
                 case DOWN:
+                    arena.moveEntity(x, y, x, y-1, player);
                     player.move(0,-1);
                     break;
                 case LEFT:
+                    arena.moveEntity(x, y, x-1, y, player);
                     player.move(-1,0);
                     break;
                 case RIGHT:
+                    arena.moveEntity(x, y, x+1, y, player);
                     player.move(1,0);
                     break;
             }

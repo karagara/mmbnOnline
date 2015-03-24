@@ -32,6 +32,9 @@ public class Tile {
 	public GameEntity getEntity(){
 		return this.object;
 	}
+    public void setEntity(GameEntity entity){
+        this.object = entity;
+    }
 	public int getTerrain(){
 		return this.terrain;
 	}
@@ -45,5 +48,8 @@ public class Tile {
             return true;
     }
 
-	
+
+    public boolean isSameSide(PlayerSide side) {
+        return (this.color == side);
+    }
 }

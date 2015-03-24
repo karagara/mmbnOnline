@@ -23,8 +23,12 @@ public class PlayerBusterAction extends Action{
             if (player.getSide() == PlayerSide.RED){
                 for(int i=player.getXPos(); i < 6 && !hasHitTarget; i++){
                     if(arena.isTileOccupied(i,player.getYPos())){
-                        GameEntity entity = arena.getEntity(i, player.getYPos());
-                        entity.damageEntity((isCharged) ? 10 : 1);
+                        ;
+                        GameEntity entity = arena.getTileEntity(i, player.getYPos());
+                        if (entity != null) {
+                            System.out.println("Damaging Enemy");
+                            entity.damageEntity((isCharged) ? 10 : 1);
+                        }
                         hasHitTarget = true;
                     }
                 }
@@ -33,8 +37,9 @@ public class PlayerBusterAction extends Action{
             if (player.getSide() == PlayerSide.BLUE){
                 for(int i=player.getXPos(); i >= 0 && !hasHitTarget; i--){
                     if(arena.isTileOccupied(i,player.getYPos())){
-                        GameEntity entity = arena.getEntity(i, player.getYPos());
-                        arena.damageEntity(i,player.getYPos(),(isCharged)? 10 : 1);
+                        GameEntity entity = arena.getTileEntity(i, player.getYPos());
+                        if (entity != null)
+                            entity.damageEntity((isCharged) ? 10 : 1);
                         hasHitTarget = true;
                     }
                 }

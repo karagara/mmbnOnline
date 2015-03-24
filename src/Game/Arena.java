@@ -17,7 +17,7 @@ public class Arena {
         }
     }
 
-    public boolean isValidMove(int x, int y) {
+    public boolean isValidMove(int x, int y, PlayerSide side) {
 
         System.out.println(x+", "+y);
         //check to see if x or y are oob
@@ -25,9 +25,10 @@ public class Arena {
             return false;
 
         //check specific tile
-//        if (board[6*y + x].isOccupied())
-//            return false;
-//        else
+        Tile t = board[6*y + x];
+        if (t.isOccupied() || !t.isSameSide(side))
+            return false;
+        else
             return true;
     }
 
@@ -35,7 +36,29 @@ public class Arena {
         return board[6*y + x];
     }
 
-    public boolean isTileOccupied(int xPos, int yPos) {
-        return false;
+    public boolean isTileOccupied(int x, int y) {
+        if (x > 5 || x < 0 || y > 2 || y < 0)
+            return false;
+        return board[6*y+x].isOccupied();
+    }
+
+    public void moveEntity(int oldX, int oldY, int newX, int newY, GameEntity entity){
+        if (!(newX > 5 || newX < 0 || newY > 2 || newY < 0)){
+            board[6*oldY + oldX].setEntity(null);
+            board[6*newY + newX].setEntity(entity);
+        }
+    }
+
+    public void setTileEntity(int x, int y, GameEntity entity){
+        if (!(x > 5 || x < 0 || y > 2 || y < 0))
+            board[6*y + x].setEntity(entity);
+
+    }
+
+    public GameEntity getTileEntity(int x, int y){
+        if (!(x > 5 || x < 0 || y > 2 || y < 0))
+            return board[6*y + x].getEntity();
+        else
+            return null;
     }
 }

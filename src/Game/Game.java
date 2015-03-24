@@ -28,6 +28,8 @@ public class Game implements Runnable, ActionListener {
     {
 		p1 = new Player(c1, arena, 0, 1, PlayerSide.RED); //starts on left
 		p2 = new Player(c2, arena, 5, 1, PlayerSide.BLUE); //starts on right
+        arena.setTileEntity(0,1,p1);
+        arena.setTileEntity(5,1,p2);
 		status = gameStatus.ONGOING;
         menuTimer = 900;
 	}
@@ -108,6 +110,11 @@ public class Game implements Runnable, ActionListener {
 
                     }
                 }
+
+                //update player state with new from new info
+                p1.update();
+                p2.update();
+
                 //Package up world info
 
                 break;
@@ -147,7 +154,7 @@ public class Game implements Runnable, ActionListener {
 			gs.enemyPlayerPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
 		}
 
-		gs.actions = formatActions();
+//		gs.actions = formatActions();
 		gs.tileStates = formatTiles();
 		Gson gson = new Gson();
 		String message = gson.toJson(gs);
