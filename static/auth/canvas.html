@@ -17,40 +17,8 @@ var mapImg;
 var mapTiles = [[null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null]];
 
 document.onkeydown = action;
+document.onkeyup = upAction;
 
-function action(e){
-    e= e || event;
-    switch(e.keyCode){
-        case 87: //moveup
-            var input = JSON.stringify({event:"movement",value:"up"});
-            sendAction(input);
-            return false;
-        case 65://moveleft
-            var input = JSON.stringify({event:"movement",value:"left"});
-            sendAction(input);
-            return false;
-        case 68://moveright
-            var input = JSON.stringify({event:"movement",value:"right"});
-            sendAction(input);
-            return false;
-        case 83://movedown
-            var input = JSON.stringify({event:"movement",value:"down"});
-            sendAction(input);
-            return false;
-        case 190://bustershot
-            var input = JSON.stringify({event:"attack",value:""});
-            sendAction(input);
-            return false;
-        case 188://chip
-            var input = JSON.stringify({event:"chip",value:""});
-            sendAction(input);
-            return false;
-        case 32://endphase
-            var input = JSON.stringify({event:"menu",value:""});
-            sendAction(input);
-            return false;
-    }
-}
 
 function gameSetup() {
 	canvas = document.getElementById("gameCanvas");
@@ -110,24 +78,71 @@ function drawMap() {
 }
 
 //INTERACT WITH SERVER*****************************************
-function sendAction(input){
-	var xmlHttp = new XMLHttpRequest();
-	xmlHttp.open( "POST", "/game/sendAction", true );
-	xmlHttp.onreadystatechange = function() {
-		if ( xmlHttp.readyState != 4) return;
-		if ( xmlHttp.status == 200 || xmlHttp.status == 400)
-		{
-			var response = xmlHttp.responseText;
-		}
-		else 
-			alert("Unknown ERROR when saving.");
-	}
-	xmlHttp.send(input);
+
+var lastEvent;
+
+function upAction(e){
+    e= e || event;
+    switch(e.keyCode){
+        case 190://bustershot
+        lastEvent = JSON.stringify({event:"buster",value:"up"});
+        return false;
+    }
+
 }
+
+function action(e){
+    e= e || event;
+    switch(e.keyCode){
+        case 87: //moveup
+            lastEvent = JSON.stringify({event:"movement",value:"up"});
+            return false;
+        case 65://moveleft
+            lastEvent = JSON.stringify({event:"movement",value:"left"});
+            return false;
+        case 68://moveright
+            lastEvent = JSON.stringify({event:"movement",value:"right"});
+            return false;
+        case 83://movedown
+            lastEvent = JSON.stringify({event:"movement",value:"down"});
+            return false;
+        case 190://bustershot
+            lastEvent = JSON.stringify({event:"buster",value:"down"});
+            return false;
+        case 188://chip
+            lastEvent = JSON.stringify({event:"chip",value:""});
+            return false;
+        case 32://endphase
+            lastEvent = JSON.stringify({event:"menu",value:""});
+            return false;
+    }
+}
+
 window.setInterval(function (){
+	sendAction();
 	update();
-	}, 1000);
-	
+	},1000);
+
+function sendAction(){
+    if (lastEvent != null){
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "POST", "/game/sendAction", true );
+        xmlHttp.onreadystatechange = function() {
+            if ( xmlHttp.readyState != 4) return;
+            if ( xmlHttp.status == 200 || xmlHttp.status == 400)
+            {
+                var response = xmlHttp.responseText;
+            }
+            else
+                alert("Unknown ERROR when saving.");
+        }
+        xmlHttp.send(lastEvent);
+        lastEvent = null;
+    }
+}
+
+
+
 function update(){
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.open( "POST", "/game/gameUpdate", true );
