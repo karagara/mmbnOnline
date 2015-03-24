@@ -72,7 +72,7 @@ public class Game implements Runnable, ActionListener {
                 break;
             case CHIPMENU:
                 //if time has hit limit, or both players have locked in
-                status = gameStatus.ONGOING;
+               status = gameStatus.ONGOING;
                 break;
         }
 
@@ -83,7 +83,6 @@ public class Game implements Runnable, ActionListener {
                 //Create Actions based upon inputs and current game state
                 //Hand the object an input, and get an action back
                 //Add Actions to queue
-
                 Action a1 = p1.handleInput(i1);
                 if (a1 != null)
                     synchronized (actions) {
@@ -123,7 +122,8 @@ public class Game implements Runnable, ActionListener {
 	
 	public void handleEvent(String playerName, String message)
 	{
-//        System.out.println(message);
+        //System.out.println(message);
+
 		if(p1.isPlayer(playerName))
 			p1.addAction(message);
 		else if(p2.isPlayer(playerName))
@@ -134,55 +134,78 @@ public class Game implements Runnable, ActionListener {
 		GameState gs = new GameState();
 		gs.state = status;
 		if(p1.isPlayer(playerName)){
-			gs.enemyPlayerStatus = p2.getCondition();
+			gs.enemyPlayerCondition = p2.getCondition();
 			gs.enemyPlayerPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
-			gs.myStatus = p1.getCondition();
+			gs.myCondition = p1.getCondition();
 			gs.myPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
 		}
 		else if(p2.isPlayer(playerName))
 		{
-			gs.myStatus = p2.getCondition();
+			gs.myCondition = p2.getCondition();
 			gs.myPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
-			gs.enemyPlayerStatus = p1.getCondition();
+			gs.enemyPlayerCondition = p1.getCondition();
 			gs.enemyPlayerPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
 		}
 
-//		gs.actions = formatActions();
+		gs.actions = formatActions();
+		gs.tileStates = formatTiles();
 		Gson gson = new Gson();
 		String message = gson.toJson(gs);
-//		System.out.println(message);
+		System.out.println(message);
+
 		return message;
 	}
 	
-	private String formatActions(){
-		String actionsJSON = "";
+	private String[] formatActions(){
+		String actionsJSON[] = new String[actions.size()];
 		Gson gson = new Gson();
         synchronized (actions) {
-            for (Action a : actions) {
+            for (int i = 0; i < actions.size(); i++) {
+            	Action a = actions.get(i);
                 ActionState aState = new ActionState();
                 aState.xPos = a.getTile().getXPos();
                 aState.yPos = a.getTile().getYPos();
                 aState.spriteMap = a.getSpritePath();
                 aState.isComplete = a.isEventComplete();
                 aState.index = a.getIndex();
-                actionsJSON += gson.toJson(aState) + "\n";
+                actionsJSON[i] = gson.toJson(aState);
             }
         }
 
 		return actionsJSON;
 	}
 	
+	private String[] formatTiles(){
+		String tilesJSON[] = new String[18];
+		Gson gson = new Gson();
+		for(int y = 0; y < 3; y++){
+			for(int x = 0; x < 6; x++){
+				Tile t = arena.getTile(x, y);
+				TileState tState = new TileState();
+				tState.color = t.getColor();
+				tState.state = t.getTerrain();
+				tilesJSON[6*y + x] = gson.toJson(tState);
+			}
+		}
+		
+		return tilesJSON;
+	}
+	
 	public void playerLeft(String playerName){
+//		System.out.println(playerName + "Has left the game!");
 //		status = gameStatus.OVER;
-    }
+	}
+
+
 
     public class GameState{
 		public gameStatus state;
-		public playerCondition enemyPlayerStatus;
+		public playerCondition enemyPlayerCondition;
 		public String enemyPlayerPosition;
-		public playerCondition myStatus;
+		public playerCondition myCondition;
 		public String myPosition;
-//		public String actions;
+		public String actions[];
+		public String tileStates[];
 	}
     
     public class ActionState{
@@ -191,5 +214,10 @@ public class Game implements Runnable, ActionListener {
     	public String spriteMap;
     	public boolean isComplete;
     	public int index;
+    }
+    
+    public class TileState{
+    	public PlayerSide color;
+    	public int state;
     }
 }

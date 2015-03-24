@@ -66,6 +66,7 @@ public class PlayerMovementAction extends Action {
 
     @Override
 	public void update(){
+    	System.out.println("Updating movement for " + player.connection.getUserName());
         //move on the correct frame
 //        System.out.println(index);
 //        System.out.println(isComplete);
@@ -86,6 +87,7 @@ public class PlayerMovementAction extends Action {
                     break;
             }
         }
+
         if (index == 3) {
             System.out.println("Clearing Action");
             isComplete = true;

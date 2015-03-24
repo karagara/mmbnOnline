@@ -8,21 +8,18 @@ public class Tile {
 	int xPos;
 	int yPos;
 	GameEntity object;
-	int ownership;
+	PlayerSide color;
 
-    public Tile(){
-
+    public Tile(PlayerSide color, int xPos, int yPos){
+    	this.color = color;
+    	this.xPos = xPos;
+    	this.yPos = yPos;
     }
 
-	public void setOwnership(int newOwnership){
-		this.ownership=newOwnership;
+	public void setColor(PlayerSide color){
+		this.color = color;
 	}
-	public void setXPos(int newX){
-		this.xPos = newX;
-	}
-	public void setYPos(int newX){
-		this.yPos = newX;
-	}
+	
 	public void setTerrain(int newTerrainState){
 		this.terrain= newTerrainState;
 	}
@@ -37,6 +34,9 @@ public class Tile {
 	}
 	public int getTerrain(){
 		return this.terrain;
+	}
+	public PlayerSide getColor(){
+		return this.color;
 	}
     public boolean isOccupied(){
         if (this.object == null)

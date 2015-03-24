@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+
 enum playerCondition{CLEAR, CHARGING, CHARGED, HIT, RECOVERING, INACTION, STUNNED, DEAD}
-enum PlayerSide{RED, BLUE}
 
 public class Player implements GameEntity {
-    Connection connection;
+    public Connection connection;
 
 	private double health;
     private playerCondition condition;
@@ -78,8 +78,12 @@ public class Player implements GameEntity {
 
 	public void move(int deltaX, int deltaY)
 	{
-		x += deltaX;
-		y += deltaY;
+		if(arena.isValidMove(x + deltaX, y + deltaY)){
+			x += deltaX;
+			y += deltaY;
+			position = arena.getTile(x, y);
+			System.out.println(x + ", " + y);
+		}
 	}
 
 	public void addAction(String action){
