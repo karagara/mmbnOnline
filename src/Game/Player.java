@@ -18,6 +18,8 @@ public class Player implements GameEntity {
 	private int y;
     private PlayerSide side;
     private int chargeCount = 0;
+    private int hitIndex = 0;
+    private int recoveryIndex = 0;
 
 	private ArrayList<String> newActions = new ArrayList<String>();
 
@@ -178,11 +180,30 @@ public class Player implements GameEntity {
                 chargeCount = 0;
             }
         }
+        else if(this.condition == playerCondition.HIT){
+        	hitIndex++;
+        	System.out.println("THAT HURT BITCH!");
+        	if(hitIndex == 3){
+        		condition = playerCondition.RECOVERING;
+        		hitIndex = 0;
+        	}
+        }
+        else if(this.condition == playerCondition.RECOVERING){
+        	recoveryIndex++;
+        	System.out.println("Wait for it..");
+        	if(recoveryIndex == 30){
+        		System.out.println("WOO");
+        		condition = playerCondition.CLEAR;
+        		recoveryIndex = 0;
+        	}
+        }
     }
 
     @Override
     public void damageEntity(int damage) {
         this.changeHealth(damage);
+        this.condition = playerCondition.HIT;
+        hitIndex = 0;
     }
 
     @Override
