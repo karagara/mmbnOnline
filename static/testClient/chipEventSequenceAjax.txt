@@ -1,0 +1,56 @@
+
+{
+	"chipActionDescr": {
+		"chipName": "cannonTest";
+		"frameEventSequence": [
+			{
+				"frameIndx": XXXXX,
+				"sprite": {
+					"spriteMap": XXXXX,
+					"spriteIndx": XXXXX
+				},
+				"xDisplacement": XXXXX,
+				"yDisplacement": XXXXX,
+				"tileEffect": XXXXX,
+				"damage": XXXXX,
+				"playerState": XXXXX,
+				"playerSprite": {
+					"spriteMap": XXXXX,
+					"spriteIndx": XXXXX
+				}
+			},
+			{
+				"frameIndx": XXXXX,
+				"sprite": {
+					"spriteMap": XXXXX,
+					"spriteIndx": XXXXX
+				},
+				"xDisplacement": XXXXX,
+				"yDisplacement": XXXXX,
+				"tileEffect": XXXXX,
+				"damage": XXXXX,
+				"playerState": XXXXX,
+				"playerSprite": {
+					"spriteMap": XXXXX,
+					"spriteIndx": XXXXX
+				}
+			},
+			{
+				"frameIndx": XXXXX,
+				"sprite": {
+					"spriteMap": XXXXX,
+					"spriteIndx": XXXXX
+				},
+				"xDisplacement": XXXXX,
+				"yDisplacement": XXXXX,
+				"tileEffect": XXXXX,
+				"damage": XXXXX,
+				"playerState": XXXXX,
+				"playerSprite": {
+					"spriteMap": XXXXX,
+					"spriteIndx": XXXXX
+				}
+			}
+		]
+	}
+}

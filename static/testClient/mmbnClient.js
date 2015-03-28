@@ -1,0 +1,353 @@
+/*********************************************************************
+** mmbnClient.js
+** @author Jake Parsons MUN#201030616
+** >Mega Man and Mega Man Batte Network Copyright Capcom.
+** >Associated property used in accordance with Fair Use for educational purposes.
+**
+** -implements the client-side behaviour of the MMBN Game
+** -includes all the references to resources we load from the server
+*********************************************************************/
+
+function GameClient(canvasId) {
+	//game logic members
+	this.gameMap = new GameMap();
+	this.gameBackground;
+	this.player;
+	this.remotePlayer;
+	
+	//server-side resource members
+	this.gameIsLoaded = false; //true when all resources have been loaded
+	
+	this.gameModel; //the ajax info preloaded from the server
+	
+	this.mapImg; //the sprites of the tile frames
+	this.tileImg; //the sprite of the tile surfaces
+	this.bgImg; //the sprite for the background
+	this.playersImg; //the sprite of all the players
+	this.eventsImg; //the sprite of all the events
+	this.imgLoaded = [false, false, false, false, false]; //TODO please make the image resource class work this is not clean
+	
+	this.imgResources = [];
+	this.allImgResourcesReady = function() {
+		if(this.imgResources.length == 0) { return false; }
+		for(var i = 0; i < this.imgResources.length; i=i+1) {
+			if(!this.imgResources[i].imgReady) { return false; }
+		}
+		return true;
+	}
+	
+	//the background image is loaded somewhat differently TODO hack this out and make it a little less ugly please!
+	var bgImgTemp = new Image();
+	var delegate = this;
+	bgImgTemp.onload = function() {
+		console.log("Loaded an image from ", bgImgTemp.src);
+		delegate.imgLoaded[2] = true;
+		delegate.bgImg = bgImgTemp;
+		delegate.gameBackground = new GameBackground(bgImgTemp);
+	}
+	bgImgTemp.src = "bg1.png";
+	//TODO hack this out and make it a little less ugly please!
+	
+	//timing members
+	this.renderCaller;
+	this.requestServerUpdateCaller;
+	this.frameRate = 30.;
+	
+	//html document members
+	//html document members---canvas members
+	this.canvas = document.getElementById(canvasId);
+	this.cntxt = this.canvas.getContext("2d");
+	this.windowWidth;
+	this.windowHeight;
+	this.cnvsScaleFactor = -1; //we have to resize initially (see resize function)
+	this.mapOffsetX;
+	this.mapOffsetY;
+	
+	//constructor work
+	this.setCanvasScaleFactor();
+	window.onresize = function(event) { delegate.setCanvasScaleFactor() }
+	//try to set up the server
+	this.modelSetup_send();
+	//try to call the server twice as frequently as we render the client
+	//delegate = this;
+	//setTimeout(function() { delegate.renderClient() }, 3500);
+	this.renderCaller = window.setInterval( function() { delegate.renderClient() }, (1000. / this.frameRate) );
+	this.requestServerUpdateCaller = window.setInterval( function() { delegate.modelUpdate_send() }, 2*(1000. / this.frameRate) );
+}
+//---GameClient Class Methods---
+//---Game Logic Methods
+/*********************************************************************
+** XXXXX
+** -XXXXX
+*********************************************************************/
+
+//---HTTP/XMLHTTP Server Request Methods---
+/*********************************************************************
+** loadSpriteMap
+** -loads a new sprite map from the server according to AJAX recvd.
+** -sets a callback to indicate whether it was loaded successfully.
+*********************************************************************/
+GameClient.prototype.loadSpriteMap = function(spriteMapUrl, onLoadFlagIndx, passer) {
+	image = new Image();
+	image.onload = function() {
+		console.log("Loaded an image from ", image.src);
+		passer.imgLoaded[onLoadFlagIndx] = true;
+		//if all the resources have been loaded the game is loaded
+		if(passer.imgLoaded[0] && passer.imgLoaded[1] && passer.imgLoaded[2]) {
+			console.log("Game is loaded!");
+		}
+	}
+	image.src = spriteMapUrl;
+	return image;
+};
+
+/*********************************************************************
+** modelSetup
+** -request the model of the game we will use to play this round
+** -includes all the references to resources we load from the server
+** -called only once, when beginning the game
+*********************************************************************/
+GameClient.prototype.modelSetup_send = function() {
+	var xmlHttp_modelSetup = new XMLHttpRequest();
+	//this part is old-fashioned - change it so you pull this from the server when you're done testing
+	var url = "sprites.txt";
+	var delegate = this;
+	xmlHttp_modelSetup.onreadystatechange = function() {
+		if(xmlHttp_modelSetup.readyState == 4 && xmlHttp_modelSetup.status == 200) {
+			if(xmlHttp_modelSetup.repsonseText !== null) {
+				delegate.gameModel = JSON.parse(xmlHttp_modelSetup.responseText);
+				delegate.gameModelLoaded = true;
+				
+				//load the tile frame sprites
+				delegate.mapImg = delegate.loadSpriteMap(delegate.gameModel.tileFrames.spriteSrc, 0, delegate);
+				
+				//load the tile surface sprites
+				delegate.tileImg = delegate.loadSpriteMap(delegate.gameModel.tileSurfaces.spriteSrc, 1, delegate);
+				
+				//TODO maybe load the BG images from that too?
+				//load the player sprites
+				delegate.playersImg = delegate.loadSpriteMap(delegate.gameModel.megaman.spriteSrc, 3, delegate);
+				
+				//load the events sprites
+				//this.eventsImg = loadSpriteMap(this.gameModel.XXXXX.spriteSrc, this.eventsImgLoaded);
+			}
+		}
+		//else { console.error("Failed to receive correct setup data from the server!"); }
+	}
+	xmlHttp_modelSetup.open("GET", url, true);
+	xmlHttp_modelSetup.send();
+};
+
+/*********************************************************************
+** modelUpdate
+** -request the model of the game at the next server tick
+** -may include a request to update the model if the user acts
+** -called on a timer, but does not run until the game is loaded
+*********************************************************************/
+GameClient.prototype.modelUpdate_send = function() {
+	if(this.gameIsLoaded) {
+		var xmlHttp_modelUpdate = new XMLHttpRequest();
+		
+	}
+};
+
+//---HTML Document Related Methods---
+/*********************************************************************
+** setCanvasScaleFactor
+** -reconfig the canvas when setting up or changing window size
+*********************************************************************/
+GameClient.prototype.setCanvasScaleFactor = function() {
+	//get the current size of the browser window
+	this.windowWidth = window.innerWidth;
+	this.windowHeight = window.innerHeight;
+	
+	//track the last scaling factor to know if we have to redraw the canvas
+	var lastScalingFactor = this.cnvsScaleFactor;
+	//use smallest relative dimension to determine scaling factor
+	if( (this.windowWidth / 3.) >= (this.windowHeight / 2.) ) {
+		this.cnvsScaleFactor = Math.floor(this.windowHeight / 200.);
+	} else { 
+		this.cnvsScaleFactor = Math.floor(this.windowWidth / 300.);
+	}
+	//but, make sure we don't scale below the base sprite sizes
+	if(this.cnvsScaleFactor < 1) { this.cnvsScaleFactor = 1; }
+	
+	if(this.cnvsScaleFactor != lastScalingFactor) { //we do this if the old value and new value are different, e.g. we have to rescale the canvas
+		// resize the canvas
+		this.canvas.width = (this.cnvsScaleFactor * 300);
+		this.canvas.height = (this.cnvsScaleFactor * 200);
+		
+		//use the new canvas size to set where the center is (and hence where we draw the map)
+		this.mapOffsetX = (this.canvas.width - (this.gameMap.mapWidth * 40 * this.cnvsScaleFactor) ) / 2;
+		this.mapOffsetY = 5 * ((this.canvas.height - (((24*(this.gameMap.mapHeight-1) ) + 33)*this.cnvsScaleFactor) ) / 6);
+	}
+};
+
+/*********************************************************************
+** renderClient (related utility methods below)
+** -render the client state with the latest model state info.
+** -called by a setTimeout() which should timeout at this.frameRate.
+**
+** as a note, drawing sprites (sub-image of loaded image) looks like:
+** this.cntxt.drawImage(IMGSRC, SPRITEXPOS, SPRITEYPOS, 
+**		SPRITEWIDTH, SPRITEHEIGHT, CANVASXPOS, CANVASYPOS, 
+**		CANVASWIDTH, CANVASHEIGHT);
+*********************************************************************/
+GameClient.prototype.renderClient = function() {
+	if(this.imgLoaded[0] && this.imgLoaded[1] && this.imgLoaded[2] && this.imgLoaded[3]) {
+		this.clearCanvas();
+		this.renderAndUpdateBackground();
+		//check that the order of these two is correct
+		this.renderGameMap();
+		this.renderPlayersAndEvents();
+	}
+	else { console.log("not loaded: " + this.imgLoaded[0]  + ", " + this.imgLoaded[1] + ", " + this.imgLoaded[2]); }
+};
+
+GameClient.prototype.clearCanvas = function() {
+	this.cntxt.clearRect(0, 0, this.canvas.width, this.canvas.height);
+};
+
+GameClient.prototype.renderAndUpdateBackground = function() {
+	//set up the background
+	var bgPtrn = this.cntxt.createPattern(this.gameBackground.bgImage, 'repeat');
+	this.cntxt.fillStyle = bgPtrn;
+	this.cntxt.translate(-this.gameBackground.frameIter, this.gameBackground.frameIter);
+	this.cntxt.fillRect(this.gameBackground.frameIter, -this.gameBackground.frameIter, this.canvas.width + this.gameBackground.frameIter, this.canvas.height + this.gameBackground.frameIter);
+	this.cntxt.translate(this.gameBackground.frameIter, -this.gameBackground.frameIter);
+	//update the background's state
+	this.gameBackground.iterateBg();
+};
+
+GameClient.prototype.renderHUD = function() {
+	
+};
+
+GameClient.prototype.renderGameMap = function() {
+	//draw each map tile, going in vertical slices (players tend to own tiles only in slices)
+	for(var i = 0; i < this.gameMap.mapWidth; i=i+1) {
+		for(var j=0; j < this.gameMap.mapHeight; j=j+1) {
+			var xPos = this.mapOffsetX + (i * 40 * this.cnvsScaleFactor);
+			var yPos = this.mapOffsetY + (j * 24 * this.cnvsScaleFactor);
+			
+			var tileSpriteXPos, tileSpriteYPos, tileWidth, tileHeight;
+			var sfcTileState, sfcSpriteXPos, sfcSpriteYPos, sfcWidth, sfcHeight, sfcCnvsXPos, sfcCnvsYPos;
+			//draw the frame of the tile, the image for which is selected according to ownership
+			if(this.gameMap.mapTiles[i][j].playerOwnsTile) { //player-owned tiles are red
+				//get the information about the sprite
+				tileSpriteXPos = this.gameModel.tileFrames.frames[j].xPos;
+				tileSpriteYPos = this.gameModel.tileFrames.frames[j].yPos;
+				tileWidth = this.gameModel.tileFrames.frames[j].width;
+				tileHeight = this.gameModel.tileFrames.frames[j].height;
+				//draw the sprite
+				this.cntxt.drawImage(this.mapImg, tileSpriteXPos, tileSpriteYPos, tileWidth, tileHeight, xPos, yPos, tileWidth*this.cnvsScaleFactor, tileHeight*this.cnvsScaleFactor);
+			}
+			else { //opponent-owned tiles are blue
+				//get the information about the sprite
+				tileSpriteXPos = this.gameModel.tileFrames.frames[j+3].xPos;
+				tileSpriteYPos = this.gameModel.tileFrames.frames[j+3].yPos;
+				tileWidth = this.gameModel.tileFrames.frames[j+3].width;
+				tileHeight = this.gameModel.tileFrames.frames[j+3].height;
+				//draw the sprite
+				this.cntxt.drawImage(this.mapImg, tileSpriteXPos, tileSpriteYPos, tileWidth, tileHeight, xPos, yPos, tileWidth*this.cnvsScaleFactor, tileHeight*this.cnvsScaleFactor);
+			}
+			//draw the surface of the tile, the image for which is selected according to tile state
+			sfcTileState = this.gameMap.mapTiles[i][j].tileState;
+			sfcSpriteXPos = this.gameModel.tileSurfaces.frames[sfcTileState + j].xPos;
+			sfcSpriteYPos = this.gameModel.tileSurfaces.frames[sfcTileState + j].yPos;
+			sfcWidth = this.gameModel.tileSurfaces.frames[sfcTileState + j].width;
+			sfcHeight = this.gameModel.tileSurfaces.frames[sfcTileState + j].height;
+			sfcCnvsXPos = xPos + (this.gameModel.tileSurfaces.frames[sfcTileState + j].cursorX*this.cnvsScaleFactor);
+			sfcCnvsYPos = yPos + (this.gameModel.tileSurfaces.frames[sfcTileState + j].cursorY*this.cnvsScaleFactor);
+			this.cntxt.drawImage(this.tileImg, sfcSpriteXPos, sfcSpriteYPos, sfcWidth, sfcHeight, sfcCnvsXPos, sfcCnvsYPos, sfcWidth*this.cnvsScaleFactor, sfcHeight*this.cnvsScaleFactor);
+		}
+	}
+};
+
+GameClient.prototype.renderPlayersAndEvents = function() {
+	//process upcoming events to determine which will be executed
+	
+	//draw the players
+	
+	//draw any events which require animating
+	
+};
+
+
+
+function GameMap() {
+	//data model
+	this.mapWidth = 6.;
+	this.mapHeight = 3.;
+	this.mapTiles = [];
+	for(var i=0; i < this.mapWidth; i=i+1) {
+		if( i < this.mapWidth / 2.) { this.mapTiles.push( [new GameMapTile(true, 0), new GameMapTile(true, 0),new GameMapTile(true, 0)] ); }
+		else { this.mapTiles.push( [new GameMapTile(false, 0), new GameMapTile(false, 0),new GameMapTile(false, 0)] ) }
+	}
+	
+	//sprites
+	this.mapFrameSpriteMap;
+	this.mapTilesSpriteMap;
+}
+
+
+
+function GameMapTile(isPlayerOwned, stateNum) {
+	this.playerOwnsTile = isPlayerOwned;
+	this.tileState = stateNum;
+	this.isTileOccupied;
+	this.tileOccupant;
+}
+
+
+
+function Player() {
+	
+}
+
+
+
+function RemotePlayer() {
+	
+}
+
+
+
+function SpriteMap() {
+	
+}
+
+
+
+function GameHUD() {
+	
+}
+
+
+
+function GameBackground(imgIn) {
+	this.isReady; //set when the image is loaded and set
+	this.bgImage = imgIn;
+	this.bgPattern;
+	this.frameIter = 0;
+	this.maxFrameIter = 100; //assume all bg tiles are 100x100 for now.
+}
+//---GameBackground Class Methods---
+GameBackground.prototype.iterateBg = function() {
+	this.frameIter = (this.frameIter + 1) % this.maxFrameIter;
+};
+
+GameBackground.prototype.setUpBg = function(loadedImg) {
+	this.bgImage = loadedImg;
+	this.isReady = true;
+};
+
+function ImageResource(imgSrcIn) {
+	this.imgReady = false;
+	this.img = new Image();
+	this.img.onload = function() {
+		console.log("Loaded an image from ", this.img.src);
+		this.imgReady = true;
+	}
+	this.img.src = imgSrcIn;
+}
