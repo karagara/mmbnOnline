@@ -112,14 +112,12 @@ public class AccountManager{
             stmt = conn.createStatement();
             stmt.executeUpdate( queryString );
 
-            stmt.close();
-            conn.close();
         } catch ( Exception e ) {
             printErrMsg(e);
         } finally {
             System.out.println("Closing DB resources");
-            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (conn == null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
         }
     }
 
@@ -148,9 +146,9 @@ public class AccountManager{
             printErrMsg(e);
         } finally {
             System.out.println("Closing DB resources");
-            try{ if (rs == null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (conn == null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (rs != null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
         }
 
         return user;
