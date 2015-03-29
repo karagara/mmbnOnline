@@ -355,5 +355,109 @@
 				"cursorY": 3
 			}
 		]
-	}
+	},
+	"enemy": {
+        "spriteSrc": "enemyV1.png",
+        "frames": [
+            {
+                "name": "idle0",
+                "width": 34,
+                "height": 48,
+                "xPos": 0,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "idle1",
+                "width": 34,
+                "height": 48,
+                "xPos": 34,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "idle2",
+                "width": 34,
+                "height": 48,
+                "xPos": 68,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "idle3",
+                "width": 34,
+                "height": 48,
+                "xPos": 102,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "tele0",
+                "width": 34,
+                "height": 48,
+                "xPos": 136,
+                "yPos": 0,
+                "cursorX": 32,
+                "cursorY": 3
+            },
+            {
+                "name": "tele1",
+                "width": 34,
+                "height": 48,
+                "xPos": 170,
+                "yPos": 0,
+                "cursorX": 32,
+                "cursorY": 3
+            },
+            {
+                "name": "tele2",
+                "width": 34,
+                "height": 48,
+                "xPos": 204,
+                "yPos": 0,
+                "cursorX": 32,
+                "cursorY": 3
+            },
+            {
+                "name": "shoot0",
+                "width": 45,
+                "height": 42,
+                "xPos": 0,
+                "yPos": 48,
+                "cursorX": 32,
+                "cursorY": 3
+            },
+            {
+                "name": "shoot1",
+                "width": 68,
+                "height": 42,
+                "xPos": 45,
+                "yPos": 48,
+                "cursorX": 32,
+                "cursorY": 3
+            },
+            {
+                "name": "shoot2",
+                "width": 67,
+                "height": 42,
+                "xPos": 113,
+                "yPos": 48,
+                "cursorX": 32,
+                "cursorY": 3
+            },
+            {
+                "name": "shoot3",
+                "width": 63,
+                "height": 42,
+                "xPos": 180,
+                "yPos": 48,
+                "cursorX": 32,
+                "cursorY": 3
+            }
+        ]
+    }
 }

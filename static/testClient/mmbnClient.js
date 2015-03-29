@@ -24,6 +24,7 @@ function GameClient(canvasId) {
 	this.tileImg; //the sprite of the tile surfaces
 	this.bgImg; //the sprite for the background
 	this.playersImg; //the sprite of all the players
+	this.enemyImg; //sprites for blue side players
 	this.eventsImg; //the sprite of all the events
 	this.imgLoaded = [false, false, false, false, false]; //TODO please make the image resource class work this is not clean
 	
@@ -142,6 +143,7 @@ GameClient.prototype.modelSetup_send = function() {
 				//TODO maybe load the BG images from that too?
 				//load the player sprites
 				delegate.playersImg = delegate.loadSpriteMap(delegate.gameModel.megaman.spriteSrc, 3, delegate);
+				delegate.enemyImg = delegate.loadSpriteMap(delegate.gameModel.enemy.spriteSrc, 4, delegate);
 				
 				//load the events sprites
 				//this.eventsImg = loadSpriteMap(this.gameModel.XXXXX.spriteSrc, this.eventsImgLoaded);
@@ -209,7 +211,7 @@ GameClient.prototype.setCanvasScaleFactor = function() {
 **		CANVASWIDTH, CANVASHEIGHT);
 *********************************************************************/
 GameClient.prototype.renderClient = function() {
-	if(this.imgLoaded[0] && this.imgLoaded[1] && this.imgLoaded[2] && this.imgLoaded[3]) {
+	if(this.imgLoaded[0] && this.imgLoaded[1] && this.imgLoaded[2] && this.imgLoaded[3] && this.imgLoaded[4]) {
 		this.clearCanvas();
 		this.renderAndUpdateBackground();
 		//check that the order of these two is correct
@@ -302,20 +304,22 @@ GameClient.prototype.renderPlayersAndEvents = function() {
 		yLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
 		this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor, 
 		this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
+
 	//remote player
     var enemyData = JSON.parse(frameEvents.enemyState);
     var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
     var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
-    this.cntxt.drawImage(this.playersImg,
-        this.gameModel.megaman.frames[this.player.frameIter].xPos,
-        this.gameModel.megaman.frames[this.player.frameIter].yPos,
-        this.gameModel.megaman.frames[this.player.frameIter].width,
-        this.gameModel.megaman.frames[this.player.frameIter].height,
-        exLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-        eyLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-        this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor,
-        this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
-	
+
+    this.cntxt.drawImage(this.enemyImg,
+        this.gameModel.enemy.frames[this.player.frameIter].xPos,
+        this.gameModel.enemy.frames[this.player.frameIter].yPos,
+        this.gameModel.enemy.frames[this.player.frameIter].width,
+        this.gameModel.enemy.frames[this.player.frameIter].height,
+        exLoc + (this.gameModel.enemy.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+        eyLoc + (this.gameModel.enemy.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+        this.gameModel.enemy.frames[this.player.frameIter].width*this.cnvsScaleFactor,
+        this.gameModel.enemy.frames[this.player.frameIter].height*this.cnvsScaleFactor);
+
 };
 
 
