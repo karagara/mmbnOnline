@@ -363,7 +363,7 @@
                 "name": "idle0",
                 "width": 34,
                 "height": 48,
-                "xPos": 0,
+                "xPos": 209,
                 "yPos": 0,
                 "cursorX": 3,
                 "cursorY": -30
@@ -372,7 +372,7 @@
                 "name": "idle1",
                 "width": 34,
                 "height": 48,
-                "xPos": 34,
+                "xPos": 170,
                 "yPos": 0,
                 "cursorX": 3,
                 "cursorY": -30
@@ -380,7 +380,7 @@
             {
                 "name": "idle2",
                 "width": 34,
-                "height": 48,
+                "height": 136,
                 "xPos": 68,
                 "yPos": 0,
                 "cursorX": 3,
@@ -399,7 +399,7 @@
                 "name": "tele0",
                 "width": 34,
                 "height": 48,
-                "xPos": 136,
+                "xPos": 68,
                 "yPos": 0,
                 "cursorX": 32,
                 "cursorY": 3
@@ -408,7 +408,7 @@
                 "name": "tele1",
                 "width": 34,
                 "height": 48,
-                "xPos": 170,
+                "xPos": 34,
                 "yPos": 0,
                 "cursorX": 32,
                 "cursorY": 3
@@ -417,7 +417,7 @@
                 "name": "tele2",
                 "width": 34,
                 "height": 48,
-                "xPos": 204,
+                "xPos": 0,
                 "yPos": 0,
                 "cursorX": 32,
                 "cursorY": 3
