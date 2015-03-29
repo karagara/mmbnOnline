@@ -30,7 +30,7 @@ public class GameManager{
 			Thread t = new Thread(g);
 			t.start();
 			waitingPlayer = null;
-			return "/auth/canvas.html";
+			return "/testClient/mmbnClient.html";
 		}
 		else
 		{

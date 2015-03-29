@@ -15,6 +15,7 @@ public class AccountCreation {
 		String username = request.queryParams("username");
 		String password = request.queryParams("password");
 		String passwordCheck = request.queryParams("passwordCheck");
+        System.out.println(passwordCheck);
 
         if ( username == null || password == null || passwordCheck == null) {
         	System.out.println("Null field(s)");

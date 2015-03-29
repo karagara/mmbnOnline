@@ -23,12 +23,8 @@ public class PlayerBusterAction extends Action{
             if (player.getSide() == PlayerSide.RED){
                 for(int i=player.getXPos(); i < 6 && !hasHitTarget; i++){
                     if(arena.isTileOccupied(i,player.getYPos())){
-                        ;
                         GameEntity entity = arena.getTileEntity(i, player.getYPos());
-                        if (entity != null) {
-                            System.out.println("Damaging Enemy");
-                            entity.damageEntity((isCharged) ? 10 : 1);
-                        }
+                        entity.damageEntity((isCharged) ? 10 : 1);
                         hasHitTarget = true;
                     }
                 }

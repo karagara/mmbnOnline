@@ -11,6 +11,7 @@ public class AccountCreationDB {
 		ResultSet rs = null;
 
 		String queryString = "SELECT username FROM account WHERE username='" + username+ "';";
+        System.out.println(queryString);
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:mmbn.db");
@@ -22,7 +23,6 @@ public class AccountCreationDB {
             if ( !rs.next() ) {
             	isFree = true;
             }
-
 		} catch ( Exception e ) {
 			printErrMsg(e);
 		} finally {
@@ -38,10 +38,10 @@ public class AccountCreationDB {
 	public static void createUser(String username, String password){
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs = null;
 
-		String queryString = 	"INSERT INTO account (username,password,role)" + 
+		String queryString = 	"INSERT INTO account (username,password,role)" +
 								"values('"+username+"', '"+password+"', 'admin');";
+        System.out.println(queryString);
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager.getConnection("jdbc:sqlite:mmbn.db");
@@ -55,7 +55,7 @@ public class AccountCreationDB {
 		} finally {
 			System.out.println("Closing DB resources");
             try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (conn != null) {conn.commit(); conn.close();} } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) {conn.close();} } catch ( Exception e ) { printErrMsg(e); };
 		}
 	}
 
