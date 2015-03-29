@@ -47,33 +47,37 @@ public class BombChipAction extends Action{
 
 
     public void update() {
-	int landLocationX=player.getXPos();
-	int landLocationY=player.getYPos();
-        if (index ==4){
-            player.setCondition(playerCondition.CLEAR);
-             
-       }
-       if (index == 10){
-
-            if (player.getSide() == PlayerSide.RED){
-                GameEntity entity = arena.getTileEntity(landLocationX + 3,landLocationY);
-                if (entity != null) {
-                    System.out.println("Damaging Enemy");
-                    entity.damageEntity(50);
-
-                }
-            }
-            if (player.getSide() == PlayerSide.BLUE){
-                GameEntity entity = arena.getTileEntity(landLocationX + 3,landLocationY);
-                if (entity != null) {
-                    System.out.println("Damaging Enemy");
-                    entity.damageEntity(50);
-                }
-            }
+        if (player.getCondition() == playerCondition.HIT && index < 4){
             isComplete = true;
-       }
-       index++;
-  }
+            return;
+        }
+        int landLocationX=player.getXPos();
+        int landLocationY=player.getYPos();
+            if (index == 4){
+                player.setCondition(playerCondition.CLEAR);
+
+           }
+           if (index == 10){
+
+                if (player.getSide() == PlayerSide.RED){
+                    GameEntity entity = arena.getTileEntity(landLocationX + 3,landLocationY);
+                    if (entity != null) {
+                        System.out.println("Damaging Enemy");
+                        entity.damageEntity(50);
+
+                    }
+                }
+                if (player.getSide() == PlayerSide.BLUE){
+                    GameEntity entity = arena.getTileEntity(landLocationX + 3,landLocationY);
+                    if (entity != null) {
+                        System.out.println("Damaging Enemy");
+                        entity.damageEntity(50);
+                    }
+                }
+                isComplete = true;
+           }
+           index++;
+      }
 
     @Override
     public String getChipSequence() {

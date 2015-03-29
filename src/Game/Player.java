@@ -108,12 +108,14 @@ public class Player implements GameEntity {
         String inString = "";
         synchronized (newActions) {
 //            System.out.println(newActions.size());
-            if (!newActions.isEmpty())
+            if (!newActions.isEmpty()) {
                 inString = newActions.get(0);
+//                System.out.println(inString);
+            }
             newActions.clear();
         }
 
-//        System.out.println(inString);
+
         //If we got a string, try to parse it
         Input input = new Input();
         if (inString != null) {
@@ -143,11 +145,11 @@ public class Player implements GameEntity {
                 //For each direction
                 //Check to see if the tile is available to be moved on
                 //If yes, create a movement action and return it
-                if (input.value.contentEquals("up") && arena.isValidMove(x, y+1, this.side)){
+                if (input.value.contentEquals("up") && arena.isValidMove(x, y-1, this.side)){
                     System.out.println("Creating up action!");
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.UP );
-                } else if (input.value.contentEquals("down") && arena.isValidMove(x, y-1, this.side)) {
+                } else if (input.value.contentEquals("down") && arena.isValidMove(x, y+1, this.side)) {
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.DOWN );
                 } else if (input.value.contentEquals("left") && arena.isValidMove(x-1, y, this.side)) {
@@ -182,6 +184,7 @@ public class Player implements GameEntity {
     }
 
     public void update(){
+        System.out.println(this.condition);
         if(this.condition == playerCondition.CHARGING){
             System.out.println("Charging buster, count: "+chargeCount);
             chargeCount++;
@@ -211,7 +214,7 @@ public class Player implements GameEntity {
 
     @Override
     public void damageEntity(int damage) {
-        this.changeHealth(damage);
+        this.changeHealth(-damage);
         this.condition = playerCondition.HIT;
         hitIndex = 0;
     }

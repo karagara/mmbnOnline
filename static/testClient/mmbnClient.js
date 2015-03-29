@@ -280,8 +280,7 @@ GameClient.prototype.renderGameMap = function() {
 };
 
 GameClient.prototype.renderPlayersAndEvents = function() {
-	var xLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor);
-	var yLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor);
+
 	//process upcoming events to determine which will be executed
 	var frameEvents = this.latestUpdate.serverStateJson;
 	if(frameEvents === null) { return; }
@@ -290,18 +289,32 @@ GameClient.prototype.renderPlayersAndEvents = function() {
 	
 	//draw the players
 	//local player
-	var localPlyrX = frameEvents.myPositionX;
-	var localPlyrY = frameEvents.myPositionY;
-	cntxt.drawImage(playerImg,
+    var plyrData = JSON.parse(frameEvents.myState);
+    var xLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * plyrData.x);
+    var yLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * plyrData.y);
+
+	this.cntxt.drawImage(this.playersImg,
 		this.gameModel.megaman.frames[this.player.frameIter].xPos,
 		this.gameModel.megaman.frames[this.player.frameIter].yPos, 
 		this.gameModel.megaman.frames[this.player.frameIter].width, 
 		this.gameModel.megaman.frames[this.player.frameIter].height, 
-		xLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor), 
-		yLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor), 
+		xLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+		yLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
 		this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor, 
 		this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
 	//remote player
+    var enemyData = JSON.parse(frameEvents.enemyState);
+    var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
+    var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
+    this.cntxt.drawImage(this.playersImg,
+        this.gameModel.megaman.frames[this.player.frameIter].xPos,
+        this.gameModel.megaman.frames[this.player.frameIter].yPos,
+        this.gameModel.megaman.frames[this.player.frameIter].width,
+        this.gameModel.megaman.frames[this.player.frameIter].height,
+        exLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+        eyLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+        this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor,
+        this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
 	
 };
 
@@ -493,8 +506,8 @@ function serverUpdaterSendHandler(gkIn, sendDelay) {
 					}
 					else { alert("Unknown ERROR when saving."); }
 				}
-				gkIn.lastEvent = null;
 				xmlHttp.send(gkIn.lastEvent);
+				gkIn.lastEvent = null;
 			}
 		}, sendDelay);
 	}
@@ -514,7 +527,7 @@ function serverStateUpdater(serverStateIn, sendDelay) {
 					if ( xmlHttp.readyState != 4) return;
 					if ( xmlHttp.status == 200 || xmlHttp.status == 400)
 					{
-						serverStateIn.serverStateJson = xmlHttp.responseText;
+						serverStateIn.serverStateJson = JSON.parse(xmlHttp.responseText);
 					}
 					else { alert("Unknown ERROR when saving."); }
 				}

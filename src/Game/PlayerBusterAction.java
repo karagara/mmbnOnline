@@ -31,7 +31,7 @@ public class PlayerBusterAction extends Action{
         int pIndex[] = {0,1,2,3};
         String pSrc[] = {"playerBuster","playerBuster","playerBuster","playerBuster"};
 
-        for (int i=0; i < 6; i++){
+        for (int i=0; i < 4; i++){
             FrameEvent f = new FrameEvent();
             f.frameIndex = fIndex[i];
             FrameEvent.Sprite s = new FrameEvent.Sprite();
@@ -55,6 +55,10 @@ public class PlayerBusterAction extends Action{
     @Override
     public void update() {
         //on Attack frame, check for targets
+        if (player.getCondition() == playerCondition.HIT){
+            isComplete = true;
+            return;
+        }
         if (index == 4){
             //apply damage to first in row
             //arena.damageFirstInRow(player.getYPos(), 10);
@@ -64,6 +68,7 @@ public class PlayerBusterAction extends Action{
                     if(arena.isTileOccupied(i,player.getYPos())){
                         GameEntity entity = arena.getTileEntity(i, player.getYPos());
                         entity.damageEntity((isCharged) ? 10 : 1);
+                        System.out.println("damaged " + isCharged);
                         hasHitTarget = true;
                     }
                 }

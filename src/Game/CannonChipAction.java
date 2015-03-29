@@ -53,6 +53,11 @@ public class CannonChipAction extends Action {
 
     @Override
     public void update() {
+        if (player.getCondition() == playerCondition.HIT){
+            isComplete = true;
+            return;
+        }
+
         if (index == 10){
             //apply damage to first in row
             //arena.damageFirstInRow(player.getYPos(), 60);

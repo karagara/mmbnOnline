@@ -37,7 +37,7 @@ public class Game implements Runnable, ActionListener {
 	public void run() {
         //setup thread timer
         System.out.println("Setting up Timer");
-        timer = new Timer(1000, this);
+        timer = new Timer(33, this);
         timer.start();
 //        while (this.status != gameStatus.OVER){
 //            //do nothing, keep the thread busy
@@ -158,7 +158,7 @@ public class Game implements Runnable, ActionListener {
         }
 
 //		gs.actions = formatActions();
-		gs.tileStates = formatTiles();
+//		gs.tileStates = formatTiles();
 		Gson gson = new Gson();
 		String message = gson.toJson(gs);
 		System.out.println(message);

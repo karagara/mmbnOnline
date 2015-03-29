@@ -36,11 +36,11 @@ public class PlayerMovementAction extends Action {
         switch (direction){
             case UP:
                 xDis = new int[]{0,0,0};
-                yDis = new int[]{1,1,1};
+                yDis = new int[]{-1,-1,-1};
                 break;
             case DOWN:
                 xDis = new int[]{0,0,0};
-                yDis = new int[]{-1,-1,-1};
+                yDis = new int[]{1,1,1};
                 break;
             case LEFT:
                 xDis = new int[]{-1,-1,-1};
@@ -80,7 +80,10 @@ public class PlayerMovementAction extends Action {
 
     @Override
 	public void update(){
-    	System.out.println("Updating movement for " + player.connection.getUserName());
+        if (player.getCondition() == playerCondition.HIT){
+            isComplete = true;
+            return;
+        }
         //move on the correct frame
 //        System.out.println(index);
 //        System.out.println(isComplete);
@@ -90,12 +93,12 @@ public class PlayerMovementAction extends Action {
             int y = player.getYPos();
             switch (direction){
                 case UP:
-                    arena.moveEntity(x, y, x, y+1, player);
-                    player.move(0,1);
-                    break;
-                case DOWN:
                     arena.moveEntity(x, y, x, y-1, player);
                     player.move(0,-1);
+                    break;
+                case DOWN:
+                    arena.moveEntity(x, y, x, y+1, player);
+                    player.move(0,1);
                     break;
                 case LEFT:
                     arena.moveEntity(x, y, x-1, y, player);
