@@ -154,6 +154,13 @@ public class Game implements Runnable, ActionListener {
 			gs.enemyPlayerPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
 		}
 
+        synchronized (actions) {
+            for (Iterator<Action> it=actions.iterator(); it.hasNext();) {
+                Action a = it.next();
+                System.out.println(a.getChipSequence());
+            }
+        }
+
 //		gs.actions = formatActions();
 		gs.tileStates = formatTiles();
 		Gson gson = new Gson();

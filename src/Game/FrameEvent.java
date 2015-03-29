@@ -5,13 +5,18 @@ package Game;
  */
 public class FrameEvent {
     int frameIndex;
-    String sprite;
-    int xDelta;
-    int yDelta;
+    Sprite sprite;
+    int xDisplacement;
+    int yDisplacement;
     String tileEffect = "";
     int damage;
-    String playerState;
-    String playerSprite;
+    playerCondition playerState;
+    Sprite playerSprite;
+
+    static class Sprite{
+        String spriteSrc;
+        int spriteIndex;
+    }
 
     public FrameEvent(){
 

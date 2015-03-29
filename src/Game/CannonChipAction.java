@@ -1,9 +1,15 @@
 package Game;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
 /**
  * Created by karagara on 21/03/15.
  */
 public class CannonChipAction extends Action {
+
+    private ArrayList<FrameEvent> frameEventSequence = new ArrayList<FrameEvent>();
 
     CannonChipAction(Player player, Tile tile, Arena arena) {
         super(player, arena, tile);
@@ -11,6 +17,38 @@ public class CannonChipAction extends Action {
 
         //If this action is created, consume chip
         //player.removeChip();
+    }
+
+    private void setupFrameEvents() {
+        int fIndex[] = {0, 1, 2, 3, 4, 5};
+        int sIndex[] = {0, 1, 2, 3, 4, 5};
+        String sSrc[] = {"cannon", "cannon", "cannon", "cannon", "cannon", "cannon"};
+        int xDis[] = {0, 0, 0, 0, 0, 0};
+        int yDis[] = {0, 0, 0, 0, 0, 0};
+        String tEffect[] = {"", "", "", "", "", ""};
+        int dmg[] = {0, 0, 0, 0, 0, 40};
+        playerCondition pcon[] = {playerCondition.INACTION, playerCondition.INACTION, playerCondition.INACTION, playerCondition.INACTION, playerCondition.INACTION, playerCondition.INACTION};
+        int pIndex[] = {0, 1, 2, 3, 4, 5};
+        String pSrc[] = {"playerCannon", "playerCannon", "playerCannon", "playerCannon", "playerCannon", "playerCannon"};
+
+        for (int i = 0; i < 6; i++) {
+            FrameEvent f = new FrameEvent();
+            f.frameIndex = fIndex[i];
+            FrameEvent.Sprite s = new FrameEvent.Sprite();
+            s.spriteSrc = sSrc[i];
+            s.spriteIndex = sIndex[i];
+            f.sprite = s;
+            f.playerState = pcon[i];
+            f.xDisplacement = xDis[i];
+            f.yDisplacement = yDis[i];
+            f.tileEffect = tEffect[i];
+            f.damage = dmg[i];
+            FrameEvent.Sprite ps = new FrameEvent.Sprite();
+            ps.spriteSrc = pSrc[i];
+            ps.spriteIndex = pIndex[i];
+            f.playerSprite = ps;
+            frameEventSequence.add(f);
+        }
     }
 
     @Override
@@ -52,6 +90,8 @@ public class CannonChipAction extends Action {
 
     @Override
     public String getChipSequence() {
-        return null;
+        Gson gson = new Gson();
+        String message = gson.toJson(frameEventSequence);
+        return message;
     }
 }

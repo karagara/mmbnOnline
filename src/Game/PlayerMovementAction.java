@@ -4,6 +4,7 @@ import Game.Action;
 import Game.Player;
 import Game.Tile;
 import Game.Arena;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -23,44 +24,57 @@ public class PlayerMovementAction extends Action {
 	}
 
     private void setupFrameEvents() {
-        FrameEvent frame = new FrameEvent();
-        //Frame 1
-        frame.frameIndex = 0;
-        frame.sprite = "";
+        int fIndex[] = {0,1,2};
+        int sIndex[] = {0,0,0};
+        String sSrc[] = {"","",""};
+
+        int xDis[] = {0,0,0};
+        int yDis[] = {0,0,0};
+
+        int x = player.getXPos();
+        int y = player.getYPos();
         switch (direction){
             case UP:
-                frame.xDelta = player.getXPos();
-                frame.yDelta = player.getYPos()+1;
+                xDis = new int[]{0,0,0};
+                yDis = new int[]{1,1,1};
                 break;
             case DOWN:
-                frame.xDelta = player.getXPos();
-                frame.yDelta = player.getYPos()-1;
+                xDis = new int[]{0,0,0};
+                yDis = new int[]{-1,-1,-1};
                 break;
             case LEFT:
-                frame.xDelta = player.getXPos()-1;
-                frame.yDelta = player.getYPos();
+                xDis = new int[]{-1,-1,-1};
+                yDis = new int[]{0,0,0};
                 break;
             case RIGHT:
-                frame.xDelta = player.getXPos()+1;
-                frame.yDelta = player.getYPos();
+                xDis = new int[]{1,1,1};
+                yDis = new int[]{0,0,0};
                 break;
         }
-        frame.tileEffect="";
-        frame.damage=0;
-        frame.playerState = "INACTION";
-        frame.playerSprite = "{\"spriteSrc\":\"playerMovement\",\"spriteIndex\":0}";
+        String tEffect[] = {"","",""};
+        int dmg[] = {0,0,0};
+        playerCondition pcon[] = {playerCondition.INACTION,playerCondition.INACTION,playerCondition.INACTION};
+        int pIndex[] = {0,1,2};
+        String pSrc[] = {"playerMovement","playerMovement","playerMovement"};
 
-        frameEventSequence.add(frame);
-
-        //Frame 2
-        frame.playerSprite = "{\"spriteSrc\":\"playerMovement\",\"spriteIndex\":1}";
-
-        frameEventSequence.add(frame);
-
-        //Frame 3
-        frame.playerSprite = "{\"spriteSrc\":\"playerMovement\",\"spriteIndex\":2}";
-
-        frameEventSequence.add(frame);
+        for (int i=0; i < 3; i++){
+            FrameEvent f = new FrameEvent();
+            f.frameIndex = fIndex[i];
+            FrameEvent.Sprite s = new FrameEvent.Sprite();
+            s.spriteSrc = sSrc[i];
+            s.spriteIndex = sIndex[i];
+            f.sprite = s;
+            f.playerState = pcon[i];
+            f.xDisplacement = xDis[i];
+            f.yDisplacement = yDis[i];
+            f.tileEffect = tEffect[i];
+            f.damage = dmg[i];
+            FrameEvent.Sprite ps = new FrameEvent.Sprite();
+            ps.spriteSrc = pSrc[i];
+            ps.spriteIndex = pIndex[i];
+            f.playerSprite = ps;
+            frameEventSequence.add(f);
+        }
 
     }
 
@@ -105,6 +119,8 @@ public class PlayerMovementAction extends Action {
 
     @Override
     public String getChipSequence() {
-        return null;
+        Gson gson = new Gson();
+        String message = gson.toJson(frameEventSequence);
+        return message;
     }
 }
