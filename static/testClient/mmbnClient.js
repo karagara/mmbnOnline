@@ -24,6 +24,7 @@ function GameClient(canvasId) {
 	this.tileImg; //the sprite of the tile surfaces
 	this.bgImg; //the sprite for the background
 	this.playersImg; //the sprite of all the players
+	this.enemyImg; //sprites for blue side players
 	this.eventsImg; //the sprite of all the events
 	this.imgLoaded = [false, false, false, false, false]; //TODO please make the image resource class work this is not clean
 	
@@ -142,6 +143,7 @@ GameClient.prototype.modelSetup_send = function() {
 				//TODO maybe load the BG images from that too?
 				//load the player sprites
 				delegate.playersImg = delegate.loadSpriteMap(delegate.gameModel.megaman.spriteSrc, 3, delegate);
+				delegate.enemyImg = delegate.loadSpriteMap(delegate.gameModel.enemy.spriteSrc, 4, delegate);
 				
 				//load the events sprites
 				//this.eventsImg = loadSpriteMap(this.gameModel.XXXXX.spriteSrc, this.eventsImgLoaded);
@@ -209,7 +211,7 @@ GameClient.prototype.setCanvasScaleFactor = function() {
 **		CANVASWIDTH, CANVASHEIGHT);
 *********************************************************************/
 GameClient.prototype.renderClient = function() {
-	if(this.imgLoaded[0] && this.imgLoaded[1] && this.imgLoaded[2] && this.imgLoaded[3]) {
+	if(this.imgLoaded[0] && this.imgLoaded[1] && this.imgLoaded[2] && this.imgLoaded[3] && this.imgLoaded[4]) {
 		this.clearCanvas();
 		this.renderAndUpdateBackground();
 		//check that the order of these two is correct
@@ -292,7 +294,7 @@ GameClient.prototype.renderPlayersAndEvents = function() {
 	//process upcoming events to determine which will be executed
 	var frameEvents = this.latestUpdate.serverStateJson;
 	if(frameEvents === null) { return; }
-	this.latestUpdate.serverStateJson = null;
+//	this.latestUpdate.serverStateJson = null;
 	//draw any events which require animating
 	
 	//draw the players
@@ -300,31 +302,45 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     var plyrData = JSON.parse(frameEvents.myState);
     var xLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * plyrData.x);
     var yLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * plyrData.y);
+    var img;
+    var side;
+    if (plyrData.side == "RED"){
+        img = this.playersImg;
+        side = "megaman";
+    } else if (plyrData.side == "BLUE"){
+        img = this.enemyImg;
+        side = "enemy";
+    }
+	this.cntxt.drawImage(img,
+		this.gameModel[side].frames[this.player.frameIter].xPos,
+		this.gameModel[side].frames[this.player.frameIter].yPos,
+		this.gameModel[side].frames[this.player.frameIter].width,
+		this.gameModel[side].frames[this.player.frameIter].height,
+		xLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+		yLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+		this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+		this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
 
-	this.cntxt.drawImage(this.playersImg,
-		this.gameModel.megaman.frames[this.player.frameIter].xPos,
-		this.gameModel.megaman.frames[this.player.frameIter].yPos, 
-		this.gameModel.megaman.frames[this.player.frameIter].width, 
-		this.gameModel.megaman.frames[this.player.frameIter].height, 
-		xLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-		yLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-		this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor, 
-		this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
 	//remote player
     var enemyData = JSON.parse(frameEvents.enemyState);
     var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
     var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
-	
-    this.cntxt.drawImage(this.playersImg,
-        this.gameModel.megaman.frames[this.player.frameIter].xPos,
-        this.gameModel.megaman.frames[this.player.frameIter].yPos,
-        this.gameModel.megaman.frames[this.player.frameIter].width,
-        this.gameModel.megaman.frames[this.player.frameIter].height,
-        exLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-        eyLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-        this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor,
-        this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
-	
+    if (enemyData.side == "RED"){
+        img = this.playersImg;
+        side = "megaman";
+    } else if (enemyData.side == "BLUE"){
+        img = this.enemyImg;
+        side = "enemy";
+    }
+    this.cntxt.drawImage(img,
+        this.gameModel[side].frames[this.player.frameIter].xPos,
+        this.gameModel[side].frames[this.player.frameIter].yPos,
+        this.gameModel[side].frames[this.player.frameIter].width,
+        this.gameModel[side].frames[this.player.frameIter].height,
+        exLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+        eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+        this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+        this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
 };
 
 
@@ -529,7 +545,7 @@ function ServerState() {
 function serverStateUpdater(serverStateIn, sendDelay) {
 	return function() {
 		window.setInterval(function() {
-			if(serverStateIn.serverStateJson == null) {
+//			if(serverStateIn.serverStateJson == null) {
 				var xmlHttp = new XMLHttpRequest();
 				xmlHttp.open( "POST", "/game/gameUpdate", true );
 				xmlHttp.onreadystatechange = function() {
@@ -542,7 +558,7 @@ function serverStateUpdater(serverStateIn, sendDelay) {
 				}
 				xmlHttp.send("");
 				//TODO null serverStateIn.serverStateJson when you render
-			} //else we haven't animated this frame yet
+//			} //else we haven't animated this frame yet
 		}, sendDelay);
 	}
 }

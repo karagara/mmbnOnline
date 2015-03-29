@@ -6,13 +6,16 @@ import java.util.ArrayList;
 
 
 enum playerCondition{CLEAR, CHARGING, CHARGED, HIT, RECOVERING, INACTION, STUNNED, DEAD}
+enum playerAction{NONE,BUSTER,CANNON,SWORD,BOMB}
 
 public class Player implements GameEntity {
     public Connection connection;
 
 	private double health;
     private playerCondition condition;
-	Tile position;
+	private playerAction action;
+    private int actionIndex;
+    Tile position;
     Arena arena;
 	private int x;
 	private int y;
@@ -39,6 +42,7 @@ public class Player implements GameEntity {
 		ps.y = y;
 		ps.condition = condition;
 		ps.health = health;
+        ps.side = side;
 		Gson gson = new Gson();
 		return gson.toJson(ps);
 	}
@@ -229,5 +233,6 @@ public class Player implements GameEntity {
     	public int y;
     	public double health;
     	public playerCondition condition;
+        public PlayerSide side;
     }
 }
