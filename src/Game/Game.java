@@ -144,11 +144,18 @@ public class Game implements Runnable, ActionListener {
 			gs.myState = p1.toString();
 			gs.enemyState = p2.toString();
 		}
-		else if(p2.isPlayer(playerName))
-		{
+		else if(p2.isPlayer(playerName)){
 			gs.myState = p2.toString();
 			gs.enemyState = p1.toString();
+
 		}
+
+        synchronized (actions) {
+            for (Iterator<Action> it=actions.iterator(); it.hasNext();) {
+                Action a = it.next();
+                System.out.println(a.getChipSequence());
+            }
+        }
 
 //		gs.actions = formatActions();
 		gs.tileStates = formatTiles();

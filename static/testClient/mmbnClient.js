@@ -12,8 +12,8 @@ function GameClient(canvasId) {
 	//game logic members
 	this.gameMap = new GameMap();
 	this.gameBackground;
-	this.player;
-	this.remotePlayer;
+	this.player = new Player();
+	this.remotePlayer = new RemotePlayer();
 	
 	//server-side resource members
 	this.gameIsLoaded = false; //true when all resources have been loaded
@@ -52,6 +52,7 @@ function GameClient(canvasId) {
 	this.renderCaller;
 	this.requestServerUpdateCaller;
 	this.frameRate = 30.;
+	this.updateDelay = 20;
 	
 	//html document members
 	//html document members---canvas members
@@ -62,6 +63,20 @@ function GameClient(canvasId) {
 	this.cnvsScaleFactor = -1; //we have to resize initially (see resize function)
 	this.mapOffsetX;
 	this.mapOffsetY;
+	
+	//event handlers
+	this.regdKeys = new GameKeys();
+	this.regdKeyHandlersUp = new GameKeyHandler(this.regdKeys);
+	this.regdKeyHandlersUp();
+	
+	//receive data from the server
+	this.latestUpdate = new ServerState();
+	this.updateRcvr = serverStateUpdater(this.latestUpdate, this.updateDelay);
+	this.updateRcvr();
+	
+	//send data to the server
+	this.updateSender = new serverUpdaterSendHandler(this.regdKeys, this.updateDelay);
+	this.updateSender();
 	
 	//constructor work
 	this.setCanvasScaleFactor();
@@ -265,11 +280,28 @@ GameClient.prototype.renderGameMap = function() {
 };
 
 GameClient.prototype.renderPlayersAndEvents = function() {
+	var xLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor);
+	var yLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor);
 	//process upcoming events to determine which will be executed
+	var frameEvents = this.latestUpdate.serverStateJson;
+	if(frameEvents === null) { return; }
+	this.latestUpdate.serverStateJson = null;
+	//draw any events which require animating
 	
 	//draw the players
-	
-	//draw any events which require animating
+	//local player
+	var localPlyrX = frameEvents.myPositionX;
+	var localPlyrY = frameEvents.myPositionY;
+	cntxt.drawImage(playerImg,
+		this.gameModel.megaman.frames[this.player.frameIter].xPos,
+		this.gameModel.megaman.frames[this.player.frameIter].yPos, 
+		this.gameModel.megaman.frames[this.player.frameIter].width, 
+		this.gameModel.megaman.frames[this.player.frameIter].height, 
+		xLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor), 
+		yLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor), 
+		this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor, 
+		this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
+	//remote player
 	
 };
 
@@ -302,7 +334,7 @@ function GameMapTile(isPlayerOwned, stateNum) {
 
 
 function Player() {
-	
+	this.frameIter = 0;
 }
 
 
@@ -350,4 +382,145 @@ function ImageResource(imgSrcIn) {
 		this.imgReady = true;
 	}
 	this.img.src = imgSrcIn;
+}
+
+function GameKeys() {
+	this.moveUp = 87;
+	this.moveDown = 83;
+	this.moveLeft = 65;
+	this.moveRight = 68;
+	this.buster = 190;
+	this.chip = 188;
+	this.endPhase = 32;
+	
+	this.lastKeyDown = 0;
+	this.lastKeyUp = 0;
+	this.lastEvent = null;
+}
+
+function GameKeyHandler(gkIn) {
+	return function() {
+		document.addEventListener('keydown', function(e) {
+			switch(e.keyCode){
+				case gkIn.moveUp: //moveup down shouldn't do anything
+					//console.log("moveUp down");
+					//gkIn.lastKeyDown = gkIn.moveUp;
+					//gkIn.lastEvent = JSON.stringify({event:"movement",value:"up"});
+					break;
+				case gkIn.moveDown: //moveleft down shouldn't do anything
+					//console.log("moveDown down");
+					//gkIn.lastKeyDown = gkIn.moveDown;
+					//gkIn.lastEvent = JSON.stringify({event:"movement",value:"down"});
+					break;
+				case gkIn.moveLeft: //moveright down shouldn't do anything
+					//console.log("moveLeft down");
+					//gkIn.lastKeyDown = gkIn.moveLeft;
+					//gkIn.lastEvent = JSON.stringify({event:"movement",value:"left"});
+					break;
+				case gkIn.moveRight: //movedown down shouldn't do anything
+					//console.log("moveRight down");
+					//gkIn.lastKeyDown = gkIn.moveRight;
+					//gkIn.lastEvent = JSON.stringify({event:"movement",value:"right"});
+					break;
+				case gkIn.buster: //buster charge
+					console.log("buster down");
+					gkIn.lastKeyDown = gkIn.buster;
+					gkIn.lastEvent = JSON.stringify({event:"buster",value:"down"});
+					break;
+				case gkIn.chip: //chip down doesn't do anything
+					//lastEvent = JSON.stringify({event:"chip",value:""});
+					//console.log("chip down");
+					break;
+				case gkIn.endPhase: //endphase down shouldn't do anything
+					//lastEvent = JSON.stringify({event:"menu",value:""});
+					//console.log("endPhase down");
+					break;
+			}
+		}, false);
+		document.addEventListener('keyup', function(e) {
+			switch(e.keyCode){
+				case gkIn.moveUp: //moveup
+					console.log("moveUp up");
+					gkIn.lastKeyDown = gkIn.moveUp;
+					gkIn.lastEvent = JSON.stringify({event:"movement",value:"up"});
+					break;
+				case gkIn.moveDown: //moveleft
+					console.log("moveDown up");
+					gkIn.lastKeyDown = gkIn.moveDown;
+					gkIn.lastEvent = JSON.stringify({event:"movement",value:"down"});
+					break;
+				case gkIn.moveLeft: //moveright
+					console.log("moveLeft up");
+					gkIn.lastKeyDown = gkIn.moveLeft;
+					gkIn.lastEvent = JSON.stringify({event:"movement",value:"left"});
+					break;
+				case gkIn.moveRight: //movedown
+					console.log("moveRight up");
+					gkIn.lastKeyDown = gkIn.moveRight;
+					gkIn.lastEvent = JSON.stringify({event:"movement",value:"right"});
+					break;
+				case gkIn.buster: //buster shoot
+					console.log("buster up");
+					gkIn.lastKeyDown = gkIn.buster;
+					gkIn.lastEvent = JSON.stringify({event:"buster",value:"up"});
+					break;
+				case gkIn.chip: //chip
+					console.log("chip up");
+					gkIn.lastKeyDown = gkIn.chip;
+					gkIn.lastEvent = JSON.stringify({event:"chip",value:""});
+					break;
+				case gkIn.endPhase: //endphase
+					console.log("endPhase up");
+					gkIn.lastKeyDown = gkIn.endPhase;
+					gkIn.lastEvent = JSON.stringify({event:"menu",value:""});
+					break;
+			}
+		}, false);
+	};
+}
+
+function serverUpdaterSendHandler(gkIn, sendDelay) {
+	return function() {
+		window.setInterval(function() {
+			if (gkIn.lastEvent != null){
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open( "POST", "/game/sendAction", true );
+				xmlHttp.onreadystatechange = function() {
+					if ( xmlHttp.readyState != 4) return;
+					if ( xmlHttp.status == 200 || xmlHttp.status == 400)
+					{
+						//var response = xmlHttp.responseText;
+					}
+					else { alert("Unknown ERROR when saving."); }
+				}
+				gkIn.lastEvent = null;
+				xmlHttp.send(gkIn.lastEvent);
+			}
+		}, sendDelay);
+	}
+}
+
+function ServerState() {
+	this.serverStateJson = null;
+}
+
+function serverStateUpdater(serverStateIn, sendDelay) {
+	return function() {
+		window.setInterval(function() {
+			if(serverStateIn.serverStateJson == null) {
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open( "POST", "/game/gameUpdate", true );
+				xmlHttp.onreadystatechange = function() {
+					if ( xmlHttp.readyState != 4) return;
+					if ( xmlHttp.status == 200 || xmlHttp.status == 400)
+					{
+						serverStateIn.serverStateJson = xmlHttp.responseText;
+					}
+					else { alert("Unknown ERROR when saving."); }
+				}
+				xmlHttp.send("");
+				//TODO null serverStateIn.serverStateJson when you render
+			} //else we haven't animated this frame yet
+		}, sendDelay);
+	}
 }
