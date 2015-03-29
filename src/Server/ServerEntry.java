@@ -57,7 +57,7 @@ public class ServerEntry {
 		//used by players waiting in queue
 		post("/game/checkForGame", (request, response) -> {
 			if(gm.isInGame(request.session().attribute("user")))
-				return "/auth/canvas.html";
+				return "/testClient/mmbnClient.html";
 			return "";
 		});
 		
