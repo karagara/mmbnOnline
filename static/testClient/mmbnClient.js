@@ -214,6 +214,7 @@ GameClient.prototype.renderClient = function() {
 		this.renderAndUpdateBackground();
 		//check that the order of these two is correct
 		this.renderGameMap();
+		this.renderHUD();
 		this.renderPlayersAndEvents();
 	}
 	else { console.log("not loaded: " + this.imgLoaded[0]  + ", " + this.imgLoaded[1] + ", " + this.imgLoaded[2]); }
@@ -235,7 +236,14 @@ GameClient.prototype.renderAndUpdateBackground = function() {
 };
 
 GameClient.prototype.renderHUD = function() {
-	
+	if(this.latestUpdate.serverStateJson != null){
+		var plyrData = JSON.parse(this.latestUpdate.serverStateJson.myState);
+		var enemyData = JSON.parse(this.latestUpdate.serverStateJson.enemyState);
+		this.cntxt.fillStyle = "red";
+		this.cntxt.font="20px mmbnFont";
+		this.cntxt.fillText(plyrData.health, 0, 30);
+		this.cntxt.fillText(enemyData.health, this.canvas.width - 30, 30);
+	}
 };
 
 GameClient.prototype.renderGameMap = function() {
@@ -292,7 +300,7 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     var plyrData = JSON.parse(frameEvents.myState);
     var xLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * plyrData.x);
     var yLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * plyrData.y);
-	document.getElementById("myHealth").innerHTML = plyrData.health;
+
 	this.cntxt.drawImage(this.playersImg,
 		this.gameModel.megaman.frames[this.player.frameIter].xPos,
 		this.gameModel.megaman.frames[this.player.frameIter].yPos, 
@@ -306,7 +314,7 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     var enemyData = JSON.parse(frameEvents.enemyState);
     var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
     var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
-	document.getElementById("enemyHealth").innerHTML = enemyData.health;
+	
     this.cntxt.drawImage(this.playersImg,
         this.gameModel.megaman.frames[this.player.frameIter].xPos,
         this.gameModel.megaman.frames[this.player.frameIter].yPos,
