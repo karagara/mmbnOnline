@@ -25,9 +25,6 @@ public class AccountLoginDB {
             		isValid = true;            	
             	}
             }
-            rs.close();
-            stmt.close();
-            conn.close();
 		} catch ( Exception e ) {
 			printErrMsg(e);
 		} finally {
@@ -65,9 +62,6 @@ public class AccountLoginDB {
                     changedUser = username;
                 }
             }
-            rs.close();
-            stmt.close();
-            conn.close();
         } catch ( Exception e ) {
             printErrMsg(e);
         } finally {
@@ -98,8 +92,6 @@ public class AccountLoginDB {
             stmt = conn.createStatement();
             stmt.executeUpdate( updateString );
 
-            stmt.close();
-            conn.close();
         } catch ( Exception e ) {
             printErrMsg(e);
         } finally {
