@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+canvas {
+	border: thin solid black;
+}
+</style>
+<script type="text/javascript">
+var gameCfg;
+var gameCfgLoaded = false;
+
+var canvas;
+var cntxt;
+
+var cnvsScaleFactor = 1.;
+
+var mapImg;
+var mapTiles = [[null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null], [null, null, null]];
+
+var player = new Character();
+var drawInterval;
+var bg = new Background("bg2.png");
+
+function gameSetup() {
+	canvas = document.getElementById("gameCanvas");
+	cntxt = canvas.getContext("2d");
+	
+	windowWidth = window.innerWidth;
+	windowHeight = window.innerHeight;
+	//use smallest relative dimension to determine scaling factor
+	if( (windowWidth / 3.) >= (windowHeight / 2.) ) { //which case is this?
+		cnvsScaleFactor = Math.floor(windowHeight / 200.);
+	} else { 
+		cnvsScaleFactor = Math.floor(windowWidth / 300.);
+	}
+	if(cnvsScaleFactor < 1) { cnvsScaleFactor = 1; }
+	
+	canvas.width = (cnvsScaleFactor * 300);
+	canvas.height = (cnvsScaleFactor * 200);
+	
+	var xmlHttp = new XMLHttpRequest();
+	var url = "sprites.txt";
+	
+	xmlHttp.onreadystatechange = function() {
+		if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+			if(xmlHttp.repsonseText !== null) {
+				gameCfg = JSON.parse(xmlHttp.responseText);
+				gameCfgLoaded = true;
+				xmlCfgLoadTest();
+				drawInterval = window.setInterval( function() { drawMap() }, 10);
+			}
+		}
+	}
+	xmlHttp.open("GET", url, true);
+	xmlHttp.send();
+}
+
+function xmlCfgLoadTest() {
+	//alert("load the map tile sprites from: " + gameCfg.mapModel.mapSpriteSrc);
+	mapImg = loadImage(gameCfg.tileFrames.spriteSrc);
+	tileImg = loadImage(gameCfg.tileSurfaces.spriteSrc);
+	bgImg = loadImage("bg1.png");
+	playerImg = loadImage(gameCfg.megaman.spriteSrc);
+	for(var i = 0; i < 6; i=i+1) {
+		for(var j = 0; j < 3; j=j+1) {
+			mapTiles[i][j] = new Tile( (i < 3) );//draw the tile frame
+			//draw the tile surfaces
+		}
+	}
+}
+
+function loadImage(url) {
+	image = new Image();
+	image.onload = function(){
+		console.log("Loaded an image from ", image.src);
+	}
+	image.src = url;
+	return image;
+}
+
+function drawMap() {
+	//console.log("redraw the canvas...");
+	//erase the previous canvas contents
+	cntxt.clearRect(0, 0, canvas.width, canvas.height);
+	//draw the new canvas context
+	//draw the background
+	bg.frameIter = (bg.frameIter + 1) % bg.maxIter;
+	var bgPtrn = cntxt.createPattern(bg.image, 'repeat');
+	cntxt.fillStyle = bgPtrn;
+	cntxt.translate(-bg.frameIter, bg.frameIter);
+	cntxt.fillRect(bg.frameIter, -bg.frameIter, canvas.width + bg.frameIter, canvas.height + bg.frameIter);
+	cntxt.translate(bg.frameIter, -bg.frameIter);
+	
+	//draw the map
+	var mapOffsetX = (canvas.width - (6 * 40 * cnvsScaleFactor) ) / 2;
+	var mapOffsetY = 5 * ((canvas.height - ((24 + 24 + 33)*cnvsScaleFactor) ) / 6);
+	
+	for(var i = 0; i < 6; i=i+1) {
+		for(var j = 0; j < 3; j=j+1) {
+			var xLoc = mapOffsetX + (i * 40 * cnvsScaleFactor);
+			var yLoc = mapOffsetY + (j * 24 * cnvsScaleFactor);
+			
+			//draw the tile frame
+			if(mapTiles[i][j].playerOwned){
+				cntxt.drawImage(mapImg, gameCfg.tileFrames.frames[j].xPos, gameCfg.tileFrames.frames[j].yPos, gameCfg.tileFrames.frames[j].width, gameCfg.tileFrames.frames[j].height, xLoc, yLoc, gameCfg.tileFrames.frames[j].width*cnvsScaleFactor, gameCfg.tileFrames.frames[j].height*cnvsScaleFactor);
+			}
+			else{
+				cntxt.drawImage(mapImg, gameCfg.tileFrames.frames[j+3].xPos, gameCfg.tileFrames.frames[j+3].yPos, gameCfg.tileFrames.frames[j+3].width, gameCfg.tileFrames.frames[j+3].height, xLoc, yLoc, gameCfg.tileFrames.frames[j+3].width*cnvsScaleFactor, gameCfg.tileFrames.frames[j+3].height*cnvsScaleFactor);
+			}
+			
+			//draw the tile surface
+			var tileState = 9;
+			cntxt.drawImage(tileImg, gameCfg.tileSurfaces.frames[tileState + j].xPos, gameCfg.tileSurfaces.frames[tileState + j].yPos, gameCfg.tileSurfaces.frames[tileState + j].width, gameCfg.tileSurfaces.frames[tileState + j].height, xLoc + (gameCfg.tileSurfaces.frames[tileState + j].cursorX*cnvsScaleFactor), yLoc + (gameCfg.tileSurfaces.frames[tileState + j].cursorY*cnvsScaleFactor), gameCfg.tileSurfaces.frames[tileState + j].width*cnvsScaleFactor, gameCfg.tileSurfaces.frames[tileState + j].height*cnvsScaleFactor);
+		}
+	}
+	//draw a megaman idling
+	player.frameIter = (player.frameIter +  1) % 4;
+	var xLoc = mapOffsetX + (40 * cnvsScaleFactor);
+	var yLoc = mapOffsetY + (24 * cnvsScaleFactor);
+	cntxt.drawImage(playerImg, gameCfg.megaman.frames[player.frameIter].xPos, gameCfg.megaman.frames[player.frameIter].yPos, gameCfg.megaman.frames[player.frameIter].width, gameCfg.megaman.frames[player.frameIter].height, xLoc + (gameCfg.megaman.frames[player.frameIter].cursorX*cnvsScaleFactor), yLoc + (gameCfg.megaman.frames[player.frameIter].cursorY*cnvsScaleFactor), gameCfg.megaman.frames[player.frameIter].width*cnvsScaleFactor, gameCfg.megaman.frames[player.frameIter].height*cnvsScaleFactor);
+}
+
+//objects
+function Tile(isPlayerTile) {
+	this.state;
+	this.playerOwned = isPlayerTile;
+}
+
+function Character() {
+	this.frameIter = 0;
+}
+
+function Background(imgFile) {
+	this.image = loadImage(imgFile);
+	this.frameIter = 0;
+	this.maxIter = 100;
+}
+
+//drawing method call
+//cntxt.drawImage(IMGSRC, SPRITEXPOS, SPRITEYPOS, SPRITEWIDTH, SPRITEHEIGHT, CANVASXPOS, CANVASYPOS, CANVASWIDTH, CANVASHEIGHT);
+</script>
+</head>
+<body onload="gameSetup()">
+
+<canvas id="gameCanvas" width="300" height="200">
+Your browser does not support HTML5!
+</canvas>
+
+</body>
+</html>
