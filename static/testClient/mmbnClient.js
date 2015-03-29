@@ -216,6 +216,7 @@ GameClient.prototype.renderClient = function() {
 		this.renderAndUpdateBackground();
 		//check that the order of these two is correct
 		this.renderGameMap();
+		this.renderHUD();
 		this.renderPlayersAndEvents();
 	}
 	else { console.log("not loaded: " + this.imgLoaded[0]  + ", " + this.imgLoaded[1] + ", " + this.imgLoaded[2]); }
@@ -237,7 +238,14 @@ GameClient.prototype.renderAndUpdateBackground = function() {
 };
 
 GameClient.prototype.renderHUD = function() {
-	
+	if(this.latestUpdate.serverStateJson != null){
+		var plyrData = JSON.parse(this.latestUpdate.serverStateJson.myState);
+		var enemyData = JSON.parse(this.latestUpdate.serverStateJson.enemyState);
+		this.cntxt.fillStyle = "red";
+		this.cntxt.font="20px mmbnFont";
+		this.cntxt.fillText(plyrData.health, 0, 30);
+		this.cntxt.fillText(enemyData.health, this.canvas.width - 30, 30);
+	}
 };
 
 GameClient.prototype.renderGameMap = function() {
@@ -333,7 +341,6 @@ GameClient.prototype.renderPlayersAndEvents = function() {
         eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
         this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
         this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
-
 };
 
 
