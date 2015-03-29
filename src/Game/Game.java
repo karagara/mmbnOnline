@@ -142,16 +142,20 @@ public class Game implements Runnable, ActionListener {
 		gs.state = status;
 		if(p1.isPlayer(playerName)){
 			gs.enemyPlayerCondition = p2.getCondition();
-			gs.enemyPlayerPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
+			gs.enemyPlayerPositionX = String.valueOf(p2.getXPos());
+			gs.enemyPlayerPositionY = String.valueOf(p2.getYPos());
 			gs.myCondition = p1.getCondition();
-			gs.myPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
+			gs.myPositionX = String.valueOf(p1.getXPos());
+			gs.myPositionY = String.valueOf(p1.getYPos());
 		}
 		else if(p2.isPlayer(playerName))
 		{
 			gs.myCondition = p2.getCondition();
-			gs.myPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
+			gs.myPositionX = String.valueOf(p2.getXPos());
+			gs.myPositionY = String.valueOf(p2.getYPos());
 			gs.enemyPlayerCondition = p1.getCondition();
-			gs.enemyPlayerPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
+			gs.enemyPlayerPositionX = String.valueOf(p1.getXPos());
+			gs.enemyPlayerPositionY = String.valueOf(p1.getYPos());
 		}
 
         synchronized (actions) {
@@ -215,9 +219,11 @@ public class Game implements Runnable, ActionListener {
     public class GameState{
 		public gameStatus state;
 		public playerCondition enemyPlayerCondition;
-		public String enemyPlayerPosition;
+		public String enemyPlayerPositionX;
+		public String enemyPlayerPositionY;
 		public playerCondition myCondition;
-		public String myPosition;
+		public String myPositionX;
+		public String myPositionY;
 		public String actions[];
 		public String tileStates[];
 	}
