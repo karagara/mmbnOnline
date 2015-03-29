@@ -1,20 +1,14 @@
-body {
-    background-image: url("main1.jpg");
-    background-size: 40%;
-    background-repeat: no-repeat;
+body{
     background-color: black;
-    background-position: top;
 }
 
 div {
-    position: absolute;
-    top: 400px;
-    left: 570px;
-    border: 2px dashed #a1a1a1;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
     padding: 10px 40px;
     width: 550px;
     height: 350px;
-    border-radius: 25px;
     color: white;
     font-size: 2em;
 }

@@ -21,8 +21,12 @@ h1 {
 }
 
 .login {
+	position:relative;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
     padding: 20px 20px 20px;
-    width: 310px;
+    width: 350px;
     background: #6666CC;
     border-radius: 3px;
 }
@@ -41,7 +45,7 @@ p.remember_me {
     position: relative;
     top:-16px;
     label {
-        position: absolute;
+        position: relative;
         top: 50px;
         font-size: 12px;
         color: #777;
@@ -61,12 +65,12 @@ p.warning{
 }
 p.resetmsg{
     color: white;
-    position:absolute;
+    position:relative;
     left: 820px;
     top:310px;
 }
 a.resetlink{
-    position:absolute;
+    position:relative;
     left: 830px;
     top:350px;
 }
@@ -108,7 +112,7 @@ input[type=submit] {
 }
 
 .help {
-    position: absolute;
+    position: relative;
     left:800px;
     top:560px;
     margin: 20px 0;
