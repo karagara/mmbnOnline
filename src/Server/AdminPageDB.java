@@ -31,9 +31,9 @@ public class AdminPageDB {
 			printErrMsg(e);
 		} finally {
 			System.out.println("Closing DB resources");
-			try{ if (rs == null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (conn == null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
+			try{ if (rs != null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
 		}
 	
 		return info;
@@ -57,6 +57,8 @@ public class AdminPageDB {
 			printErrMsg(e);
 		} finally {
 			System.out.println("Closing DB resources");
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
 		}
 	}
 	
@@ -79,6 +81,8 @@ public class AdminPageDB {
 			printErrMsg(e);
 		} finally {
 			System.out.println("Closing DB resources");
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
 		}
 	}
 	

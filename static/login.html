@@ -4,34 +4,42 @@
 <head>
     <title>Login Page</title>
     <link rel="stylesheet" type="text/css" href="main.css">
+    <script>
+        function redirectNewAcct() {
+            window.location.href = "create-account.html";
+        }
+        function redirectForgotPass() {
+            window.location.href = "reset.html";
+        }
+    </script>
 </head>
 
 <body>
-    <img id="main" src="main1.jpg" width="600" style="position:absolute;left:560px;">
-    <div class="login">
-        <h1>Login</h1>
-        <form action="/login" method="post">
+    <div id="content">
+        <img id="main" src="assets/main1.png" width="600">
+        <div class="navBody">
+            <h1>Login</h1>
+            <form action="/login" method="post">
+                <p>
+                    Username:
+                    <input type="text" name="user" value="" placeholder="Username" autofocus required>
+                </p>
+                <p>
+                    Password:
+                    <input type="password" name="password" value="" placeholder="Password" required>
+                </p>
+                <p>
+                    <span class="reduceBtn"><input type="submit" name="commit" value="Login" class="funcBtn"></span>
+                </p>
+            </form>
             <p>
-                Username:
-                <input type="text" name="user" value="" placeholder="Username" autofocus required>
+                <span class="reduceBtn"><input type="button" id="newaccount" value="Sign Up" onClick="redirectNewAcct()" class="funcBtn"></span>
             </p>
             <p>
-                Password:
-                <input type="password" name="password" value="" placeholder="Password" required>
+                <span class="reduceBtn"><input type="button" id="resetpass" value="Forgot Password" onClick="redirectForgotPass()" class="funcBtn"></span>
             </p>
-            <p class="remember_me">
-                <label>
-                    <input type="checkbox" name="rem" id="rem"><span>    Remember me</span>
-                </label>
-            </p>
-            <p class="submit">
-                <input type="submit" name="commit" value="Login">
-            </p>
-        </form>
-    </div>
-    <div class="help">
-        <p>Forgot Password? <a href="reset.html">Reset Password</a>
-        </p>
+
+        </div>
     </div>
 </body>
 

@@ -27,9 +27,9 @@ public class AccountCreationDB {
 			printErrMsg(e);
 		} finally {
 			System.out.println("Closing DB resources");
-			try{ if (rs == null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (conn == null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
+			try{ if (rs != null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
 		}
 
 		return isFree;
@@ -54,8 +54,8 @@ public class AccountCreationDB {
 			printErrMsg(e);
 		} finally {
 			System.out.println("Closing DB resources");
-            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (conn == null) {conn.commit(); conn.close();} } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) {conn.commit(); conn.close();} } catch ( Exception e ) { printErrMsg(e); };
 		}
 	}
 

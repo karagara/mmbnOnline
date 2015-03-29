@@ -1,4 +1,10 @@
+@font-face {
+    font-family: mmbnFont;
+    src: url(Mega-Man-Battle-Network.ttf);
+}
+
 body{
+    font-family: mmbnFont;
     background-color: black;
 }
 
@@ -9,22 +15,24 @@ div#content{
 }
 
 h1 {
-    margin: -20px -20px 21px;
+    margin: 0px;
+    padding: 0px;
     line-height: 40px;
-    font-size: 15px;
+    font-size: 1.5em;
     font-weight: bold;
-    color: #2CD4D1;
+    color: #FFFFFF;
     text-align: center;
-    background: #6666CC;
     border-bottom: 1px solid #cfcfcf;
     border-radius: 3px 3px 0 0; 
 }
 
-.login {
-    padding: 20px 20px 20px;
-    width: 310px;
+.navBody {
+    padding: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
     background: #6666CC;
-    border-radius: 3px;
+    border-radius: 10px;
 }
 
 
@@ -35,24 +43,6 @@ h1 {
     border-radius: 3px;
 }
 
-p.remember_me {
-    float: left;
-    line-height: 31px;
-    position: relative;
-    top:-16px;
-    label {
-        position: absolute;
-        top: 50px;
-        font-size: 12px;
-        color: #777;
-    }
-    input {
-        position: relative;
-        bottom: 1px;
-        margin-right: 4px;
-        vertical-align: middle;
-    }
-}
 p.warning{
     color: red;
     position:relative;
@@ -81,18 +71,6 @@ p.submit2 {
     text-align: right;
 }
 
-input[type=submit] {
-    padding: 0 18px;
-    height: 29px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #527881;
-    text-shadow: 0 1px #e3f1f1;
-    background: #cde5ef;
-    border: 1px solid;
-    border-color: #b4ccce #b3c0c8 #9eb9c2;
-    border-radius: 16px;
-}
 .btn {
     position: relative;
     padding: 0 18px;
@@ -125,30 +103,36 @@ input {
     font-size: 14px;
 }
 
-div#funcBtn input {
-    width: 450px;
+span.reduceBtn .funcBtn {
+   height: 55px;
+   font-size: 1.1em;
+}
+
+.funcBtn {
+    width: 100%;
     height: 80px;
     padding: 0 0 0 0;
     margin: 0 auto;
-    background: #398525;
-    background: -moz-linear-gradient(top, #8DD297 0%, #398525 100%);   
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #8DD297), color-stop(100%, #398525));
+    background: #DE6C17;
+    background: -moz-linear-gradient(top, #FFEB1C 0%, #DE6C17 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFEB1C), color-stop(100%, #DE6C17));
     box-shadow: inset 0px 0px 6px #fff;
     -webkit-box-shadow: inset 0px 0px 6px #fff;
     border: 1px solid #5ea617;
     border-radius: 10px;
-    font: bold 35px/25px Helvetica, Sans-Serif;
+    font-family: mmbnFont, Helvetica, Sans-Serif;
+    font-size: 1.4em;
     text-align: center;
     text-transform: uppercase;
     text-decoration: none;
-    color: #147032;
+    color: #EDF7FD;
     text-shadow: 0px 1px 2px #b4d1ad;
     -moz-transition: color 0.25s ease-in-out;
     -webkit-transition: color 0.25s ease-in-out;
     transition: color 0.25s ease-in-out;
 }
 
-div#funcBtn input:hover {
+.funcBtn:hover {
     color: #145675;
     -moz-transition: color 0.25s ease-in-out;
     -webkit-transition: color 0.25s ease-in-out;
