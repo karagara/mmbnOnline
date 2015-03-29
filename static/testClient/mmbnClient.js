@@ -292,7 +292,7 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     var plyrData = JSON.parse(frameEvents.myState);
     var xLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * plyrData.x);
     var yLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * plyrData.y);
-
+	document.getElementById("myHealth").innerHTML = plyrData.health;
 	this.cntxt.drawImage(this.playersImg,
 		this.gameModel.megaman.frames[this.player.frameIter].xPos,
 		this.gameModel.megaman.frames[this.player.frameIter].yPos, 
@@ -306,6 +306,7 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     var enemyData = JSON.parse(frameEvents.enemyState);
     var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
     var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
+	document.getElementById("enemyHealth").innerHTML = enemyData.health;
     this.cntxt.drawImage(this.playersImg,
         this.gameModel.megaman.frames[this.player.frameIter].xPos,
         this.gameModel.megaman.frames[this.player.frameIter].yPos,
