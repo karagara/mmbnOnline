@@ -10,7 +10,7 @@ public class MenuChips {
 	private TotalChips totalChips;
 	private BattleChips battleChips;
 	//the menu can show 5 chips total
-	private  int CHIPLIMITINMENU = 5;
+	private  int CHIPLIMITINMENU = 4;
 	
 	public MenuChips(TotalChips totalChips, BattleChips battleChips){
 		this.totalChips = totalChips;
@@ -26,8 +26,9 @@ public class MenuChips {
 	
 	//gets a list of random chips from the totalchips list
 	//numChips - number of chips from totalChips
-	public ArrayList<Chip> getRandomChips(int numChips){
-		return totalChips.selectTotalChips(numChips);
+	public ArrayList<Chip> getRandomChips(){
+        int num = CHIPLIMITINMENU - menuChipList.size();
+		return totalChips.selectTotalChips(num);
 	}
 	
 	public void setBattleChips(){

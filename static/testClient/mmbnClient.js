@@ -26,6 +26,8 @@ function GameClient(canvasId) {
 	this.playersImg; //the sprite of all the players
 	this.enemyImg; //sprites for blue side players
 	this.eventsImg; //the sprite of all the events
+	this.chipMenu;
+	this.chipIcons;
 	this.imgLoaded = [false, false, false, false, false]; //TODO please make the image resource class work this is not clean
 	
 	this.imgResources = [];
@@ -144,6 +146,8 @@ GameClient.prototype.modelSetup_send = function() {
 				//load the player sprites
 				delegate.playersImg = delegate.loadSpriteMap(delegate.gameModel.megaman.spriteSrc, 3, delegate);
 				delegate.enemyImg = delegate.loadSpriteMap(delegate.gameModel.enemy.spriteSrc, 4, delegate);
+				delegate.chipMenu = delegate.loadSpriteMap(delegate.gameModel.menu.spriteSrc, 5, delegate);
+				delegate.chipIcons = delegate.loadSpriteMap(delegate.gameModel.chipIcons.spriteSrc, 6, delegate);
 				
 				//load the events sprites
 				//this.eventsImg = loadSpriteMap(this.gameModel.XXXXX.spriteSrc, this.eventsImgLoaded);
@@ -211,13 +215,14 @@ GameClient.prototype.setCanvasScaleFactor = function() {
 **		CANVASWIDTH, CANVASHEIGHT);
 *********************************************************************/
 GameClient.prototype.renderClient = function() {
-	if(this.imgLoaded[0] && this.imgLoaded[1] && this.imgLoaded[2] && this.imgLoaded[3] && this.imgLoaded[4]) {
+	if(this.imgLoaded[0] && this.imgLoaded[1] && this.imgLoaded[2] && this.imgLoaded[3] && this.imgLoaded[4] && this.imgLoaded[5] && this.imgLoaded[6]) {
 		this.clearCanvas();
 		this.renderAndUpdateBackground();
 		//check that the order of these two is correct
 		this.renderGameMap();
 		this.renderHUD();
 		this.renderPlayersAndEvents();
+		this.renderMenu();
 	}
 	else { console.log("not loaded: " + this.imgLoaded[0]  + ", " + this.imgLoaded[1] + ", " + this.imgLoaded[2]); }
 };
@@ -247,6 +252,36 @@ GameClient.prototype.renderHUD = function() {
 		this.cntxt.fillText(enemyData.health, this.canvas.width - 30, 30);
 	}
 };
+
+GameClient.prototype.renderMenu = function(){
+    if (this.latestUpdate.serverStateJson.state == "CHIPMENU"){
+        var menu = this.gameModel.menu.frames[0];
+
+        //draw the base menu
+        this.cntxt.drawImage(this.chipMenu,
+            menu.xPos,
+            menu.yPos,
+            menu.width,
+            menu.height,
+            menu.cursorX*this.cnvsScaleFactor,
+            menu.cursorY*this.cnvsScaleFactor,
+            menu.width*this.cnvsScaleFactor,
+            menu.height*this.cnvsScaleFactor);
+
+         //draw the available chips
+
+         //draw the selected chips
+
+         var cursorPos=4;
+         var scale=this.cnvsScaleFactor;
+         //draw the cursor
+         this.cntxt.beginPath();
+         this.cntxt.lineWidth="3";
+         this.cntxt.strokeStyle="red";
+         this.cntxt.rect((9+(cursorPos*16))*scale,130*scale,14*scale,14*scale);
+         this.cntxt.stroke();
+    }
+}
 
 GameClient.prototype.renderGameMap = function() {
 	//draw each map tile, going in vertical slices (players tend to own tiles only in slices)
@@ -477,8 +512,9 @@ function GameKeyHandler(gkIn) {
 					//console.log("chip down");
 					break;
 				case gkIn.endPhase: //endphase down shouldn't do anything
-					//lastEvent = JSON.stringify({event:"menu",value:""});
-					//console.log("endPhase down");
+//				    gkIn.lastKeyDown = gkIn.endPhase;
+//					gkIn.lastEvent = JSON.stringify({event:"menu",value:""});
+//					console.log("endPhase up");
 					break;
 			}
 		}, false);

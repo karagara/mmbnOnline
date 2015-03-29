@@ -60,12 +60,15 @@ public class Game implements Runnable, ActionListener {
         Input i1 = p1.getPendingInput();
         Input i2 = p2.getPendingInput();
 
+//        System.out.println(i1.event);
+
         //Change state based inputs/state
         switch (status){
             case ONGOING:
-//                if (i1.event == "menu" || i2.event == "menu")
-//                    menuTimer = 900; //30 ticks/second * 30 seconds
-//                    status = gameStatus.CHIPMENU;
+                if (i1.event.contentEquals("menu") || i2.event.contentEquals("menu")) {
+                    menuTimer = 900; //30 ticks/second * 30 seconds
+                    status = gameStatus.CHIPMENU;
+                }
 //                if (p1.isDead() || p2.isDead())
 //                    status = gameStatus.OVER;
                 break;
@@ -74,7 +77,9 @@ public class Game implements Runnable, ActionListener {
                 break;
             case CHIPMENU:
                 //if time has hit limit, or both players have locked in
-               status = gameStatus.ONGOING;
+                if (i1.event.contentEquals("menu") || i2.event.contentEquals("menu")) {
+                    status = gameStatus.ONGOING;
+                }
                 break;
         }
 
@@ -161,7 +166,7 @@ public class Game implements Runnable, ActionListener {
 //		gs.tileStates = formatTiles();
 		Gson gson = new Gson();
 		String message = gson.toJson(gs);
-		System.out.println(message);
+//		System.out.println(message);
 
 		return message;
 	}

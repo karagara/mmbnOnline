@@ -6,13 +6,13 @@ import java.util.Random;
 public class TotalChips {
 	private ArrayList<Chip> chipList;
 	private Random generator;
-	public TotalChips(Player player, Tile tile, Arena arena){
-		//currently have 3 chips 
+	public TotalChips(Player player, Arena arena){
+		//currently have 3 chips \
+        char letters[] = {'a','b','c','a','b','c','a','b','c'};
+        ChipType types[] = {ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.SWORD,ChipType.SWORD,ChipType.SWORD,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON};
 		chipList  = new ArrayList<Chip>();
-		for ( int i = 0; i < 3; i++){
-			chipList.add(new Chip(ChipType.BOMB, 'b', player, tile, arena));
-			chipList.add(new Chip(ChipType.CANNON, 'c', player, tile, arena));
-			chipList.add(new Chip(ChipType.SWORD, 's', player, tile, arena));
+		for ( int i = 0; i < 9; i++){
+			chipList.add(new Chip(types[i], letters[i], player, arena));
 		}
 		generator = new Random();
 	}

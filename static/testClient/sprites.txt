@@ -459,5 +459,51 @@
                 "cursorY": -25
             }
         ]
+    },
+    "menu":{
+        "spriteSrc": "battlemenuV1.png",
+        "frames": [
+            {
+                "name": "idle0",
+                "width": 120,
+                "height": 160,
+                "xPos": 0,
+                "yPos": 0,
+                "cursorX": 0,
+                "cursorY": 25
+            }
+        ]
+    },
+    "chipIcons":{
+        "spriteSrc": "chipIcons.gif",
+        "frames": [
+            {
+                "name": "cannon",
+                "width": 14,
+                "height": 14,
+                "xPos": 0,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "bomb",
+                "width": 14,
+                "height": 14,
+                "xPos": 0,
+                "yPos": 153,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "sword",
+                "width": 14,
+                "height": 14,
+                "xPos": 17,
+                "yPos": 68,
+                "cursorX": 3,
+                "cursorY": -30
+            }
+        ]
     }
 }

@@ -23,6 +23,7 @@ public class Player implements GameEntity {
     private int chargeCount = 0;
     private int hitIndex = 0;
     private int recoveryIndex = 0;
+    ChipManager chipManager;
 
 	private ArrayList<String> newActions = new ArrayList<String>();
 
@@ -36,6 +37,7 @@ public class Player implements GameEntity {
         this.side = side;
         this.action = playerAction.NONE;
         this.actionIndex = 0;
+        this.chipManager = new ChipManager(this, arena);
 	}
 	
 	public String toString(){
@@ -128,7 +130,7 @@ public class Player implements GameEntity {
 //            System.out.println(newActions.size());
             if (!newActions.isEmpty()) {
                 inString = newActions.get(0);
-//                System.out.println(inString);
+                System.out.println(inString);
             }
             newActions.clear();
         }
@@ -143,6 +145,12 @@ public class Player implements GameEntity {
             } catch (Exception e) {
                 System.out.println(e);
             }
+        }
+
+        if (input == null){
+            input = new Input();
+            input.event = "";
+            input.value = "";
         }
 //        if (input != null && input.value != null)
 //            System.out.println(input.value);

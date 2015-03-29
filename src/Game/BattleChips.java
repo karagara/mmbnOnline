@@ -2,7 +2,7 @@ package Game;
 import java.util.ArrayList;
 
 public class BattleChips {
-	private ArrayList<Chip> reserverChips;
+	private ArrayList<Chip> reserveChips;
 	private Chip activeChip;
 	private ArrayList<Chip> chipList;
 	private Player player;
@@ -11,7 +11,7 @@ public class BattleChips {
 	
 	//all the chips that are available for the player use in battle
 	public BattleChips(){
-		reserverChips = new ArrayList<Chip>();
+		reserveChips = new ArrayList<Chip>();
 		chipList = new ArrayList<Chip>();
 		isActiveChip = false;
 	}
@@ -31,7 +31,7 @@ public class BattleChips {
 	
 	//check the reserveChips have any chips for the BattleChips
 	public boolean isReserveChips(){
-		if( reserverChips.size() > 0){
+		if( reserveChips.size() > 0){
 			return true;
 		}
 		else{
@@ -40,7 +40,7 @@ public class BattleChips {
 	}
 	
 	public int getNumberOfReserveChips(){
-		return reserverChips.size();
+		return reserveChips.size();
 	}
 	
 	public Chip getActiveChip(){
@@ -53,9 +53,9 @@ public class BattleChips {
 	
 	//move a chip from reserve chips to the active chip position
 	public void chipActivation(){
-		if( reserverChips.size() != 0 && !isActiveChip){
-			activeChip = reserverChips.get(0);
-			reserverChips.remove(0);
+		if( reserveChips.size() != 0 && !isActiveChip){
+			activeChip = reserveChips.get(0);
+			reserveChips.remove(0);
 			isActiveChip = true;
 		}
 	}
@@ -68,7 +68,7 @@ public class BattleChips {
 	}
 	
 	public void loadBattleChips(ArrayList<Chip> inChips){
-		reserverChips.clear();
-		reserverChips = inChips;
+		reserveChips.clear();
+		reserveChips = inChips;
 	}
 }
