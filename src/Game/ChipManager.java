@@ -19,7 +19,7 @@ public class ChipManager {
     }
 
     public void replenishMenu(){
-        mchips.getRandomChips();
+        mchips.setBattleChips();
     }
 
     public void addChipToHand(int index){
@@ -35,6 +35,6 @@ public class ChipManager {
     }
 
     public Chip getTopBattleChip(){
-
+        return null;
     }
 }

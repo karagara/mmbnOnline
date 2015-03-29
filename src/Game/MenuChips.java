@@ -26,9 +26,8 @@ public class MenuChips {
 	
 	//gets a list of random chips from the totalchips list
 	//numChips - number of chips from totalChips
-	public ArrayList<Chip> getRandomChips(){
-        int num = CHIPLIMITINMENU - menuChipList.size();
-		return totalChips.selectTotalChips(num);
+	public ArrayList<Chip> getRandomChips(int numChips){
+		return totalChips.selectTotalChips(numChips);
 	}
 	
 	public void setBattleChips(){
