@@ -141,17 +141,13 @@ public class Game implements Runnable, ActionListener {
 		GameState gs = new GameState();
 		gs.state = status;
 		if(p1.isPlayer(playerName)){
-			gs.enemyPlayerCondition = p2.getCondition();
-			gs.enemyPlayerPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
-			gs.myCondition = p1.getCondition();
-			gs.myPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
+			gs.myState = p1.toString();
+			gs.enemyState = p2.toString();
 		}
 		else if(p2.isPlayer(playerName))
 		{
-			gs.myCondition = p2.getCondition();
-			gs.myPosition = "(" + p2.getXPos() + ", " + p2.getYPos() + ")";
-			gs.enemyPlayerCondition = p1.getCondition();
-			gs.enemyPlayerPosition = "(" + p1.getXPos() + ", " + p1.getYPos() + ")";
+			gs.myState = p2.toString();
+			gs.enemyState = p1.toString();
 		}
 
 //		gs.actions = formatActions();
@@ -207,10 +203,8 @@ public class Game implements Runnable, ActionListener {
 
     public class GameState{
 		public gameStatus state;
-		public playerCondition enemyPlayerCondition;
-		public String enemyPlayerPosition;
-		public playerCondition myCondition;
-		public String myPosition;
+		public String myState;
+		public String enemyState;
 		public String actions[];
 		public String tileStates[];
 	}

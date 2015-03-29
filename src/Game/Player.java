@@ -32,6 +32,16 @@ public class Player implements GameEntity {
         this.condition = playerCondition.CLEAR;
         this.side = side;
 	}
+	
+	public String toString(){
+		PlayerState ps = new PlayerState();
+		ps.x = x;
+		ps.y = y;
+		ps.condition = condition;
+		ps.health = health;
+		Gson gson = new Gson();
+		return gson.toJson(ps);
+	}
 
 	public boolean isPlayer(String playerName){
 		return connection.getUserName().compareTo(playerName) == 0;
@@ -209,5 +219,12 @@ public class Player implements GameEntity {
     @Override
     public String getState() {
         return null;
+    }
+    
+    public class PlayerState{
+    	public int x;
+    	public int y;
+    	public double health;
+    	public playerCondition condition;
     }
 }
