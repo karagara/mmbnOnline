@@ -417,7 +417,7 @@ function GameKeys() {
 
 function GameKeyHandler(gkIn) {
 	return function() {
-		document.addEventListener('keydown', function(e) {
+		document.addEventListener('keyUp', function(e) {
 			switch(e.keyCode){
 				case gkIn.moveUp: //moveup down shouldn't do anything
 					//console.log("moveUp down");
@@ -440,9 +440,9 @@ function GameKeyHandler(gkIn) {
 					//gkIn.lastEvent = JSON.stringify({event:"movement",value:"right"});
 					break;
 				case gkIn.buster: //buster charge
-					console.log("buster down");
+					console.log("buster up");
 					gkIn.lastKeyDown = gkIn.buster;
-					gkIn.lastEvent = JSON.stringify({event:"buster",value:"down"});
+					gkIn.lastEvent = JSON.stringify({event:"buster",value:"up"});
 					break;
 				case gkIn.chip: //chip down doesn't do anything
 					//lastEvent = JSON.stringify({event:"chip",value:""});
@@ -454,7 +454,7 @@ function GameKeyHandler(gkIn) {
 					break;
 			}
 		}, false);
-		document.addEventListener('keyup', function(e) {
+		document.addEventListener('keydown', function(e) {
 			switch(e.keyCode){
 				case gkIn.moveUp: //moveup
 					console.log("moveUp up");
