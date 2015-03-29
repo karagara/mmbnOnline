@@ -32,9 +32,9 @@ public class AccountLoginDB {
 			printErrMsg(e);
 		} finally {
 			System.out.println("Closing DB resources");
-			try{ if (rs == null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (conn == null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
+			try{ if (rs != null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
 		}
 
 		return isValid;
@@ -72,9 +72,9 @@ public class AccountLoginDB {
             printErrMsg(e);
         } finally {
             System.out.println("Closing DB resources");
-            try{ if (rs == null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (conn == null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (rs != null) rs.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
         }
         if( flag == false){
             resultMsg = "<p class='resetmsg'> The username does not exist</p>";
@@ -104,8 +104,8 @@ public class AccountLoginDB {
             printErrMsg(e);
         } finally {
             System.out.println("Closing DB resources");
-            try{ if (stmt == null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
-            try{ if (conn == null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (stmt != null) stmt.close(); } catch ( Exception e ) { printErrMsg(e); };
+            try{ if (conn != null) conn.close(); } catch ( Exception e ) { printErrMsg(e); };
         }
 
         resultMsg = "<p class='resetmsg'> Password Update Successfully</p>";
