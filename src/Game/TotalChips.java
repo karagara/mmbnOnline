@@ -16,7 +16,6 @@ public class TotalChips {
 		}
 		generator = new Random();
 	}
-	
 	public ArrayList<Chip> selectTotalChips(int numChips){
 		ArrayList<Chip> tList = new ArrayList<Chip>();
 		if(chipList.size() > numChips){

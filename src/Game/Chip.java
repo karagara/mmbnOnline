@@ -19,7 +19,6 @@ public class Chip{
 		this.tile = tile;
 		this.arena = arena;
 	}
-	
 	public void createAction(){
 		switch(chip){
 			case BOMB:
