@@ -64,7 +64,7 @@ public class PlayerBusterAction extends Action{
             //arena.damageFirstInRow(player.getYPos(), 10);
             boolean hasHitTarget = false;
             if (player.getSide() == PlayerSide.RED){
-                for(int i=player.getXPos(); i < 6 && !hasHitTarget; i++){
+                for(int i=player.getXPos()+1; i < 6 && !hasHitTarget; i++){
                     if(arena.isTileOccupied(i,player.getYPos())){
                         GameEntity entity = arena.getTileEntity(i, player.getYPos());
                         entity.damageEntity((isCharged) ? 10 : 1);
@@ -75,7 +75,7 @@ public class PlayerBusterAction extends Action{
             }
 
             if (player.getSide() == PlayerSide.BLUE){
-                for(int i=player.getXPos(); i >= 0 && !hasHitTarget; i--){
+                for(int i=player.getXPos()-1; i >= 0 && !hasHitTarget; i--){
                     if(arena.isTileOccupied(i,player.getYPos())){
                         GameEntity entity = arena.getTileEntity(i, player.getYPos());
                         if (entity != null)
