@@ -13,8 +13,8 @@ public class Player implements GameEntity {
 
 	private double health;
     private playerCondition condition;
-	private playerAction action;
-    private int actionIndex;
+	playerAction action;
+    int actionIndex;
     Tile position;
     Arena arena;
 	private int x;
@@ -34,6 +34,8 @@ public class Player implements GameEntity {
 		this.y = y;
         this.condition = playerCondition.CLEAR;
         this.side = side;
+        this.action = playerAction.NONE;
+        this.actionIndex = 0;
 	}
 	
 	public String toString(){
@@ -43,9 +45,21 @@ public class Player implements GameEntity {
 		ps.condition = condition;
 		ps.health = health;
         ps.side = side;
+        ps.action = action;
+        ps.actionIndex = actionIndex;
 		Gson gson = new Gson();
 		return gson.toJson(ps);
 	}
+
+    public void clearPlayerAction(){
+        action = playerAction.NONE;
+        actionIndex = 0;
+    }
+
+    public void setPlayerAction(playerAction a, int ai){
+        action = a;
+        actionIndex = ai;
+    }
 
 	public boolean isPlayer(String playerName){
 		return connection.getUserName().compareTo(playerName) == 0;
@@ -220,6 +234,7 @@ public class Player implements GameEntity {
     public void damageEntity(int damage) {
         this.changeHealth(-damage);
         this.condition = playerCondition.HIT;
+        this.clearPlayerAction();
         hitIndex = 0;
     }
 
@@ -227,12 +242,18 @@ public class Player implements GameEntity {
     public String getState() {
         return null;
     }
-    
+
+    public void incActionIndex() {
+        actionIndex++;
+    }
+
     public class PlayerState{
     	public int x;
     	public int y;
     	public double health;
     	public playerCondition condition;
         public PlayerSide side;
+        public playerAction action;
+        public int actionIndex;
     }
 }

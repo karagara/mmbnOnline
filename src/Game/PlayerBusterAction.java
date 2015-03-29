@@ -17,6 +17,8 @@ public class PlayerBusterAction extends Action{
     	spritePath =  "playerBuster.png";
         this.isCharged = isCharged;
         setupFrameEvents();
+        player.action = playerAction.BUSTER;
+        player.actionIndex = 0;
     }
 
     private void setupFrameEvents() {
@@ -56,9 +58,11 @@ public class PlayerBusterAction extends Action{
     public void update() {
         //on Attack frame, check for targets
         if (player.getCondition() == playerCondition.HIT){
+            player.clearPlayerAction();
             isComplete = true;
             return;
         }
+
         if (index == 4){
             //apply damage to first in row
             //arena.damageFirstInRow(player.getYPos(), 10);
@@ -84,11 +88,14 @@ public class PlayerBusterAction extends Action{
                     }
                 }
             }
-
-            isComplete = true;
             player.setCondition(playerCondition.CLEAR);
+            player.clearPlayerAction();
+            isComplete = true;
         }
-        index++;
+        if (!isComplete){
+            player.incActionIndex();
+            index++;
+        }
     }
 
     @Override

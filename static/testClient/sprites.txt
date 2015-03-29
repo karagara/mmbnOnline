@@ -324,8 +324,8 @@
 				"height": 42,
 				"xPos": 0,
 				"yPos": 48,
-				"cursorX": 32,
-				"cursorY": 3
+				"cursorX": 2,
+				"cursorY": -26
 			},
 			{
 				"name": "shoot1",
@@ -333,8 +333,8 @@
 				"height": 42,
 				"xPos": 45,
 				"yPos": 48,
-				"cursorX": 32,
-				"cursorY": 3
+				"cursorX": 2,
+				"cursorY": -26
 			},
 			{
 				"name": "shoot2",
@@ -342,8 +342,8 @@
 				"height": 42,
 				"xPos": 113,
 				"yPos": 48,
-				"cursorX": 32,
-				"cursorY": 3
+				"cursorX": 2,
+				"cursorY": -26
 			},
 			{
 				"name": "shoot3",
@@ -351,8 +351,8 @@
 				"height": 42,
 				"xPos": 180,
 				"yPos": 48,
-				"cursorX": 32,
-				"cursorY": 3
+				"cursorX": 2,
+				"cursorY": -26
 			}
 		]
 	},
@@ -426,37 +426,37 @@
                 "name": "shoot0",
                 "width": 45,
                 "height": 42,
-                "xPos": 0,
+                "xPos": 198,
                 "yPos": 48,
-                "cursorX": 32,
-                "cursorY": 3
+                "cursorX": -29,
+                "cursorY": -25
             },
             {
                 "name": "shoot1",
                 "width": 68,
                 "height": 42,
-                "xPos": 45,
+                "xPos": 130,
                 "yPos": 48,
-                "cursorX": 32,
-                "cursorY": 3
+                "cursorX": -29,
+                "cursorY": -25
             },
             {
                 "name": "shoot2",
                 "width": 67,
                 "height": 42,
-                "xPos": 113,
+                "xPos": 63,
                 "yPos": 48,
-                "cursorX": 32,
-                "cursorY": 3
+                "cursorX": -29,
+                "cursorY": -25
             },
             {
                 "name": "shoot3",
                 "width": 63,
                 "height": 42,
-                "xPos": 180,
+                "xPos": 0,
                 "yPos": 48,
-                "cursorX": 32,
-                "cursorY": 3
+                "cursorX": -29,
+                "cursorY": -25
             }
         ]
     }

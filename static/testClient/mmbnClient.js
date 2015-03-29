@@ -303,6 +303,10 @@ GameClient.prototype.renderPlayersAndEvents = function() {
         img = this.enemyImg;
         side = "enemy";
     }
+
+    if (plyrData.action == "NONE") {this.player.frameIter = 0;}
+    else if (plyrData.action == "BUSTER") {this.player.frameIter = 7 + plyrData.actionIndex;}
+
 	this.cntxt.drawImage(img,
 		this.gameModel[side].frames[this.player.frameIter].xPos,
 		this.gameModel[side].frames[this.player.frameIter].yPos,
@@ -324,6 +328,9 @@ GameClient.prototype.renderPlayersAndEvents = function() {
         img = this.enemyImg;
         side = "enemy";
     }
+    if (enemyData.action == "NONE") {this.player.frameIter = 0;}
+    else if (enemyData.action == "BUSTER") {this.player.frameIter = 7 + enemyData.actionIndex;}
+
     this.cntxt.drawImage(img,
         this.gameModel[side].frames[this.player.frameIter].xPos,
         this.gameModel[side].frames[this.player.frameIter].yPos,
