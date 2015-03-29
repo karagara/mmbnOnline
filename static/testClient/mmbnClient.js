@@ -286,7 +286,7 @@ GameClient.prototype.renderPlayersAndEvents = function() {
 	//process upcoming events to determine which will be executed
 	var frameEvents = this.latestUpdate.serverStateJson;
 	if(frameEvents === null) { return; }
-	this.latestUpdate.serverStateJson = null;
+//	this.latestUpdate.serverStateJson = null;
 	//draw any events which require animating
 	
 	//draw the players
@@ -294,31 +294,45 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     var plyrData = JSON.parse(frameEvents.myState);
     var xLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * plyrData.x);
     var yLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * plyrData.y);
-
-	this.cntxt.drawImage(this.playersImg,
-		this.gameModel.megaman.frames[this.player.frameIter].xPos,
-		this.gameModel.megaman.frames[this.player.frameIter].yPos, 
-		this.gameModel.megaman.frames[this.player.frameIter].width, 
-		this.gameModel.megaman.frames[this.player.frameIter].height, 
-		xLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-		yLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-		this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor, 
-		this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
+    var img;
+    var side;
+    if (plyrData.side == "RED"){
+        img = this.playersImg;
+        side = "megaman";
+    } else if (plyrData.side == "BLUE"){
+        img = this.enemyImg;
+        side = "enemy";
+    }
+	this.cntxt.drawImage(img,
+		this.gameModel[side].frames[this.player.frameIter].xPos,
+		this.gameModel[side].frames[this.player.frameIter].yPos,
+		this.gameModel[side].frames[this.player.frameIter].width,
+		this.gameModel[side].frames[this.player.frameIter].height,
+		xLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+		yLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+		this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+		this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
 
 	//remote player
     var enemyData = JSON.parse(frameEvents.enemyState);
     var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
     var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
-
-    this.cntxt.drawImage(this.enemyImg,
-        this.gameModel.enemy.frames[this.player.frameIter].xPos,
-        this.gameModel.enemy.frames[this.player.frameIter].yPos,
-        this.gameModel.enemy.frames[this.player.frameIter].width,
-        this.gameModel.enemy.frames[this.player.frameIter].height,
-        exLoc + (this.gameModel.enemy.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-        eyLoc + (this.gameModel.enemy.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-        this.gameModel.enemy.frames[this.player.frameIter].width*this.cnvsScaleFactor,
-        this.gameModel.enemy.frames[this.player.frameIter].height*this.cnvsScaleFactor);
+    if (enemyData.side == "RED"){
+        img = this.playersImg;
+        side = "megaman";
+    } else if (enemyData.side == "BLUE"){
+        img = this.enemyImg;
+        side = "enemy";
+    }
+    this.cntxt.drawImage(img,
+        this.gameModel[side].frames[this.player.frameIter].xPos,
+        this.gameModel[side].frames[this.player.frameIter].yPos,
+        this.gameModel[side].frames[this.player.frameIter].width,
+        this.gameModel[side].frames[this.player.frameIter].height,
+        exLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+        eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+        this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+        this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
 
 };
 
@@ -524,7 +538,7 @@ function ServerState() {
 function serverStateUpdater(serverStateIn, sendDelay) {
 	return function() {
 		window.setInterval(function() {
-			if(serverStateIn.serverStateJson == null) {
+//			if(serverStateIn.serverStateJson == null) {
 				var xmlHttp = new XMLHttpRequest();
 				xmlHttp.open( "POST", "/game/gameUpdate", true );
 				xmlHttp.onreadystatechange = function() {
@@ -537,7 +551,7 @@ function serverStateUpdater(serverStateIn, sendDelay) {
 				}
 				xmlHttp.send("");
 				//TODO null serverStateIn.serverStateJson when you render
-			} //else we haven't animated this frame yet
+//			} //else we haven't animated this frame yet
 		}, sendDelay);
 	}
 }
