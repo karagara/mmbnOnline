@@ -1,0 +1,138 @@
+
+{	
+	"gameModel": {
+		"cooldown": 250
+	},
+
+	"mapModel": {
+		"mapSpriteSrc": "baseTiles.png",
+		"tiles":[
+			{
+				"state": "RED0",
+				"spriteWidth": 40,
+				"spriteHeight": 24,
+				"spriteX": 0,
+				"spriteY": 0
+			},
+			{
+				"state": "RED1",
+				"spriteWidth": 40,
+				"spriteHeight": 24,
+				"spriteX": 0,
+				"spriteY": 24
+			},
+			{
+				"state": "RED2",
+				"spriteWidth": 40,
+				"spriteHeight": 33,
+				"spriteX": 0,
+				"spriteY": 48
+			},
+			{
+				"state": "BLU0",
+				"spriteWidth": 40,
+				"spriteHeight": 24,
+				"spriteX": 40,
+				"spriteY": 0
+			},
+			{
+				"state": "BLU1",
+				"spriteWidth": 40,
+				"spriteHeight": 24,
+				"spriteX": 40,
+				"spriteY": 24
+			},
+			{
+				"state": "BLU2",
+				"spriteWidth": 40,
+				"spriteHeight": 33,
+				"spriteX": 40,
+				"spriteY": 48
+			}
+		],
+		"tileStateSpriteSrc": "XXXXX",
+		"tileStates":[
+			{
+				"state": "NORMAL"
+			}
+		]
+	},
+
+	"playerModel": {
+		"maxHealth": 200,
+		"busterDmg": 10,
+		"spriteSrc": "megamanV1.png",
+		"states":[
+			{
+				"state": "APPEAR",
+				"freezePlayer": true,
+				"spriteMap": [
+					{
+						"spriteWidth": 44,
+						"spriteHeight": 48,
+						"spriteX": 0,
+						"spriteY": 48
+					},
+					{
+						"spriteWidth": 44,
+						"spriteHeight": 48,
+						"spriteX": 44,
+						"spriteY": 48
+					},
+					{
+						"spriteWidth": 44,
+						"spriteHeight": 48,
+						"spriteX": 88,
+						"spriteY": 48
+					}
+				]
+			},
+			{
+				"state": "IDLE",
+				"freezePlayer": false,
+				"spriteMap": [
+					{
+						"spriteWidth": 44,
+						"spriteHeight": 48,
+						"spriteX": 0,
+						"spriteY": 0
+					},
+					{
+						"spriteWidth": 44,
+						"spriteHeight": 48,
+						"spriteX": 44,
+						"spriteY": 0
+					},
+					{
+						"spriteWidth": 44,
+						"spriteHeight": 48,
+						"spriteX": 88,
+						"spriteY": 0
+					},
+					{
+						"spriteWidth": 44,
+						"spriteHeight": 48,
+						"spriteX": 132,
+						"spriteY": 0
+					}
+				]
+			},
+			{
+				"state": "SHOOT",
+				"freezePlayer": true,
+				"spriteMap": [
+					{
+						"spriteWidth": 44,
+						"spriteHeight": 48,
+						"spriteX": 0,
+						"spriteY": 96
+					}
+				]
+			}
+		]
+	},
+
+	"enemyModel": {
+
+	}
+}

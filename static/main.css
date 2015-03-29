@@ -43,6 +43,7 @@ h1 {
     border-radius: 3px;
 }
 
+
 p.warning{
     color: red;
     position:relative;
@@ -51,12 +52,12 @@ p.warning{
 }
 p.resetmsg{
     color: white;
-    position:absolute;
+    position:relative;
     left: 820px;
     top:310px;
 }
 a.resetlink{
-    position:absolute;
+    position:relative;
     left: 830px;
     top:350px;
 }
@@ -86,7 +87,7 @@ p.submit2 {
 }
 
 .help {
-    position: absolute;
+    position: relative;
     left:800px;
     top:560px;
     margin: 20px 0;

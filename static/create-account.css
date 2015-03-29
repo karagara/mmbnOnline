@@ -1,6 +1,13 @@
 body{
     background-color: black;
 }
+
+div#content{
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
 .btn {
     position: relative;
     top:-44px;
@@ -28,9 +35,10 @@ h1 {
     border-radius: 3px 3px 0 0; 
 }
 .login {
-    top:350px;
-    position: absolute;
-    left:460px;
+	position:relative;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
     padding: 20px 20px 20px;
     width: 350px;
     background: #6666CC;

@@ -17,7 +17,7 @@ public class ServerEntry {
         if (!dbFile.exists())
             DatabaseConnection.databaseMapping();
 
-
+ 
         externalStaticFileLocation("static");
         
         before("/auth/*", (request, response) -> {
