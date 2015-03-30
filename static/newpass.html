@@ -5,24 +5,25 @@
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 
-<body>
-    <img id="main" src="main1.jpg" width="600" style="position:absolute;left:560px;">
-    <div class="reset">
-        <h1>Enter New Password</h1>
-        <form action="/newpass" method="post">
-            <p>
-                Please enter your new password:
-                <input type="password" name="newpassword" value="" placeholder="Password" autofocus required>
-            </p>
-            <p class="submit1">
-                <input type="submit" name="commit" value="Confirm Password">
-            </p>
-        </form>
-        <p class="submit2">
-            <a href="login.html" target="_parent">
-                <button class="btn">Go back</button>
-            </a>
-        </p>
+<body bgcolor="black">
+	<div id="content">
+    	<img  src="assets/main1.png" width="600"">
+    	<div class="navBody">
+       		 <h1>Reset Password</h1>
+       		 <form action="/newpass" method="post">
+            	<p> New Password:      
+                	<input type="password" name="newpassword" value="" placeholder="Password" autofocus required>
+            	</p>
+           		 <p class="submit1">
+                	<input class = "funcBtn" type="submit" name="commit" value="Confirm Password">
+            	</p>
+        	</form>
+        	<p>
+          	 	 <a href="login.html" target="_parent">
+            		    <button class="funcBtn">Go back</button>
+           		 </a>
+        	</p>
+   		 </div>
     </div>
 </body>
 
