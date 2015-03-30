@@ -364,6 +364,38 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     var enemyData = JSON.parse(frameEvents.enemyState);
     var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
     var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
+    else if (plyrData.action == "SWORD") {this.player.frameIter = 17 + plyrData.actionIndex;}
+
+	this.cntxt.drawImage(img,
+		this.gameModel[side].frames[this.player.frameIter].xPos,
+		this.gameModel[side].frames[this.player.frameIter].yPos,
+		this.gameModel[side].frames[this.player.frameIter].width,
+		this.gameModel[side].frames[this.player.frameIter].height,
+		xLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+		yLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+		this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+		this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
+
+	//remote player
+    var enemyData = JSON.parse(frameEvents.enemyState);
+    var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
+    var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
+    else if (plyrData.action == "CANNON") {this.player.frameIter = 29+ plyrData.actionIndex;}
+
+	this.cntxt.drawImage(img,
+		this.gameModel[side].frames[this.player.frameIter].xPos,
+		this.gameModel[side].frames[this.player.frameIter].yPos,
+		this.gameModel[side].frames[this.player.frameIter].width,
+		this.gameModel[side].frames[this.player.frameIter].height,
+		xLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+		yLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+		this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+		this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
+
+	//remote player
+    var enemyData = JSON.parse(frameEvents.enemyState);
+    var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
+    var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
     if (enemyData.side == "RED"){
         img = this.playersImg;
         side = "megaman";
@@ -373,6 +405,30 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     }
     if (enemyData.action == "NONE") {this.player.frameIter = 0;}
     else if (enemyData.action == "BUSTER") {this.player.frameIter = 7 + enemyData.actionIndex;}
+
+    this.cntxt.drawImage(img,
+        this.gameModel[side].frames[this.player.frameIter].xPos,
+        this.gameModel[side].frames[this.player.frameIter].yPos,
+        this.gameModel[side].frames[this.player.frameIter].width,
+        this.gameModel[side].frames[this.player.frameIter].height,
+        exLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+        eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+        this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+        this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
+};
+    else if (enemyData.action == "SWORD") {this.player.frameIter = 17 + enemyData.actionIndex;}//16,17,18
+
+    this.cntxt.drawImage(img,
+        this.gameModel[side].frames[this.player.frameIter].xPos,
+        this.gameModel[side].frames[this.player.frameIter].yPos,
+        this.gameModel[side].frames[this.player.frameIter].width,
+        this.gameModel[side].frames[this.player.frameIter].height,
+        exLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+        eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+        this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+        this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
+};
+    else if (enemyData.action == "CANNON") {this.player.frameIter = 29 + enemyData.actionIndex;}//28,29,20
 
     this.cntxt.drawImage(img,
         this.gameModel[side].frames[this.player.frameIter].xPos,
