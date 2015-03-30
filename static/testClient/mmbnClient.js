@@ -269,17 +269,49 @@ GameClient.prototype.renderMenu = function(){
             menu.height*this.cnvsScaleFactor);
 
          //draw the available chips
+        var frameEvents = this.latestUpdate.serverStateJson;
+        if(frameEvents === null) { return; }
+    //	this.latestUpdate.serverStateJson = null;
+        //draw any events which require animating
 
+        //draw the players
+        //local player
+        var myChips = JSON.parse(frameEvents.myChips);
          //draw the selected chips
+        for (var i = 0; i < myChips.menuChips.length; i++){
+            if(!myChips.menuChips[i].isSelected){
+                var sIndex = 0;
+                if (myChips.menuChips[i].type == "CANNON"){
+                    sIndex = 0;
+                }
+                if (myChips.menuChips[i].type == "SWORD"){
+                    sIndex = 2;
+                }
+                var icon = this.gameModel.chipIcons.frames[sIndex];
+                this.cntxt.drawImage(this.chipIcons,
+                    icon.xPos,
+                    icon.yPos,
+                    icon.width,
+                    icon.height,
+                    (9+(i*16))*this.cnvsScaleFactor,
+                    130*this.cnvsScaleFactor,
+                    icon.width*this.cnvsScaleFactor,
+                    icon.height*this.cnvsScaleFactor);
+            }
 
-         var cursorPos=4;
-         var scale=this.cnvsScaleFactor;
-         //draw the cursor
-         this.cntxt.beginPath();
-         this.cntxt.lineWidth="3";
-         this.cntxt.strokeStyle="red";
-         this.cntxt.rect((9+(cursorPos*16))*scale,130*scale,14*scale,14*scale);
-         this.cntxt.stroke();
+            this.cntxt.fillStyle = "red";
+            this.cntxt.font="8px mmbnFont";
+            this.cntxt.fillText(myChips.menuChips[i].letter, (15+(i*16))*this.cnvsScaleFactor, 150*this.cnvsScaleFactor);
+
+        }
+        var cursorPos=myChips.cursorPos;
+        var scale=this.cnvsScaleFactor;
+        //draw the cursor
+        this.cntxt.beginPath();
+        this.cntxt.lineWidth="3";
+        this.cntxt.strokeStyle="red";
+        this.cntxt.rect((9+(cursorPos*16))*scale,130*scale,14*scale,14*scale);
+        this.cntxt.stroke();
     }
 }
 
@@ -480,7 +512,7 @@ function GameKeys() {
 
 function GameKeyHandler(gkIn) {
 	return function() {
-		document.addEventListener('keyUp', function(e) {
+		document.addEventListener('keyup', function(e) {
 			switch(e.keyCode){
 				case gkIn.moveUp: //moveup down shouldn't do anything
 					//console.log("moveUp down");
@@ -504,7 +536,7 @@ function GameKeyHandler(gkIn) {
 					break;
 				case gkIn.buster: //buster charge
 					console.log("buster up");
-					gkIn.lastKeyDown = gkIn.buster;
+					gkIn.lastKeyUp = gkIn.buster;
 					gkIn.lastEvent = JSON.stringify({event:"buster",value:"up"});
 					break;
 				case gkIn.chip: //chip down doesn't do anything
@@ -512,9 +544,9 @@ function GameKeyHandler(gkIn) {
 					//console.log("chip down");
 					break;
 				case gkIn.endPhase: //endphase down shouldn't do anything
-//				    gkIn.lastKeyDown = gkIn.endPhase;
-//					gkIn.lastEvent = JSON.stringify({event:"menu",value:""});
-//					console.log("endPhase up");
+				    gkIn.lastKeyUp = gkIn.endPhase;
+					gkIn.lastEvent = JSON.stringify({event:"menu",value:""});
+					console.log("endPhase up");
 					break;
 			}
 		}, false);
@@ -550,11 +582,11 @@ function GameKeyHandler(gkIn) {
 					gkIn.lastKeyDown = gkIn.chip;
 					gkIn.lastEvent = JSON.stringify({event:"chip",value:""});
 					break;
-				case gkIn.endPhase: //endphase
-					console.log("endPhase up");
-					gkIn.lastKeyDown = gkIn.endPhase;
-					gkIn.lastEvent = JSON.stringify({event:"menu",value:""});
-					break;
+//				case gkIn.endPhase: //endphase
+//					console.log("endPhase up");
+//					gkIn.lastKeyDown = gkIn.endPhase;
+//					gkIn.lastEvent = JSON.stringify({event:"menu",value:""});
+//					break;
 			}
 		}, false);
 	};

@@ -17,26 +17,28 @@ public class Chip{
 		this.player = player;
 		this.arena = arena;
 	}
-	public void createAction(){
+	public Action createAction(){
 		switch(chip){
 			case BOMB:
 				System.out.println("BombChip created");
 				BombChipAction bombChip = new BombChipAction(player, player.position, arena);
 				spritePath = bombChip.getSpritePath();
-				break;
+                return bombChip;
 			case SWORD:
 				System.out.println("Sword Chip created");
 				SwordChipAction swordChip = new SwordChipAction(player, player.position, arena);
 				spritePath = swordChip.getSpritePath();
-				break;
+                return swordChip;
 			case CANNON:
 				System.out.println("CANNON chip created");
 				CannonChipAction cannonChip = new CannonChipAction(player, player.position, arena);
 				spritePath = cannonChip.getSpritePath();
-				break;
+                return cannonChip;
 			default:
 				System.out.println("No Chip action created");
 				break;
 		}
-	}
+        return null;
+    }
 }
+

@@ -475,7 +475,7 @@
         ]
     },
     "chipIcons":{
-        "spriteSrc": "chipIcons.gif",
+        "spriteSrc": "chipIcons.png",
         "frames": [
             {
                 "name": "cannon",
@@ -483,26 +483,26 @@
                 "height": 14,
                 "xPos": 0,
                 "yPos": 0,
-                "cursorX": 3,
-                "cursorY": -30
+                "cursorX": 0,
+                "cursorY": 0
             },
             {
                 "name": "bomb",
                 "width": 14,
                 "height": 14,
-                "xPos": 0,
-                "yPos": 153,
-                "cursorX": 3,
-                "cursorY": -30
+                "xPos": 34,
+                "yPos": 0,
+                "cursorX": 0,
+                "cursorY": 0
             },
             {
                 "name": "sword",
                 "width": 14,
                 "height": 14,
-                "xPos": 17,
-                "yPos": 68,
-                "cursorX": 3,
-                "cursorY": -30
+                "xPos": 51,
+                "yPos": 0,
+                "cursorX": 0,
+                "cursorY": 0
             }
         ]
     }

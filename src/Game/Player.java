@@ -23,6 +23,8 @@ public class Player implements GameEntity {
     private int chargeCount = 0;
     private int hitIndex = 0;
     private int recoveryIndex = 0;
+    private int menuPointer = 0;
+    boolean handLock = false;
     ChipManager chipManager;
 
 	private ArrayList<String> newActions = new ArrayList<String>();
@@ -204,6 +206,14 @@ public class Player implements GameEntity {
                 }
 
             }
+
+            if (input.event.contentEquals("chip")) {
+                Chip bChip = chipManager.getTopBattleChip();
+                if ( bChip != null){
+                    this.condition = playerCondition.INACTION;
+                    return bChip.createAction();
+                }
+            }
         }
 
         return null;
@@ -221,7 +231,7 @@ public class Player implements GameEntity {
         }
         else if(this.condition == playerCondition.HIT){
         	hitIndex++;
-        	System.out.println("THAT HURT BITCH!");
+        	System.out.println("THAT HURT!");
         	if(hitIndex == 3){
         		condition = playerCondition.RECOVERING;
         		hitIndex = 0;
@@ -255,6 +265,73 @@ public class Player implements GameEntity {
         actionIndex++;
     }
 
+    public String getChipString() {
+        ArrayList<Chip> mchips = chipManager.mchips.getMenuChipList();
+        ArrayList<Chip> qchips = chipManager.mchips.getQueuedList();
+        ArrayList<Boolean> bools = chipManager.mchips.getIsSelectedList();
+        //get menu chips
+
+        ArrayList<playerChips.JSONMenuChip> jmc = new ArrayList<playerChips.JSONMenuChip>();
+        for (int i = 0; i < mchips.size(); i++){
+            playerChips.JSONMenuChip jc = new playerChips.JSONMenuChip();
+            jc.type = mchips.get(i).chip;
+            jc.letter = mchips.get(i).l;
+            jc.isSelected = bools.get(i);
+            jmc.add(jc);
+        }
+        //get selected chips
+        ArrayList<playerChips.JSONSelectedChip> jsc = new ArrayList<playerChips.JSONSelectedChip>(qchips.size());
+        for (int i = 0; i < qchips.size(); i++){
+            playerChips.JSONSelectedChip jc = new playerChips.JSONSelectedChip();
+            jc.type = qchips.get(i).chip;
+            jsc.add(jc);
+        }
+
+        playerChips pchips = new playerChips();
+        pchips.menuChips = jmc;
+        pchips.selectedChips = jsc;
+        pchips.cursorPos = menuPointer;
+
+        Gson json = new Gson();
+        String output = json.toJson(pchips);
+        return output;
+    }
+
+    public void chipMenuInput(Input input) {
+        System.out.println(handLock);
+        if (handLock == false) {
+            if (input.event.contentEquals("movement")) {
+                if (input.value.contentEquals("left")) {
+                    System.out.println("move cursor left");
+                    if (menuPointer > 0)
+                        menuPointer--;
+                } else if (input.value.contentEquals("right")) {
+                    System.out.println("move cursor left");
+                    if (menuPointer < 3)
+                        menuPointer++;
+                }
+            }
+
+            if (input.event.contentEquals("buster")) {
+                chipManager.removeLastHandChip();
+            }
+
+            if (input.event.contentEquals("chip")) {
+                chipManager.addChipToHand(menuPointer);
+            }
+
+            if (input.event.contentEquals("menu")) {
+                handLock = true;
+            }
+        }
+    }
+
+    public void menuToBattle(){
+        handLock = false;
+        chipManager.lockInHand();
+        menuPointer = 0;
+    }
+
     public class PlayerState{
     	public int x;
     	public int y;
@@ -264,4 +341,7 @@ public class Player implements GameEntity {
         public playerAction action;
         public int actionIndex;
     }
+
+
 }
+

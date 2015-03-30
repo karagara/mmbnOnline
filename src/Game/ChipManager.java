@@ -14,14 +14,6 @@ public class ChipManager {
         mchips = new MenuChips(tchips,bchips);
     }
 
-    public void removeOldBattleChips(){
-
-    }
-
-    public void replenishMenu(){
-        mchips.setBattleChips();
-    }
-
     public void addChipToHand(int index){
         mchips.setSelected(index);
     }
@@ -31,10 +23,10 @@ public class ChipManager {
     }
 
     public void lockInHand(){
-
+        mchips.setBattleChips();
     }
 
     public Chip getTopBattleChip(){
-        return null;
+        return bchips.getActiveChip();
     }
 }

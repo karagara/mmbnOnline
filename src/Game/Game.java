@@ -23,6 +23,7 @@ public class Game implements Runnable, ActionListener {
 	
 	private gameStatus status;
     private int menuTimer;
+    private int playTimer;
 
     public Game(Connection c1, Connection c2)
     {
@@ -30,8 +31,9 @@ public class Game implements Runnable, ActionListener {
 		p2 = new Player(c2, arena, 5, 1, PlayerSide.BLUE); //starts on right
         arena.setTileEntity(0,1,p1);
         arena.setTileEntity(5,1,p2);
-		status = gameStatus.ONGOING;
+		status = gameStatus.CHIPMENU;
         menuTimer = 900;
+        playTimer = 300;
 	}
 	
 	public void run() {
@@ -65,9 +67,14 @@ public class Game implements Runnable, ActionListener {
         //Change state based inputs/state
         switch (status){
             case ONGOING:
-                if (i1.event.contentEquals("menu") || i2.event.contentEquals("menu")) {
+                if ((i1.event.contentEquals("menu") || i2.event.contentEquals("menu")) && playTimer <= 0) {
                     menuTimer = 900; //30 ticks/second * 30 seconds
                     status = gameStatus.CHIPMENU;
+                    Input tempInput = new Input();
+                    tempInput.event = "";
+                    tempInput.value = "";
+                    i1 = tempInput;
+                    i2 = tempInput;
                 }
 //                if (p1.isDead() || p2.isDead())
 //                    status = gameStatus.OVER;
@@ -77,7 +84,10 @@ public class Game implements Runnable, ActionListener {
                 break;
             case CHIPMENU:
                 //if time has hit limit, or both players have locked in
-                if (i1.event.contentEquals("menu") || i2.event.contentEquals("menu")) {
+                if ((p1.handLock && p2.handLock) || menuTimer <= 0) {
+                    p1.menuToBattle();
+                    p2.menuToBattle();
+                    playTimer = 300;
                     status = gameStatus.ONGOING;
                 }
                 break;
@@ -120,13 +130,15 @@ public class Game implements Runnable, ActionListener {
                 p1.update();
                 p2.update();
 
-                //Package up world info
+                playTimer--;
 
                 break;
             case OVER:
                 break;
             case CHIPMENU:
-
+                p1.chipMenuInput(i1);
+                p2.chipMenuInput(i2);
+                menuTimer--;
                 break;
         }
 
@@ -148,11 +160,12 @@ public class Game implements Runnable, ActionListener {
 		if(p1.isPlayer(playerName)){
 			gs.myState = p1.toString();
 			gs.enemyState = p2.toString();
+            gs.myChips = p1.getChipString();
 		}
 		else if(p2.isPlayer(playerName)){
 			gs.myState = p2.toString();
 			gs.enemyState = p1.toString();
-
+            gs.myChips = p2.getChipString();
 		}
 
         synchronized (actions) {
@@ -217,6 +230,7 @@ public class Game implements Runnable, ActionListener {
 		public gameStatus state;
 		public String myState;
 		public String enemyState;
+        public String myChips;
 		public String actions[];
 		public String tileStates[];
 	}

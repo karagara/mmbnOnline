@@ -89,4 +89,16 @@ public class MenuChips {
 			queuedList.remove(qSize - 1);
 		}
 	}
+
+    public ArrayList<Chip> getMenuChipList(){
+        return menuChipList;
+    }
+
+    public ArrayList<Chip> getQueuedList(){
+        return queuedList;
+    }
+
+    public ArrayList<Boolean> getIsSelectedList(){
+        return isSelectedList;
+    }
 }
