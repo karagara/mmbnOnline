@@ -16,7 +16,8 @@ public class PlayerBusterAction extends Action{
     	super(player, arena, tile);
     	spritePath =  "playerBuster.png";
         this.isCharged = isCharged;
-        setupFrameEvents();
+        player.action = playerAction.BUSTER;
+        player.actionIndex = 0;
     }
 
     private void setupFrameEvents() {
@@ -56,15 +57,17 @@ public class PlayerBusterAction extends Action{
     public void update() {
         //on Attack frame, check for targets
         if (player.getCondition() == playerCondition.HIT){
+            player.clearPlayerAction();
             isComplete = true;
             return;
         }
+
         if (index == 4){
             //apply damage to first in row
             //arena.damageFirstInRow(player.getYPos(), 10);
             boolean hasHitTarget = false;
             if (player.getSide() == PlayerSide.RED){
-                for(int i=player.getXPos(); i < 6 && !hasHitTarget; i++){
+                for(int i=player.getXPos()+1; i < 6 && !hasHitTarget; i++){
                     if(arena.isTileOccupied(i,player.getYPos())){
                         GameEntity entity = arena.getTileEntity(i, player.getYPos());
                         entity.damageEntity((isCharged) ? 10 : 1);
@@ -75,7 +78,7 @@ public class PlayerBusterAction extends Action{
             }
 
             if (player.getSide() == PlayerSide.BLUE){
-                for(int i=player.getXPos(); i >= 0 && !hasHitTarget; i--){
+                for(int i=player.getXPos()-1; i >= 0 && !hasHitTarget; i--){
                     if(arena.isTileOccupied(i,player.getYPos())){
                         GameEntity entity = arena.getTileEntity(i, player.getYPos());
                         if (entity != null)
@@ -84,11 +87,14 @@ public class PlayerBusterAction extends Action{
                     }
                 }
             }
-
-            isComplete = true;
             player.setCondition(playerCondition.CLEAR);
+            player.clearPlayerAction();
+            isComplete = true;
         }
-        index++;
+        if (!isComplete){
+            player.incActionIndex();
+            index++;
+        }
     }
 
     @Override

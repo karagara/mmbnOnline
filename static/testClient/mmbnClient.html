@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="../main.css">
 <style type="text/css">
 canvas {
-	border: thin solid black;
+	border: thin solid gray;
 }
+
 </style>
-<script type="text/javascript" src="mmbnClient.js">
+<script type="text/javascript" src="mmbnClient.js"></script>
 <script type="text/javascript">
 var mmbnGame;
 </script>
 </head>
-<body onload="mmbnGame = new GameClient('gameCanvas')">
-
+<body style="background-color:black" onload="mmbnGame = new GameClient('gameCanvas')">
 <canvas id="gameCanvas" width="300" height="200">
 Your browser does not support HTML5!
 </canvas>

@@ -24,7 +24,10 @@ function GameClient(canvasId) {
 	this.tileImg; //the sprite of the tile surfaces
 	this.bgImg; //the sprite for the background
 	this.playersImg; //the sprite of all the players
+	this.enemyImg; //sprites for blue side players
 	this.eventsImg; //the sprite of all the events
+	this.chipMenu;
+	this.chipIcons;
 	this.imgLoaded = [false, false, false, false, false]; //TODO please make the image resource class work this is not clean
 	
 	this.imgResources = [];
@@ -142,6 +145,9 @@ GameClient.prototype.modelSetup_send = function() {
 				//TODO maybe load the BG images from that too?
 				//load the player sprites
 				delegate.playersImg = delegate.loadSpriteMap(delegate.gameModel.megaman.spriteSrc, 3, delegate);
+				delegate.enemyImg = delegate.loadSpriteMap(delegate.gameModel.enemy.spriteSrc, 4, delegate);
+				delegate.chipMenu = delegate.loadSpriteMap(delegate.gameModel.menu.spriteSrc, 5, delegate);
+				delegate.chipIcons = delegate.loadSpriteMap(delegate.gameModel.chipIcons.spriteSrc, 6, delegate);
 				
 				//load the events sprites
 				//this.eventsImg = loadSpriteMap(this.gameModel.XXXXX.spriteSrc, this.eventsImgLoaded);
@@ -209,12 +215,14 @@ GameClient.prototype.setCanvasScaleFactor = function() {
 **		CANVASWIDTH, CANVASHEIGHT);
 *********************************************************************/
 GameClient.prototype.renderClient = function() {
-	if(this.imgLoaded[0] && this.imgLoaded[1] && this.imgLoaded[2] && this.imgLoaded[3]) {
+	if(this.imgLoaded[0] && this.imgLoaded[1] && this.imgLoaded[2] && this.imgLoaded[3] && this.imgLoaded[4] && this.imgLoaded[5] && this.imgLoaded[6]) {
 		this.clearCanvas();
 		this.renderAndUpdateBackground();
 		//check that the order of these two is correct
 		this.renderGameMap();
+		this.renderHUD();
 		this.renderPlayersAndEvents();
+		this.renderMenu();
 	}
 	else { console.log("not loaded: " + this.imgLoaded[0]  + ", " + this.imgLoaded[1] + ", " + this.imgLoaded[2]); }
 };
@@ -235,8 +243,45 @@ GameClient.prototype.renderAndUpdateBackground = function() {
 };
 
 GameClient.prototype.renderHUD = function() {
-	
+	if(this.latestUpdate.serverStateJson != null){
+		var plyrData = JSON.parse(this.latestUpdate.serverStateJson.myState);
+		var enemyData = JSON.parse(this.latestUpdate.serverStateJson.enemyState);
+		this.cntxt.fillStyle = "red";
+		this.cntxt.font="20px mmbnFont";
+		this.cntxt.fillText(plyrData.health, 0, 30);
+		this.cntxt.fillText(enemyData.health, this.canvas.width - 30, 30);
+	}
 };
+
+GameClient.prototype.renderMenu = function(){
+    if (this.latestUpdate.serverStateJson.state == "CHIPMENU"){
+        var menu = this.gameModel.menu.frames[0];
+
+        //draw the base menu
+        this.cntxt.drawImage(this.chipMenu,
+            menu.xPos,
+            menu.yPos,
+            menu.width,
+            menu.height,
+            menu.cursorX*this.cnvsScaleFactor,
+            menu.cursorY*this.cnvsScaleFactor,
+            menu.width*this.cnvsScaleFactor,
+            menu.height*this.cnvsScaleFactor);
+
+         //draw the available chips
+
+         //draw the selected chips
+
+         var cursorPos=4;
+         var scale=this.cnvsScaleFactor;
+         //draw the cursor
+         this.cntxt.beginPath();
+         this.cntxt.lineWidth="3";
+         this.cntxt.strokeStyle="red";
+         this.cntxt.rect((9+(cursorPos*16))*scale,130*scale,14*scale,14*scale);
+         this.cntxt.stroke();
+    }
+}
 
 GameClient.prototype.renderGameMap = function() {
 	//draw each map tile, going in vertical slices (players tend to own tiles only in slices)
@@ -284,7 +329,7 @@ GameClient.prototype.renderPlayersAndEvents = function() {
 	//process upcoming events to determine which will be executed
 	var frameEvents = this.latestUpdate.serverStateJson;
 	if(frameEvents === null) { return; }
-	this.latestUpdate.serverStateJson = null;
+//	this.latestUpdate.serverStateJson = null;
 	//draw any events which require animating
 	
 	//draw the players
@@ -292,30 +337,52 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     var plyrData = JSON.parse(frameEvents.myState);
     var xLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * plyrData.x);
     var yLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * plyrData.y);
+    var img;
+    var side;
+    if (plyrData.side == "RED"){
+        img = this.playersImg;
+        side = "megaman";
+    } else if (plyrData.side == "BLUE"){
+        img = this.enemyImg;
+        side = "enemy";
+    }
 
-	this.cntxt.drawImage(this.playersImg,
-		this.gameModel.megaman.frames[this.player.frameIter].xPos,
-		this.gameModel.megaman.frames[this.player.frameIter].yPos, 
-		this.gameModel.megaman.frames[this.player.frameIter].width, 
-		this.gameModel.megaman.frames[this.player.frameIter].height, 
-		xLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-		yLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-		this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor, 
-		this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
+    if (plyrData.action == "NONE") {this.player.frameIter = 0;}
+    else if (plyrData.action == "BUSTER") {this.player.frameIter = 7 + plyrData.actionIndex;}
+
+	this.cntxt.drawImage(img,
+		this.gameModel[side].frames[this.player.frameIter].xPos,
+		this.gameModel[side].frames[this.player.frameIter].yPos,
+		this.gameModel[side].frames[this.player.frameIter].width,
+		this.gameModel[side].frames[this.player.frameIter].height,
+		xLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+		yLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+		this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+		this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
+
 	//remote player
     var enemyData = JSON.parse(frameEvents.enemyState);
     var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
     var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
-    this.cntxt.drawImage(this.playersImg,
-        this.gameModel.megaman.frames[this.player.frameIter].xPos,
-        this.gameModel.megaman.frames[this.player.frameIter].yPos,
-        this.gameModel.megaman.frames[this.player.frameIter].width,
-        this.gameModel.megaman.frames[this.player.frameIter].height,
-        exLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-        eyLoc + (this.gameModel.megaman.frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-        this.gameModel.megaman.frames[this.player.frameIter].width*this.cnvsScaleFactor,
-        this.gameModel.megaman.frames[this.player.frameIter].height*this.cnvsScaleFactor);
-	
+    if (enemyData.side == "RED"){
+        img = this.playersImg;
+        side = "megaman";
+    } else if (enemyData.side == "BLUE"){
+        img = this.enemyImg;
+        side = "enemy";
+    }
+    if (enemyData.action == "NONE") {this.player.frameIter = 0;}
+    else if (enemyData.action == "BUSTER") {this.player.frameIter = 7 + enemyData.actionIndex;}
+
+    this.cntxt.drawImage(img,
+        this.gameModel[side].frames[this.player.frameIter].xPos,
+        this.gameModel[side].frames[this.player.frameIter].yPos,
+        this.gameModel[side].frames[this.player.frameIter].width,
+        this.gameModel[side].frames[this.player.frameIter].height,
+        exLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+        eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+        this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+        this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
 };
 
 
@@ -413,7 +480,7 @@ function GameKeys() {
 
 function GameKeyHandler(gkIn) {
 	return function() {
-		document.addEventListener('keydown', function(e) {
+		document.addEventListener('keyUp', function(e) {
 			switch(e.keyCode){
 				case gkIn.moveUp: //moveup down shouldn't do anything
 					//console.log("moveUp down");
@@ -436,21 +503,22 @@ function GameKeyHandler(gkIn) {
 					//gkIn.lastEvent = JSON.stringify({event:"movement",value:"right"});
 					break;
 				case gkIn.buster: //buster charge
-					console.log("buster down");
+					console.log("buster up");
 					gkIn.lastKeyDown = gkIn.buster;
-					gkIn.lastEvent = JSON.stringify({event:"buster",value:"down"});
+					gkIn.lastEvent = JSON.stringify({event:"buster",value:"up"});
 					break;
 				case gkIn.chip: //chip down doesn't do anything
 					//lastEvent = JSON.stringify({event:"chip",value:""});
 					//console.log("chip down");
 					break;
 				case gkIn.endPhase: //endphase down shouldn't do anything
-					//lastEvent = JSON.stringify({event:"menu",value:""});
-					//console.log("endPhase down");
+//				    gkIn.lastKeyDown = gkIn.endPhase;
+//					gkIn.lastEvent = JSON.stringify({event:"menu",value:""});
+//					console.log("endPhase up");
 					break;
 			}
 		}, false);
-		document.addEventListener('keyup', function(e) {
+		document.addEventListener('keydown', function(e) {
 			switch(e.keyCode){
 				case gkIn.moveUp: //moveup
 					console.log("moveUp up");
@@ -520,7 +588,7 @@ function ServerState() {
 function serverStateUpdater(serverStateIn, sendDelay) {
 	return function() {
 		window.setInterval(function() {
-			if(serverStateIn.serverStateJson == null) {
+//			if(serverStateIn.serverStateJson == null) {
 				var xmlHttp = new XMLHttpRequest();
 				xmlHttp.open( "POST", "/game/gameUpdate", true );
 				xmlHttp.onreadystatechange = function() {
@@ -533,7 +601,7 @@ function serverStateUpdater(serverStateIn, sendDelay) {
 				}
 				xmlHttp.send("");
 				//TODO null serverStateIn.serverStateJson when you render
-			} //else we haven't animated this frame yet
+//			} //else we haven't animated this frame yet
 		}, sendDelay);
 	}
 }

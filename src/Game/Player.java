@@ -6,13 +6,16 @@ import java.util.ArrayList;
 
 
 enum playerCondition{CLEAR, CHARGING, CHARGED, HIT, RECOVERING, INACTION, STUNNED, DEAD}
+enum playerAction{NONE,BUSTER,CANNON,SWORD,BOMB}
 
 public class Player implements GameEntity {
     public Connection connection;
 
 	private double health;
     private playerCondition condition;
-	Tile position;
+	playerAction action;
+    int actionIndex;
+    Tile position;
     Arena arena;
 	private int x;
 	private int y;
@@ -20,6 +23,7 @@ public class Player implements GameEntity {
     private int chargeCount = 0;
     private int hitIndex = 0;
     private int recoveryIndex = 0;
+    ChipManager chipManager;
 
 	private ArrayList<String> newActions = new ArrayList<String>();
 
@@ -31,6 +35,9 @@ public class Player implements GameEntity {
 		this.y = y;
         this.condition = playerCondition.CLEAR;
         this.side = side;
+        this.action = playerAction.NONE;
+        this.actionIndex = 0;
+        this.chipManager = new ChipManager(this, arena);
 	}
 	
 	public String toString(){
@@ -39,9 +46,22 @@ public class Player implements GameEntity {
 		ps.y = y;
 		ps.condition = condition;
 		ps.health = health;
+        ps.side = side;
+        ps.action = action;
+        ps.actionIndex = actionIndex;
 		Gson gson = new Gson();
 		return gson.toJson(ps);
 	}
+
+    public void clearPlayerAction(){
+        action = playerAction.NONE;
+        actionIndex = 0;
+    }
+
+    public void setPlayerAction(playerAction a, int ai){
+        action = a;
+        actionIndex = ai;
+    }
 
 	public boolean isPlayer(String playerName){
 		return connection.getUserName().compareTo(playerName) == 0;
@@ -110,7 +130,7 @@ public class Player implements GameEntity {
 //            System.out.println(newActions.size());
             if (!newActions.isEmpty()) {
                 inString = newActions.get(0);
-//                System.out.println(inString);
+                System.out.println(inString);
             }
             newActions.clear();
         }
@@ -125,6 +145,12 @@ public class Player implements GameEntity {
             } catch (Exception e) {
                 System.out.println(e);
             }
+        }
+
+        if (input == null){
+            input = new Input();
+            input.event = "";
+            input.value = "";
         }
 //        if (input != null && input.value != null)
 //            System.out.println(input.value);
@@ -216,6 +242,7 @@ public class Player implements GameEntity {
     public void damageEntity(int damage) {
         this.changeHealth(-damage);
         this.condition = playerCondition.HIT;
+        this.clearPlayerAction();
         hitIndex = 0;
     }
 
@@ -223,11 +250,18 @@ public class Player implements GameEntity {
     public String getState() {
         return null;
     }
-    
+
+    public void incActionIndex() {
+        actionIndex++;
+    }
+
     public class PlayerState{
     	public int x;
     	public int y;
     	public double health;
     	public playerCondition condition;
+        public PlayerSide side;
+        public playerAction action;
+        public int actionIndex;
     }
 }

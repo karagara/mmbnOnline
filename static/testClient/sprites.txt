@@ -324,8 +324,8 @@
 				"height": 42,
 				"xPos": 0,
 				"yPos": 48,
-				"cursorX": 32,
-				"cursorY": 3
+				"cursorX": 2,
+				"cursorY": -26
 			},
 			{
 				"name": "shoot1",
@@ -333,8 +333,8 @@
 				"height": 42,
 				"xPos": 45,
 				"yPos": 48,
-				"cursorX": 32,
-				"cursorY": 3
+				"cursorX": 2,
+				"cursorY": -26
 			},
 			{
 				"name": "shoot2",
@@ -342,8 +342,8 @@
 				"height": 42,
 				"xPos": 113,
 				"yPos": 48,
-				"cursorX": 32,
-				"cursorY": 3
+				"cursorX": 2,
+				"cursorY": -26
 			},
 			{
 				"name": "shoot3",
@@ -351,9 +351,527 @@
 				"height": 42,
 				"xPos": 180,
 				"yPos": 48,
-				"cursorX": 32,
-				"cursorY": 3
+				"cursorX": 2,
+				"cursorY": -26
+			},
+
+			
+
+
+			{
+				"name": "sword0",
+				"width": 33,
+				"height": 54,
+				"xPos": 0,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword1",
+				"width": 65,
+				"height": 54,
+				"xPos": 44,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword2",
+				"width": 65,
+				"height": 54,
+				"xPos": 111,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword3",
+				"width": 64,
+				"height": 54,
+				"xPos": 182,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword4",
+				"width": 47,
+				"height": 54,
+				"xPos": 252,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword5",
+				"width": 42,
+				"height": 54,
+				"xPos": 304,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword6",
+				"width": 42,
+				"height": 54,
+				"xPos": 353,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon0",
+				"width": 61,
+				"height": 61,
+				"xPos": 0,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon1",
+				"width": 61,
+				"height": 61,
+				"xPos": 62,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon2",
+				"width": 61,
+				"height": 61,
+				"xPos": 127,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon3",
+				"width": 61,
+				"height": 61,
+				"xPos": 192,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon4",
+				"width": 61,
+				"height": 61,
+				"xPos": 257,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon5",
+				"width": 61,
+				"height": 61,
+				"xPos": 323,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon6",
+				"width": 61,
+				"height": 61,
+				"xPos": 390,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon7",
+				"width": 61,
+				"height": 61,
+				"xPos": 453,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon8",
+				"width": 68,
+				"height": 61,
+				"xPos": 587,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon9",
+				"width": 79,
+				"height": 61,
+				"xPos": 663,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon10",
+				"width": 72,
+				"height": 61,
+				"xPos": 747,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon11",
+				"width": 76,
+				"height": 61,
+				"xPos": 825,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon12",
+				"width": 984,
+				"height": 61,
+				"xPos": 903,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
 			}
 		]
-	}
+	},
+	"enemy": {
+        "spriteSrc": "enemyV1.png",
+        "frames": [
+            {
+                "name": "idle0",
+                "width": 34,
+                "height": 48,
+                "xPos": 209,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "idle1",
+                "width": 34,
+                "height": 48,
+                "xPos": 170,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "idle2",
+                "width": 34,
+                "height": 136,
+                "xPos": 68,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "idle3",
+                "width": 34,
+                "height": 48,
+                "xPos": 102,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "tele0",
+                "width": 34,
+                "height": 48,
+                "xPos": 68,
+                "yPos": 0,
+                "cursorX": 32,
+                "cursorY": 3
+            },
+            {
+                "name": "tele1",
+                "width": 34,
+                "height": 48,
+                "xPos": 34,
+                "yPos": 0,
+                "cursorX": 32,
+                "cursorY": 3
+            },
+            {
+                "name": "tele2",
+                "width": 34,
+                "height": 48,
+                "xPos": 0,
+                "yPos": 0,
+                "cursorX": 32,
+                "cursorY": 3
+            },
+            {
+                "name": "shoot0",
+                "width": 45,
+                "height": 42,
+                "xPos": 198,
+                "yPos": 48,
+                "cursorX": -29,
+                "cursorY": -25
+            },
+            {
+                "name": "shoot1",
+                "width": 68,
+                "height": 42,
+                "xPos": 130,
+                "yPos": 48,
+                "cursorX": -29,
+                "cursorY": -25
+            },
+            {
+                "name": "shoot2",
+                "width": 67,
+                "height": 42,
+                "xPos": 63,
+                "yPos": 48,
+                "cursorX": -29,
+                "cursorY": -25
+            },
+            {
+                "name": "shoot3",
+                "width": 63,
+                "height": 42,
+                "xPos": 0,
+                "yPos": 48,
+                "cursorX": -29,
+                "cursorY": -25
+            },
+
+
+
+
+            {
+				"name": "sword0",
+				"width": 33,
+				"height": 54,
+				"xPos": 951,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword1",
+				"width": 65,
+				"height": 54,
+				"xPos": 875,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword2",
+				"width": 65,
+				"height": 54,
+				"xPos": 808,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword3",
+				"width": 64,
+				"height": 54,
+				"xPos": 738,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword4",
+				"width": 47,
+				"height": 54,
+				"xPos": 685,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword5",
+				"width": 42,
+				"height": 54,
+				"xPos": 638,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "sword6",
+				"width": 42,
+				"height": 54,
+				"xPos": 589,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon0",
+				"width": 61,
+				"height": 61,
+				"xPos": 923,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon1",
+				"width": 61,
+				"height": 61,
+				"xPos": 861,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon2",
+				"width": 61,
+				"height": 61,
+				"xPos": 796,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon3",
+				"width": 61,
+				"height": 61,
+				"xPos": 731,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon4",
+				"width": 61,
+				"height": 61,
+				"xPos": 666,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon5",
+				"width": 61,
+				"height": 61,
+				"xPos": 600,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon6",
+				"width": 61,
+				"height": 61,
+				"xPos": 533,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon7",
+				"width": 61,
+				"height": 61,
+				"xPos": 406,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon8",
+				"width": 68,
+				"height": 61,
+				"xPos": 329,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon9",
+				"width": 79,
+				"height": 61,
+				"xPos": 242,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon10",
+				"width": 72,
+				"height": 61,
+				"xPos": 165,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon11",
+				"width": 76,
+				"height": 61,
+				"xPos": 83,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			},
+			{
+				"name": "cannon12",
+				"width": 984,
+				"height": 61,
+				"xPos": 0,
+				"yPos": 145,
+				"cursorX": 2,
+				"cursorY": -26
+			}
+        ]
+    },
+    "menu":{
+        "spriteSrc": "battlemenuV1.png",
+        "frames": [
+            {
+                "name": "idle0",
+                "width": 120,
+                "height": 160,
+                "xPos": 0,
+                "yPos": 0,
+                "cursorX": 0,
+                "cursorY": 25
+            }
+        ]
+    },
+    "chipIcons":{
+        "spriteSrc": "chipIcons.gif",
+        "frames": [
+            {
+                "name": "cannon",
+                "width": 14,
+                "height": 14,
+                "xPos": 0,
+                "yPos": 0,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "bomb",
+                "width": 14,
+                "height": 14,
+                "xPos": 0,
+                "yPos": 153,
+                "cursorX": 3,
+                "cursorY": -30
+            },
+            {
+                "name": "sword",
+                "width": 14,
+                "height": 14,
+                "xPos": 17,
+                "yPos": 68,
+                "cursorX": 3,
+                "cursorY": -30
+            }
+        ]
+    }
 }

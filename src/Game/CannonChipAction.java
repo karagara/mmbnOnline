@@ -14,9 +14,8 @@ public class CannonChipAction extends Action {
     CannonChipAction(Player player, Tile tile, Arena arena) {
         super(player, arena, tile);
         spritePath = "playerCannon.png";
-
-        //If this action is created, consume chip
-        //player.removeChip();
+        player.action = playerAction.CANNON;
+        player.actionIndex = 0;
     }
 
     private void setupFrameEvents() {
@@ -58,7 +57,7 @@ public class CannonChipAction extends Action {
             return;
         }
 
-        if (index == 10){
+        if (index == 18){
             //apply damage to first in row
             //arena.damageFirstInRow(player.getYPos(), 60);
             boolean hasHitTarget = false;
