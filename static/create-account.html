@@ -1,12 +1,12 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="create-account.css">
+<link rel="stylesheet" type="text/css" href="main.css">
 </head>
 	<body>
 	<div id = "content">
 	    <img id = "main" src="assets/main1.png" width="600">
 		<form action ='/account' method='POST'>
-			<div class="login">
+			<div class="navBody">
 			    <h1>
 			    	Account Creation
 			    </h1>
@@ -16,18 +16,9 @@
 				<p>
 					Account Password<input type='password' name='password'>
 				</p>
-				<p>
-					Confirm Password<input type='password' name='passwordCheck'>
-				</p>
-				<p>
-					You have read and agree with terms of use
-					<div>
-						Yes <input type='radio' name='terms' value='yes'>
-						No <input type='radio' name='terms' value='no'>
-					</div>	
-				</p>
-					<input type="submit" value="Create Account">
-
+                <p>
+                    <span class="reduceBtn"><input type="submit" name="commit" value="Create Account" class="funcBtn"></span>
+                </p>
 			</div>
          </div>
 		</form>

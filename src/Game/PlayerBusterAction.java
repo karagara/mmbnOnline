@@ -16,7 +16,6 @@ public class PlayerBusterAction extends Action{
     	super(player, arena, tile);
     	spritePath =  "playerBuster.png";
         this.isCharged = isCharged;
-        setupFrameEvents();
         player.action = playerAction.BUSTER;
         player.actionIndex = 0;
     }

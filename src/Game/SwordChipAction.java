@@ -5,12 +5,14 @@ public class SwordChipAction extends Action{
     SwordChipAction(Player player, Tile tile, Arena arena) {
     	super(player, arena, tile);
     	spritePath =  "playerSword.png";
+        player.action = playerAction.SWORD;
+        player.actionIndex = 0;
     }
 
     @Override
     public void update() {
         //on Attack frame, checks tile infront of player
-        if (index == 6){
+        if (index == 11){
             //apply damage to tile infront of player if entity exists.
 
             if (player.getSide() == PlayerSide.RED){

@@ -1,32 +1,38 @@
 <!doctype html>
 
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
     <title>MMBNOnline</title>
-    <link href='http://fonts.googleapis.com/css?family=Armata' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="../styles/loaders.css">
-    <link rel="stylesheet" href="../styles/coltenstyle.css">
-    <script src="../scripts/acctMgmt.js"></script>
+    <link href='../main.css' rel='stylesheet' type='text/css'>
+    <script type="application/javascript">
+        function redirectMain() {
+            window.location.href = "main.html";
+        }
+    </script>
 </head>
 
-<body onload="setupPage()">
-<div class="banner">
-	<img src="../assets/main1.png" id="logo"/>
-</div>
-<div class="nav">
-    <a href="main.html">Main Page</a>
-    <a href="requestGame">Play Now</a>
-    <a href="account.html">Account</a>
-    <a href="logout">Logout</a>
-</div>
-<div class="content">
-	<h1>Account Management</h1>
-	<hr>
-    <div id="formPlaceholder">
-        <div class="span">
-            <div class="help"></div>
-        </div>
+<body>
+<div id="content">
+    <img id = "main" src="../assets/main1.png" width="600">
+    <div class="navBody">
+        <h1>
+            Account Management
+        </h1>
+        <p>
+            Email<input type='text' name='email'>
+        </p>
+        <p>
+            Name<input type='text' name='name'>
+        </p>
+        <p>
+            Password<input type='password' name='password'>
+        </p>
+        <p>
+            <span class="reduceBtn"><input type="submit" name="commit" value="Submit Changes" class="funcBtn"></span>
+        </p>
+        <p>
+            <input type="button" id="main" value="Main Page" onClick="redirectMain()" class="funcBtn">
+        </p>
     </div>
 </div>
 </body>
