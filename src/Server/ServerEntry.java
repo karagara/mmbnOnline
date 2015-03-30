@@ -48,7 +48,12 @@ public class ServerEntry {
 	}
 	 
 	 public static void rigRoutes(GameManager gm){
-		 
+         get ("/auth/logout", (request, response) -> {
+             request.session().removeAttribute("user");
+            response.redirect("index.html");
+             return  null;
+         });
+
 		get("/auth/requestGame", (request, response) -> {
 			response.redirect(gm.newGame(request.session().attribute("user")));
 			return "";

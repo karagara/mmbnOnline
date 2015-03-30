@@ -547,7 +547,7 @@
                 "name": "idle0",
                 "width": 34,
                 "height": 48,
-                "xPos": 209,
+                "xPos": 950,
                 "yPos": 0,
                 "cursorX": 3,
                 "cursorY": -30

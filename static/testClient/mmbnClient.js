@@ -250,6 +250,13 @@ GameClient.prototype.renderHUD = function() {
 		this.cntxt.font="20px mmbnFont";
 		this.cntxt.fillText(plyrData.health, 0, 30);
 		this.cntxt.fillText(enemyData.health, this.canvas.width - 30, 30);
+
+		if (this.latestUpdate.serverStateJson.state == "OVER"){
+		    this.cntxt.fillStyle = "yellow";
+            this.cntxt.font="20px mmbnFont";
+            this.cntxt.fillText("Game Over", this.canvas.width/2 - (45*this.cnvsScaleFactor), this.canvas.height/2);
+		}
+
 	}
 };
 
@@ -381,21 +388,7 @@ GameClient.prototype.renderPlayersAndEvents = function() {
 
     if (plyrData.action == "NONE") {this.player.frameIter = 0;}
     else if (plyrData.action == "BUSTER") {this.player.frameIter = 7 + plyrData.actionIndex;}
-
-	this.cntxt.drawImage(img,
-		this.gameModel[side].frames[this.player.frameIter].xPos,
-		this.gameModel[side].frames[this.player.frameIter].yPos,
-		this.gameModel[side].frames[this.player.frameIter].width,
-		this.gameModel[side].frames[this.player.frameIter].height,
-		xLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-		yLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-		this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
-		this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
-
-	//remote player
-    var enemyData = JSON.parse(frameEvents.enemyState);
-    var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
-    var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
+    else if (plyrData.action == "CANNON") {this.player.frameIter = 29+ plyrData.actionIndex;}
     else if (plyrData.action == "SWORD") {this.player.frameIter = 17 + plyrData.actionIndex;}
 
 	this.cntxt.drawImage(img,
@@ -408,23 +401,7 @@ GameClient.prototype.renderPlayersAndEvents = function() {
 		this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
 		this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
 
-	//remote player
-    var enemyData = JSON.parse(frameEvents.enemyState);
-    var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
-    var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
-    else if (plyrData.action == "CANNON") {this.player.frameIter = 29+ plyrData.actionIndex;}
-
-	this.cntxt.drawImage(img,
-		this.gameModel[side].frames[this.player.frameIter].xPos,
-		this.gameModel[side].frames[this.player.frameIter].yPos,
-		this.gameModel[side].frames[this.player.frameIter].width,
-		this.gameModel[side].frames[this.player.frameIter].height,
-		xLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-		yLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-		this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
-		this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
-
-	//remote player
+    //remote player
     var enemyData = JSON.parse(frameEvents.enemyState);
     var exLoc = this.mapOffsetX + (40 * this.cnvsScaleFactor * enemyData.x);
     var eyLoc = this.mapOffsetY + (24 * this.cnvsScaleFactor * enemyData.y);
@@ -435,42 +412,22 @@ GameClient.prototype.renderPlayersAndEvents = function() {
         img = this.enemyImg;
         side = "enemy";
     }
+
+    var enemyIndex = enemyData.actionIndex;
     if (enemyData.action == "NONE") {this.player.frameIter = 0;}
-    else if (enemyData.action == "BUSTER") {this.player.frameIter = 7 + enemyData.actionIndex;}
+    else if (enemyData.action == "BUSTER") {this.player.frameIter = 7 + enemyIndex;}
+    else if (plyrData.action == "CANNON") {this.player.frameIter = 29+ enemyIndex;}
+    else if (plyrData.action == "SWORD") {this.player.frameIter = 17 + enemyIndex;}
 
     this.cntxt.drawImage(img,
-        this.gameModel[side].frames[this.player.frameIter].xPos,
-        this.gameModel[side].frames[this.player.frameIter].yPos,
-        this.gameModel[side].frames[this.player.frameIter].width,
-        this.gameModel[side].frames[this.player.frameIter].height,
-        exLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-        eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-        this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
-        this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
-};
-    else if (enemyData.action == "SWORD") {this.player.frameIter = 17 + enemyData.actionIndex;}//16,17,18
-
-    this.cntxt.drawImage(img,
-        this.gameModel[side].frames[this.player.frameIter].xPos,
-        this.gameModel[side].frames[this.player.frameIter].yPos,
-        this.gameModel[side].frames[this.player.frameIter].width,
-        this.gameModel[side].frames[this.player.frameIter].height,
-        exLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-        eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-        this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
-        this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
-};
-    else if (enemyData.action == "CANNON") {this.player.frameIter = 29 + enemyData.actionIndex;}//28,29,20
-
-    this.cntxt.drawImage(img,
-        this.gameModel[side].frames[this.player.frameIter].xPos,
-        this.gameModel[side].frames[this.player.frameIter].yPos,
-        this.gameModel[side].frames[this.player.frameIter].width,
-        this.gameModel[side].frames[this.player.frameIter].height,
-        exLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
-        eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
-        this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
-        this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
+        this.gameModel[side].frames[enemyIndex].xPos,
+        this.gameModel[side].frames[enemyIndex].yPos,
+        this.gameModel[side].frames[enemyIndex].width,
+        this.gameModel[side].frames[enemyIndex].height,
+        exLoc + (this.gameModel[side].frames[enemyIndex].cursorX*this.cnvsScaleFactor),
+        eyLoc + (this.gameModel[side].frames[enemyIndex].cursorY*this.cnvsScaleFactor),
+        this.gameModel[side].frames[enemyIndex].width*this.cnvsScaleFactor,
+        this.gameModel[side].frames[enemyIndex].height*this.cnvsScaleFactor);
 };
 
 

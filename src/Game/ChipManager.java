@@ -27,6 +27,9 @@ public class ChipManager {
     }
 
     public Chip getTopBattleChip(){
-        return bchips.getActiveChip();
+        bchips.chipActivation();
+        Chip c = bchips.getActiveChip();
+        bchips.clearActiveChip();
+        return c;
     }
 }

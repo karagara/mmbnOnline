@@ -3,20 +3,32 @@
 <head>
 <link rel="stylesheet" type="text/css" href="../main.css">
 <style type="text/css">
-canvas {
-	border: thin solid gray;
-}
+    canvas {
+        border: thin solid gray;
+    }
+    body {
+        text-align: center;
+    }
 
 </style>
 <script type="text/javascript" src="mmbnClient.js"></script>
 <script type="text/javascript">
 var mmbnGame;
+
+    function redirectBack() {
+        window.location.href = "/auth/main.html";
+    }
 </script>
 </head>
 <body style="background-color:black" onload="mmbnGame = new GameClient('gameCanvas')">
 <canvas id="gameCanvas" width="300" height="200">
 Your browser does not support HTML5!
 </canvas>
+<br>
+<br>
+<div class="navBody">
+    <input type="button" id="back" value="home" onClick="redirectBack()" class="funcBtn">
+</div>
 
 </body>
 </html>

@@ -41,9 +41,9 @@ public class Game implements Runnable, ActionListener {
         System.out.println("Setting up Timer");
         timer = new Timer(33, this);
         timer.start();
-//        while (this.status != gameStatus.OVER){
-//            //do nothing, keep the thread busy
-//        }
+        while (this.status != gameStatus.OVER){
+            //do nothing, keep the thread busy
+        }
 	}
 
     @Override
@@ -76,8 +76,8 @@ public class Game implements Runnable, ActionListener {
                     i1 = tempInput;
                     i2 = tempInput;
                 }
-//                if (p1.isDead() || p2.isDead())
-//                    status = gameStatus.OVER;
+                if (p1.isDead() || p2.isDead())
+                    status = gameStatus.OVER;
                 break;
             case OVER:
                 //Nothing to see here :P

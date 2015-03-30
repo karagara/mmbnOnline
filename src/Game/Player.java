@@ -95,7 +95,7 @@ public class Player implements GameEntity {
 
 	public boolean isDead()
 	{
-		return condition == playerCondition.DEAD;
+		return health <= 0;
 	}
 
 	public void changeHealth(double val)
@@ -174,7 +174,7 @@ public class Player implements GameEntity {
                 //Check to see if the tile is available to be moved on
                 //If yes, create a movement action and return it
                 if (input.value.contentEquals("up") && arena.isValidMove(x, y-1, this.side)){
-                    System.out.println("Creating up action!");
+
                     this.condition = playerCondition.INACTION;
                     return new PlayerMovementAction(this, arena.getTile(x,y), arena, MovementDirection.UP );
                 } else if (input.value.contentEquals("down") && arena.isValidMove(x, y+1, this.side)) {
@@ -209,6 +209,7 @@ public class Player implements GameEntity {
 
             if (input.event.contentEquals("chip")) {
                 Chip bChip = chipManager.getTopBattleChip();
+                System.out.println("Using a chip");
                 if ( bChip != null){
                     this.condition = playerCondition.INACTION;
                     return bChip.createAction();
@@ -220,7 +221,6 @@ public class Player implements GameEntity {
     }
 
     public void update(){
-        System.out.println(this.condition);
         if(this.condition == playerCondition.CHARGING){
             System.out.println("Charging buster, count: "+chargeCount);
             chargeCount++;
@@ -298,7 +298,6 @@ public class Player implements GameEntity {
     }
 
     public void chipMenuInput(Input input) {
-        System.out.println(handLock);
         if (handLock == false) {
             if (input.event.contentEquals("movement")) {
                 if (input.value.contentEquals("left")) {
