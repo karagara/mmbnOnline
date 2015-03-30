@@ -48,7 +48,7 @@ function GameClient(canvasId) {
 		delegate.bgImg = bgImgTemp;
 		delegate.gameBackground = new GameBackground(bgImgTemp);
 	}
-	bgImgTemp.src = "bg1.png";
+	bgImgTemp.src = "bg2.png";
 	//TODO hack this out and make it a little less ugly please!
 	
 	//timing members
