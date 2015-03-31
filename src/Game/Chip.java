@@ -21,17 +21,17 @@ public class Chip{
 		switch(chip){
 			case BOMB:
 				System.out.println("BombChip created");
-				BombChipAction bombChip = new BombChipAction(player, player.position, arena);
+				BombChipAction bombChip = new BombChipAction(player, arena.getTile(player.getXPos(),player.getYPos()), arena);
 				spritePath = bombChip.getSpritePath();
                 return bombChip;
 			case SWORD:
 				System.out.println("Sword Chip created");
-				SwordChipAction swordChip = new SwordChipAction(player, player.position, arena);
+				SwordChipAction swordChip = new SwordChipAction(player, arena.getTile(player.getXPos(),player.getYPos()), arena);
 				spritePath = swordChip.getSpritePath();
                 return swordChip;
 			case CANNON:
 				System.out.println("CANNON chip created");
-				CannonChipAction cannonChip = new CannonChipAction(player, player.position, arena);
+				CannonChipAction cannonChip = new CannonChipAction(player, arena.getTile(player.getXPos(),player.getYPos()), arena);
 				spritePath = cannonChip.getSpritePath();
                 return cannonChip;
 			default:

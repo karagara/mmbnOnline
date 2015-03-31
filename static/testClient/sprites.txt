@@ -354,72 +354,68 @@
 				"cursorX": 2,
 				"cursorY": -26
 			},
-
-			
-
-
 			{
 				"name": "sword0",
 				"width": 33,
 				"height": 54,
 				"xPos": 0,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword1",
 				"width": 65,
 				"height": 54,
 				"xPos": 44,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword2",
 				"width": 65,
 				"height": 54,
 				"xPos": 111,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword3",
 				"width": 64,
 				"height": 54,
 				"xPos": 182,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword4",
 				"width": 47,
 				"height": 54,
 				"xPos": 252,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword5",
 				"width": 42,
 				"height": 54,
 				"xPos": 304,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword6",
 				"width": 42,
 				"height": 54,
 				"xPos": 353,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "cannon0",
@@ -428,7 +424,7 @@
 				"xPos": 0,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon1",
@@ -437,7 +433,7 @@
 				"xPos": 62,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon2",
@@ -446,7 +442,7 @@
 				"xPos": 127,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon3",
@@ -455,7 +451,7 @@
 				"xPos": 192,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon4",
@@ -464,7 +460,7 @@
 				"xPos": 257,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon5",
@@ -473,7 +469,7 @@
 				"xPos": 323,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon6",
@@ -482,7 +478,7 @@
 				"xPos": 390,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon7",
@@ -491,7 +487,7 @@
 				"xPos": 453,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon8",
@@ -500,7 +496,7 @@
 				"xPos": 587,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon9",
@@ -509,7 +505,7 @@
 				"xPos": 663,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon10",
@@ -518,7 +514,7 @@
 				"xPos": 747,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon11",
@@ -527,7 +523,7 @@
 				"xPos": 825,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			},
 			{
 				"name": "cannon12",
@@ -536,7 +532,7 @@
 				"xPos": 903,
 				"yPos": 145,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -40
 			}
 		]
 	},
@@ -610,7 +606,7 @@
                 "name": "shoot0",
                 "width": 45,
                 "height": 42,
-                "xPos": 198,
+                "xPos": 939,
                 "yPos": 48,
                 "cursorX": -29,
                 "cursorY": -25
@@ -619,7 +615,7 @@
                 "name": "shoot1",
                 "width": 68,
                 "height": 42,
-                "xPos": 130,
+                "xPos": 871,
                 "yPos": 48,
                 "cursorX": -29,
                 "cursorY": -25
@@ -628,7 +624,7 @@
                 "name": "shoot2",
                 "width": 67,
                 "height": 42,
-                "xPos": 63,
+                "xPos": 804,
                 "yPos": 48,
                 "cursorX": -29,
                 "cursorY": -25
@@ -637,39 +633,35 @@
                 "name": "shoot3",
                 "width": 63,
                 "height": 42,
-                "xPos": 0,
+                "xPos": 741,
                 "yPos": 48,
                 "cursorX": -29,
                 "cursorY": -25
             },
-
-
-
-
             {
 				"name": "sword0",
 				"width": 33,
 				"height": 54,
 				"xPos": 951,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword1",
 				"width": 65,
 				"height": 54,
 				"xPos": 875,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword2",
 				"width": 65,
 				"height": 54,
 				"xPos": 808,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
 				"cursorY": -26
 			},
@@ -678,36 +670,36 @@
 				"width": 64,
 				"height": 54,
 				"xPos": 738,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword4",
 				"width": 47,
 				"height": 54,
 				"xPos": 685,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword5",
 				"width": 42,
 				"height": 54,
 				"xPos": 638,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "sword6",
 				"width": 42,
 				"height": 54,
 				"xPos": 589,
-				"yPos": 145,
+				"yPos": 90,
 				"cursorX": 2,
-				"cursorY": -26
+				"cursorY": -35
 			},
 			{
 				"name": "cannon0",
@@ -715,8 +707,8 @@
 				"height": 61,
 				"xPos": 923,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon1",
@@ -724,8 +716,8 @@
 				"height": 61,
 				"xPos": 861,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon2",
@@ -733,8 +725,8 @@
 				"height": 61,
 				"xPos": 796,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon3",
@@ -742,8 +734,8 @@
 				"height": 61,
 				"xPos": 731,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon4",
@@ -751,8 +743,8 @@
 				"height": 61,
 				"xPos": 666,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon5",
@@ -760,8 +752,8 @@
 				"height": 61,
 				"xPos": 600,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon6",
@@ -769,8 +761,8 @@
 				"height": 61,
 				"xPos": 533,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon7",
@@ -778,8 +770,8 @@
 				"height": 61,
 				"xPos": 406,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon8",
@@ -787,8 +779,8 @@
 				"height": 61,
 				"xPos": 329,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon9",
@@ -796,8 +788,8 @@
 				"height": 61,
 				"xPos": 242,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon10",
@@ -805,8 +797,8 @@
 				"height": 61,
 				"xPos": 165,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon11",
@@ -814,8 +806,8 @@
 				"height": 61,
 				"xPos": 83,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			},
 			{
 				"name": "cannon12",
@@ -823,8 +815,8 @@
 				"height": 61,
 				"xPos": 0,
 				"yPos": 145,
-				"cursorX": 2,
-				"cursorY": -26
+				"cursorX": -26,
+				"cursorY": -38
 			}
         ]
     },

@@ -11,10 +11,13 @@ public class SwordChipAction extends Action{
 
     @Override
     public void update() {
-        //on Attack frame, checks tile infront of player
-        if (index == 11){
+        if (player.getCondition() == playerCondition.HIT){
+            player.clearPlayerAction();
+            isComplete = true;
+            return;
+        }
+        if(index == 2){
             //apply damage to tile infront of player if entity exists.
-
             if (player.getSide() == PlayerSide.RED){
                 GameEntity entity = arena.getTileEntity(player.getXPos() + 1,player.getYPos());
                 if (entity != null) {
@@ -30,11 +33,18 @@ public class SwordChipAction extends Action{
                     entity.damageEntity(80);
                 }
             }
+        }
 
+        //on Attack frame, checks tile infront of player
+        if (index == 7){
             isComplete = true;
             player.setCondition(playerCondition.CLEAR);
+            player.clearPlayerAction();
         }
-        index++;
+        if (!isComplete){
+            player.incActionIndex();
+            index++;
+        }
     }
 
     @Override

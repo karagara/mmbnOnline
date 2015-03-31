@@ -30,7 +30,7 @@ public class Player implements GameEntity {
 	private ArrayList<String> newActions = new ArrayList<String>();
 
 	public Player(Connection connection, Arena arena, int x, int y, PlayerSide side) {
-		health = 10;
+		health = 100;
 		this.connection = connection;
         this.arena = arena;
 		this.x = x;

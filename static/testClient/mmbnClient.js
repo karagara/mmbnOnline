@@ -220,8 +220,8 @@ GameClient.prototype.renderClient = function() {
 		this.renderAndUpdateBackground();
 		//check that the order of these two is correct
 		this.renderGameMap();
-		this.renderHUD();
 		this.renderPlayersAndEvents();
+		this.renderHUD();
 		this.renderMenu();
 	}
 	else { console.log("not loaded: " + this.imgLoaded[0]  + ", " + this.imgLoaded[1] + ", " + this.imgLoaded[2]); }
@@ -249,7 +249,7 @@ GameClient.prototype.renderHUD = function() {
 		this.cntxt.fillStyle = "red";
 		this.cntxt.font="20px mmbnFont";
 		this.cntxt.fillText(plyrData.health, 0, 30);
-		this.cntxt.fillText(enemyData.health, this.canvas.width - 30, 30);
+		this.cntxt.fillText(enemyData.health, this.canvas.width - (25*this.cnvsScaleFactor), 30);
 
 		if (this.latestUpdate.serverStateJson.state == "OVER"){
 		    this.cntxt.fillStyle = "yellow";
@@ -388,8 +388,8 @@ GameClient.prototype.renderPlayersAndEvents = function() {
 
     if (plyrData.action == "NONE") {this.player.frameIter = 0;}
     else if (plyrData.action == "BUSTER") {this.player.frameIter = 7 + plyrData.actionIndex;}
-    else if (plyrData.action == "CANNON") {this.player.frameIter = 29+ plyrData.actionIndex;}
-    else if (plyrData.action == "SWORD") {this.player.frameIter = 17 + plyrData.actionIndex;}
+    else if (plyrData.action == "CANNON") {this.player.frameIter = 18+ plyrData.actionIndex;}
+    else if (plyrData.action == "SWORD") {this.player.frameIter =  11+ plyrData.actionIndex;}
 
 	this.cntxt.drawImage(img,
 		this.gameModel[side].frames[this.player.frameIter].xPos,
@@ -416,18 +416,18 @@ GameClient.prototype.renderPlayersAndEvents = function() {
     var enemyIndex = enemyData.actionIndex;
     if (enemyData.action == "NONE") {this.player.frameIter = 0;}
     else if (enemyData.action == "BUSTER") {this.player.frameIter = 7 + enemyIndex;}
-    else if (plyrData.action == "CANNON") {this.player.frameIter = 29+ enemyIndex;}
-    else if (plyrData.action == "SWORD") {this.player.frameIter = 17 + enemyIndex;}
+    else if (enemyData.action == "CANNON") {this.player.frameIter = 18+ enemyIndex;}
+    else if (enemyData.action == "SWORD") {this.player.frameIter = 11 + enemyIndex;}
 
     this.cntxt.drawImage(img,
-        this.gameModel[side].frames[enemyIndex].xPos,
-        this.gameModel[side].frames[enemyIndex].yPos,
-        this.gameModel[side].frames[enemyIndex].width,
-        this.gameModel[side].frames[enemyIndex].height,
-        exLoc + (this.gameModel[side].frames[enemyIndex].cursorX*this.cnvsScaleFactor),
-        eyLoc + (this.gameModel[side].frames[enemyIndex].cursorY*this.cnvsScaleFactor),
-        this.gameModel[side].frames[enemyIndex].width*this.cnvsScaleFactor,
-        this.gameModel[side].frames[enemyIndex].height*this.cnvsScaleFactor);
+        this.gameModel[side].frames[this.player.frameIter].xPos,
+        this.gameModel[side].frames[this.player.frameIter].yPos,
+        this.gameModel[side].frames[this.player.frameIter].width,
+        this.gameModel[side].frames[this.player.frameIter].height,
+        exLoc + (this.gameModel[side].frames[this.player.frameIter].cursorX*this.cnvsScaleFactor),
+        eyLoc + (this.gameModel[side].frames[this.player.frameIter].cursorY*this.cnvsScaleFactor),
+        this.gameModel[side].frames[this.player.frameIter].width*this.cnvsScaleFactor,
+        this.gameModel[side].frames[this.player.frameIter].height*this.cnvsScaleFactor);
 };
 
 

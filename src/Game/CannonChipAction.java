@@ -53,16 +53,17 @@ public class CannonChipAction extends Action {
     @Override
     public void update() {
         if (player.getCondition() == playerCondition.HIT){
+            player.clearPlayerAction();
             isComplete = true;
             return;
         }
 
-        if (index == 18){
+        if (index == 11){
             //apply damage to first in row
             //arena.damageFirstInRow(player.getYPos(), 60);
             boolean hasHitTarget = false;
             if (player.getSide() == PlayerSide.RED){
-                for(int i=player.getXPos(); i < 6 && !hasHitTarget; i++){
+                for(int i=player.getXPos()+1; i < 6 && !hasHitTarget; i++){
                     if(arena.isTileOccupied(i,player.getYPos())){
                         ;
                         GameEntity entity = arena.getTileEntity(i, player.getYPos());
@@ -76,7 +77,7 @@ public class CannonChipAction extends Action {
             }
 
             if (player.getSide() == PlayerSide.BLUE){
-                for(int i=player.getXPos(); i >= 0 && !hasHitTarget; i--){
+                for(int i=player.getXPos()-1; i >= 0 && !hasHitTarget; i--){
                     if(arena.isTileOccupied(i,player.getYPos())){
                         GameEntity entity = arena.getTileEntity(i, player.getYPos());
                         if (entity != null)
@@ -88,8 +89,12 @@ public class CannonChipAction extends Action {
 
             isComplete = true;
             player.setCondition(playerCondition.CLEAR);
+            player.clearPlayerAction();
         }
-        index++;
+        if (!isComplete){
+            player.incActionIndex();
+            index++;
+        }
     }
 
     @Override
