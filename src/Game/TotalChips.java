@@ -9,8 +9,8 @@ public class TotalChips {
 	public TotalChips(Player player, Arena arena){
 		//currently have 3 chips \
         char letters[] = {'a','b','c','a','b','c','a','b','c'};
-//        ChipType types[] = {ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.SWORD,ChipType.SWORD,ChipType.SWORD,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON};
-        ChipType types[] = {ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON};
+        ChipType types[] = {ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.SWORD,ChipType.SWORD,ChipType.SWORD,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON};
+//        ChipType types[] = {ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON,ChipType.CANNON};
 
         chipList  = new ArrayList<Chip>();
 		for ( int i = 0; i < 9; i++){
